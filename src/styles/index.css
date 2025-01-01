@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@font-face {
+	font-family: 'PorscheNext'; /* Custom name for the font */
+	src: url('/assets/fonts/porsche-next.otf') format('truetype'); /* Path to the .ttf file */
+	font-weight: normal; /* Optional */
+	font-style: normal; /* Optional */
+}
+@font-face {
+	font-family: 'SignPainter'; /* Custom name for the font */
+	src: url('/assets/fonts/signpainter_housescript.otf') format('truetype'); /* Path to the .ttf file */
+	font-weight: normal; /* Optional */
+	font-style: normal; /* Optional */
+}
+:root{
+	--background-container: #EEEFF2;
+	--background-component-container: #FFFFFF;
+	--component-container-radius: 10px;
+}
