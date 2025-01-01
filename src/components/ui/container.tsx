@@ -1,13 +1,13 @@
-import React, { FC } from 'react'
-
-interface ContainerProps{
-	children?:React.ReactNode
+import React, { FC, HTMLAttributes } from 'react'
+import { cn } from "@/lib/utils"
+interface ContainerProps extends HTMLAttributes<HTMLDivElement> {
+	children?: React.ReactNode
 }
 
-const Container:FC<ContainerProps> = ({children}) => {
-		return (
-				<div className='bg-backgroundContainer px-10 py-[5px]'>{children}</div>
-		)
+const Container: FC<ContainerProps> = ({ children, ...props }) => {
+	return (
+		<div className={cn('bg-backgroundContainer px-10 py-[5px]', props.className)}>{children}</div>
+	)
 }
 
 export default Container

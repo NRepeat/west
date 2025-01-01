@@ -6,7 +6,7 @@ interface RVFormProps extends HTMLAttributes<HTMLFormElement> {
 const RVForm: FC<RVFormProps> = ({ form, ...props }) => {
 
 	return (
-		<form {...props} {...form.getFormProps()}>
+		<form  {...props} {...form.getFormProps()}>
 			{props.children}
 		</form>
 	);

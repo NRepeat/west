@@ -2,4 +2,6 @@ import WishListIcon from './Bookmark.svg';
 import CartIcon from './Cart.svg';
 import MenuIcon from './Menu.svg'
 import SearchIcon from './Search.svg'
-export { WishListIcon, CartIcon, MenuIcon, SearchIcon };
+import InfoIcon from './Info.svg'
+import ChevronDownIcon from './ChevronDown.svg'
+export { WishListIcon, CartIcon, MenuIcon, SearchIcon, InfoIcon, ChevronDownIcon };

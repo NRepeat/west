@@ -17,7 +17,10 @@ const Search: FC<SearchProps> = ({ isLabelVisible = false, ...props }) => {
 
 	return (
 		<RVForm form={props.form} >
-			<FromInput className='h-12  placeholder-italic' scope={props.form.scope(props.type)} label={props.label} islabelvisible={isLabelVisible} icon={SearchIcon} iconSize='25' search placeholder='Search' />
+			<div className='px-2.5'>
+				<FromInput className='h-12' scope={props.form.scope(props.type)} label={props.label} islabelvisible={isLabelVisible} icon={SearchIcon} iconSize='25' search placeholder='Search' name='search' />
+			</div>
+
 		</RVForm>
 	)
 }

@@ -1,14 +1,14 @@
-import React, { FC, HtmlHTMLAttributes } from 'react'
+import React, { ButtonHTMLAttributes, FC } from 'react'
 
 
-interface ButtonProps extends HtmlHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 	children?: React.ReactNode
 
 }
 
 const Button: FC<ButtonProps> = (props) => {
 	return (
-		<button {...props} className={`w-fit inline-flex items-center justify-center ${props.className}`}>
+		<button type={props.type} {...props} className={`w-fit inline-flex items-center justify-center ${props.className}`}>
 			{props.children}
 		</button>
 	)

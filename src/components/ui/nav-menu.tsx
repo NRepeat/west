@@ -3,7 +3,7 @@ import Button from "./button"
 import Icon from "./icon"
 const NavMenu = () => {
 	return (
-		<div className='font-Porsche flex justify-start items-center'>
+		<div className='font-SignPainter flex justify-start items-center'>
 			<Button className="gap-2">
 				<Icon src={MenuIcon} height="40" width="40" alt="menu-icon" />
 				<span className="text-2xl text-center">Menu</span>

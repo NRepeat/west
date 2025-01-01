@@ -49,9 +49,9 @@ const InputImpl = forwardRef<
 
 		const icons: { [key in 'search' | 'default']: React.ReactNode } = {
 			search: <Button className="w-full h-full">
-				<Icon src={icon} height={iconSize} width={iconSize} alt="menu-icon" />
+				<Icon src={icon} height={iconSize} width={iconSize} alt="field-icon" />
 			</Button>,
-			default: <Icon src={icon} height={iconSize} width={iconSize} alt="menu-icon" />
+			default: <Icon src={icon} height={iconSize} width={iconSize} alt="field-icon" />
 		};
 		return icons[type]
 	}
@@ -59,7 +59,7 @@ const InputImpl = forwardRef<
 		<div autoFocus className={clsx(className, "inline-flex w-full relative  ")}>
 			{islabelvisible && <label htmlFor={inputId}>{label}</label>}
 			<input
-				className=" w-full rounded-inputComponentRadius  pr-10 pl-2 focus:ring-1 focus:outline-1 placeholder:text-xl placeholder:text-[#999999]"
+				className=" w-full rounded-inputComponentRadius   pr-10  focus:ring-1 focus:outline-1 placeholder:text-xl placeholder:text-[#999999]"
 				{...field.getInputProps({
 					type,
 					id: inputId,
@@ -71,11 +71,11 @@ const InputImpl = forwardRef<
 				})}
 			/>
 
-			<div className="absolute right-0 top-1/2 transform -translate-y-1/2 flex pr-2">
+			<div className="absolute right-0 top-1/2 transform -translate-y-1/2 flex pr-1">
 				<IconVariant type={search ? 'search' : 'default'} />
 			</div>
 
-			{field.error() && <p id={errorId}>{field.error()}</p>}
+			{!search && field.error() && <p id={errorId}>{field.error()}</p>}
 		</div>
 	);
 });
