@@ -1,25 +1,23 @@
-import { backgroundBlurriness } from 'three/tsl';
+import { backgroundBlurriness } from "three/tsl";
 
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
       fontFamily: {
-        Porsche: ['PorscheNext', 'sans-serif'], 
-        SignPainter: ['SignPainter', 'sans-serif'], 
+        Porsche: ["PorscheNext", "sans-serif"],
+        SignPainter: ["SignPainter", "sans-serif"],
       },
       borderRadius: {
-        componentContainerRadius: 'var(--component-container-radius)', 
+        componentContainerRadius: "var(--component-container-radius)",
+        inputComponentRadius: "var(--component-input-radius)",
       },
-      colors:{
-        backgroundContainer: 'var(--background-container)',
-        backgroundComponentContainer: 'var(--background-component-container)'
-      }
+      colors: {
+        backgroundContainer: "var(--background-container)",
+        backgroundComponentContainer: "var(--background-component-container)",
+      },
     },
   },
   plugins: [],
-}
+};

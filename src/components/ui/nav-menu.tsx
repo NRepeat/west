@@ -1,10 +1,11 @@
+import { MenuIcon } from "../../assets"
 import Button from "./button"
-import MenuIcon from '../../assets/Menu.svg'
+import Icon from "./icon"
 const NavMenu = () => {
 	return (
 		<div className='font-Porsche flex justify-start items-center'>
 			<Button className="gap-2">
-				<img className="w-12 h-12" src={MenuIcon} alt="menu-icon" />
+				<Icon src={MenuIcon} height="40" width="40" alt="menu-icon" />
 				<span className="text-2xl text-center">Menu</span>
 			</Button>
 		</div>
