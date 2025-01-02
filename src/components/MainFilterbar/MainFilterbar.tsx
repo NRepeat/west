@@ -1,9 +1,7 @@
-import React from 'react'
 import FilterBar from '../ui/filter-bar'
 import { withZod } from '@rvf/zod';
 import { z } from "zod";
 import { useForm } from '@rvf/react';
-import Search from '../ui/search';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../ui/accordion';
 import ColorPalette from '../ui/color-palette';
 import CheckboxPalate from '../ui/checkbox-palate';
@@ -23,12 +21,12 @@ const MainFilterBar = () => {
 		defaultValues: { min: 0, max: 100 }
 	});
 	return (
-		<FilterBar className="col-start-1 pt-5 row-start-2 gap-5 max-w-[400px]">
-			<Search label="search" />
+		<FilterBar className="col-span-2 col-start-1 row-start-2 gap-5 box-content">
+			{/* <Search label="search" /> */}
 			<RVForm form={form} >
-				<Accordion type="single" collapsible className='px-2.5'>
+				<Accordion type="single" collapsible className='px-2.5 box-content'>
 					<AccordionItem value="item-1" >
-						<AccordionTrigger>Color</AccordionTrigger>
+						<AccordionTrigger className='pt-2.5'>Color</AccordionTrigger>
 						<AccordionContent>
 							<ColorPalette colors={[{ code: '999999', name: "Gray", slug: "gray" }, { code: 'FFD966', name: "Yellow", slug: "yellow" }, { code: '000000', name: "Black", slug: "black" }]} />
 						</AccordionContent>

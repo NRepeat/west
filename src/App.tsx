@@ -1,19 +1,19 @@
 import Container from "./components/ui/container"
 import Navbar from "./components/ui/navbar"
 import Wrapper from "./components/ui/wrapper"
-
-import UiComponentContainer from "./components/ui/ui-component-container"
-import clsx from "clsx"
 import MainFilterBar from "./components/MainFilterbar/MainFilterbar"
+import Breadcrumbs from "./components/ui/breadcrumbs"
+import MainStoreGrid from "./components/MainStoreGrid/MainStoreGrid"
 
 function App() {
 
   return (
-    <Container className="font-IstokWebRegular ">
+    <Container className="font-IstokWebRegular">
       <Navbar />
       <Wrapper >
-        <UiComponentContainer className={clsx('col-start-1 row-start-1 col-span-2  max-h-12')}> asd</UiComponentContainer>
+        <Breadcrumbs crumbs={[{ href: '/', slug: 'Home' }, { href: "/disks", slug: "Disks" }]} />
         <MainFilterBar />
+        <MainStoreGrid />
       </Wrapper>
     </Container>
   )

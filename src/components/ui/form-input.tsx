@@ -11,9 +11,9 @@ import React, {
 } from "react";
 import Icon from "./icon";
 import clsx from "clsx";
-import Button from "./button";
 import { Input } from "./input";
 import { Label } from "./label";
+import { Button } from "./button";
 
 // For our props, we'll take everything from the native input element except for `type`.
 // You can make futher changes here to suite your needs.
@@ -51,7 +51,7 @@ const InputImpl = forwardRef<
 	const IconVariant: FC<{ type: 'search' | 'default' }> = ({ type }) => {
 
 		const icons: { [key in 'search' | 'default']: React.ReactNode } = {
-			search: <Button className="w-full h-full">
+			search: <Button variant={'ghost'} className="w-full h-full">
 				<Icon src={icon} height={iconSize} width={iconSize} alt="field-icon" />
 			</Button>,
 			default: <Icon src={icon} height={iconSize} width={iconSize} alt="field-icon" />
