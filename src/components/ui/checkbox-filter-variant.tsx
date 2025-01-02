@@ -17,7 +17,7 @@ const CheckboxFilterVariant: FC<CheckboxFilterVariant & { variant: FilterVariant
 		<div className='flex items-center'>
 			<label
 				htmlFor={variant.slug}
-				className={clsx("flex items-center space-x-2 w-full justify-between border-[2px] border-backgroundComponentContainer hover:input-border-hover p-2.5", props.className)}
+				className={clsx("flex items-center space-x-2 w-full justify-between border-[2px] border-backgroundComponentContainer hover:border-input p-2.5", props.className)}
 			>
 
 				<div className='flex items-center gap-2'>

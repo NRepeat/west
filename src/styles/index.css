@@ -11,6 +11,11 @@
   .input-border-hover {
     @apply rounded-sm border-[2px] border-inputBorderHover;
   }
+  .store-cad-shadow {
+    -webkit-box-shadow: 6px 2px 8px -3px rgba(0, 0, 0, 0.45);
+    -moz-box-shadow: 6px 2px 8px -3px rgba(0, 0, 0, 0.45);
+    box-shadow: 6px 2px 8px -3px rgba(0, 0, 0, 0.45);
+  }
 }
 @font-face {
   font-family: "IstokWeb-Regular";

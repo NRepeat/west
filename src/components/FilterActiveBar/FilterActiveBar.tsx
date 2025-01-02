@@ -4,6 +4,7 @@ import Icon from '../ui/icon'
 import { Carousel, CarouselApi, CarouselContent } from '../ui/carousel'
 import { useEffect, useState } from 'react'
 import clsx from 'clsx'
+import { Button } from '../ui/button'
 const FilterActiveBar = ({ activeFilters }: { activeFilters: { slug: string }[] }) => {
 	const [api, setApi] = useState<CarouselApi>()
 	const [windowWidth, setWindowWidth] = useState(window.innerWidth)
@@ -58,12 +59,15 @@ const FilterActiveBar = ({ activeFilters }: { activeFilters: { slug: string }[] 
 		<div className="flex justify-between items-center w-full gap-2   px-2.5 ">
 			<div className="flex items-center gap-2 w-full">
 				<Carousel setApi={setApi} className={clsx({ "w-full": carousel })}>
-					<CarouselContent className="-ml-2 w-full px-1">
+					<CarouselContent className=" w-full px-1 gap-2">
 						<ActiveButtons />
 					</CarouselContent>
 				</Carousel>
 			</div>
-			<Icon className='min-w-[25px]' src={CloseIcon} width="25" height="25" />
+			<Button variant={'ghost'} className='flex items-center p-1'>
+				<Icon className='min-w-[25px]' src={CloseIcon} width="25" height="25" />
+
+			</Button>
 		</div>
 	)
 }

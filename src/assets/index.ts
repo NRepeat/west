@@ -6,4 +6,6 @@ import InfoIcon from './Info.svg'
 import ChevronDownIcon from './ChevronDown.svg'
 import Audi from './Audi.svg'
 import CloseIcon from './Close.svg'
-export { WishListIcon, CartIcon, MenuIcon, SearchIcon, InfoIcon, ChevronDownIcon, Audi, CloseIcon };
+import Grid from './Grid.svg'
+import AudiImg from './AudiImg.jpg'
+export { AudiImg, WishListIcon, CartIcon, MenuIcon, SearchIcon, InfoIcon, ChevronDownIcon, Audi, CloseIcon, Grid };
