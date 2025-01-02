@@ -12,7 +12,7 @@ type Color = { code: string, slug: string, name: string }
 interface ColorPaletteProps {
 	colors: Color[]
 }
-const Palet = ({ color }: { color: Color }) => {
+const Pallet = ({ color }: { color: Color }) => {
 	console.log('color', color)
 	return <div className='flex flex-col gap-2.5 border-[2px] border-backgroundComponentContainer hover:input-border-hover p-2.5'>
 		<div style={{ backgroundColor: "#" + color.code }} className='min-w-12 min-h-10 rounded-lg'></div>
@@ -23,7 +23,7 @@ const Palet = ({ color }: { color: Color }) => {
 	</div>
 }
 const ColorPalette: FC<ColorPaletteProps> = ({ colors }) => {
-	const Palets = colors.map(color => <Palet key={color.code} color={color} />)
+	const Palets = colors.map(color => <Pallet key={color.code} color={color} />)
 	return (
 		<Card>
 			<CardContent className='grid grid-cols-2 gap-4'>
