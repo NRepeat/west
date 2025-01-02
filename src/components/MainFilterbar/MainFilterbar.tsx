@@ -21,7 +21,7 @@ const MainFilterBar = () => {
 		defaultValues: { min: 0, max: 100 }
 	});
 	return (
-		<FilterBar className="col-span-2 col-start-1 row-start-2 gap-5 box-content">
+		<FilterBar className="col-span-3  gap-5 box-content ">
 			{/* <Search label="search" /> */}
 			<RVForm form={form} >
 				<Accordion type="single" collapsible className='px-2.5 box-content'>
