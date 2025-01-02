@@ -12,6 +12,8 @@ import React, {
 import Icon from "./icon";
 import clsx from "clsx";
 import Button from "./button";
+import { Input } from "./input";
+import { Label } from "./label";
 
 // For our props, we'll take everything from the native input element except for `type`.
 // You can make futher changes here to suite your needs.
@@ -29,6 +31,7 @@ interface MyInputProps<Type extends string>
 	icon?: string
 	iconSize?: string
 	search?: boolean
+	handleChangeValue?: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 
@@ -39,7 +42,7 @@ type InputType = <Type extends string>(
 const InputImpl = forwardRef<
 	HTMLInputElement,
 	MyInputProps<string>
->(({ className, iconSize, search, islabelvisible, label, scope, type, icon, ...rest }, ref) => {
+>(({ handleChangeValue, className, iconSize, search, islabelvisible, label, scope, type, icon, ...rest }, ref) => {
 	const field = useField(scope);
 	const inputId = useId();
 	const errorId = useId();
@@ -56,23 +59,21 @@ const InputImpl = forwardRef<
 		return icons[type]
 	}
 	return (
-		<div autoFocus className={clsx(className, "inline-flex w-full relative  ")}>
-			{islabelvisible && <label htmlFor={inputId}>{label}</label>}
-			<input
-				className=" w-full rounded-inputComponentRadius   pr-10  focus:ring-1 focus:outline-1 placeholder:text-xl placeholder:text-[#999999]"
+		<div autoFocus className={clsx(className, "inline-flex flex-col w-full relative  focus:outline-none focus-visible:outline-none gap-1")}>
+			{islabelvisible && <Label className="text-lg" htmlFor={inputId}>{label}</Label>}
+
+			<Input className={clsx("bg-backgroundContainer text-2xl w-full px-2.5 placeholder:text-lg  focus:outline-none focus-visible:outline-none   placeholder:text-[#999999] border-0", { "pr-8": search })}
 				{...field.getInputProps({
 					type,
 					id: inputId,
 					ref,
-
+					onChange: (e) => handleChangeValue && handleChangeValue(e),
 					"aria-describedby": errorId,
 					"aria-invalid": !!field.error(),
 					...rest,
-				})}
-			/>
-
+				})} />
 			<div className="absolute right-0 top-1/2 transform -translate-y-1/2 flex pr-1">
-				<IconVariant type={search ? 'search' : 'default'} />
+				{icon && <IconVariant type={search ? 'search' : 'default'} />}
 			</div>
 
 			{!search && field.error() && <p id={errorId}>{field.error()}</p>}

@@ -9,7 +9,6 @@ const CheckboxPalate = ({ variants }: { variants: FilterVariant[] }) => {
 				{variants && <MappedVariants />}
 			</CardContent>
 		</Card>
-
 	)
 }
 

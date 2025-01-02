@@ -1,7 +1,8 @@
-import { FieldValues, FormApi } from "@rvf/react";
+import { FormApi } from "@rvf/react";
 import { FC, HTMLAttributes } from "react";
 interface RVFormProps extends HTMLAttributes<HTMLFormElement> {
-	form: FormApi<FieldValues>
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	form: FormApi<any>
 }
 const RVForm: FC<RVFormProps> = ({ form, ...props }) => {
 
