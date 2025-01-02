@@ -9,7 +9,7 @@
 }
 @layer components {
   .input-border-hover {
-    @apply rounded-lg border-[2px] border-inputBorderHover;
+    @apply rounded-sm border-[2px] border-inputBorderHover;
   }
 }
 @font-face {

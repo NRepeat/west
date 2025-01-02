@@ -59,10 +59,10 @@ const InputImpl = forwardRef<
 		return icons[type]
 	}
 	return (
-		<div autoFocus className={clsx(className, "inline-flex flex-col w-full relative  focus:outline-none focus-visible:outline-none gap-1")}>
+		<div autoFocus className={clsx(className, "inline-flex flex-col w-full relative  focus:outline-none focus-visible:outline-none gap-1 rounded-sm")}>
 			{islabelvisible && <Label className="text-lg" htmlFor={inputId}>{label}</Label>}
 
-			<Input className={clsx("bg-backgroundContainer text-2xl w-full px-2.5 placeholder:text-lg  focus:outline-none focus-visible:outline-none   placeholder:text-[#999999] border-0", { "pr-8": search })}
+			<Input className={clsx("bg-backgroundContainer text-2xl w-full px-2.5 placeholder:text-lg  focus:outline-none focus-visible:outline-none  rounded-sm  placeholder:text-[#999999] border-0", { "pr-8": search })}
 				{...field.getInputProps({
 					type,
 					id: inputId,
