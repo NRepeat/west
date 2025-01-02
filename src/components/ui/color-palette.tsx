@@ -13,7 +13,6 @@ interface ColorPaletteProps {
 	colors: Color[]
 }
 const Pallet = ({ color }: { color: Color }) => {
-	console.log('color', color)
 	return <div className='flex flex-col gap-2.5 border-[2px] border-backgroundComponentContainer hover:input-border-hover p-2.5'>
 		<div style={{ backgroundColor: "#" + color.code }} className='min-w-12 min-h-10 rounded-lg'></div>
 		<div className='inline-flex  items-center justify-between w-full'>

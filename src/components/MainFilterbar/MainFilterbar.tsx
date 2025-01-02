@@ -37,7 +37,7 @@ const MainFilterBar = () => {
 				<AccordionItem value="item-3" >
 					<AccordionTrigger>Manufacturer</AccordionTrigger>
 					<AccordionContent>
-						<CheckboxPalate variants={[{ disabled: false, id: '1', name: "BMW", slug: "BMW", value: 'bmv', icon: Audi }, { disabled: false, id: '2', name: "Mercedes", slug: "Mercedes", value: 'mercedes', icon: Audi }, { disabled: false, id: '3', name: "Audi", slug: "audi", value: 'audi', icon: Audi }]} />
+						<CheckboxPalate variants={[{ disabled: false, id: '1', name: "BMW", slug: "BMW", value: 'bmv', icon: Audi }, { disabled: false, id: '2', name: "Mercedes", slug: "Mercedes", value: 'mercedes', icon: Audi }, { disabled: true, id: '3', name: "Audi", slug: "audi", value: 'audi', icon: Audi }]} />
 					</AccordionContent>
 				</AccordionItem>
 			</Accordion>
