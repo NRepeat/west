@@ -12,32 +12,11 @@
     @apply rounded-sm border-[2px] border-inputBorderHover;
   }
   .store-cad-shadow {
-    -webkit-box-shadow: 6px 2px 8px -3px rgba(0, 0, 0, 0.45);
-    -moz-box-shadow: 6px 2px 8px -3px rgba(0, 0, 0, 0.45);
-    box-shadow: 6px 2px 8px -3px rgba(0, 0, 0, 0.45);
+    -webkit-box-shadow: 3px 2px 8px 1px rgba(0, 0, 0, 0.45);
+    -moz-box-shadow: 3px 2px 8px 1px rgba(0, 0, 0, 0.45);
+    box-shadow: 3px 2px 8px 1px rgba(0, 0, 0, 0.45);
+    transition: all 200ms;
   }
-}
-@font-face {
-  font-family: "IstokWeb-Regular";
-  src: url("/assets/fonts/IstokWeb-Regular.ttf") format("truetype"); /* Path to the .ttf file */
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "PorscheNext";
-  src: url("/assets/fonts/porsche-next.otf") format("otf");
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-}
-@font-face {
-  font-family: "SignPainter"; /* Custom name for the font */
-  src: url("/assets/fonts/signpainter_housescript.otf") format("otf"); /* Path to the .ttf file */
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
 }
 
 @layer base {

@@ -7,9 +7,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        Porsche: ["PorscheNext", "sans-serif"],
-        SignPainter: ["SignPainter", "sans-serif"],
-        IstokWebRegular: ["IstokWebRegular", "sans-serif"],
+        IstokWebRegular: ["Istok Web", "serif"],
+        Playwrite: ["Playwrite AU SA", "serif"],
       },
       borderRadius: {
         componentContainerRadius: "var(--component-container-radius)",
