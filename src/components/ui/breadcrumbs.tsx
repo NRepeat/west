@@ -12,7 +12,7 @@ const Breadcrumbs = ({ crumbs }: { crumbs: { slug: string, href: string }[] }) =
 
 	</div>)
 	return (
-		<UiComponentContainer className={clsx('col-span-12 row-start-1 col-start-1 flex justify-start items-center px-5  max-h-12 box-content')}>
+		<UiComponentContainer className={clsx(' flex justify-start items-center px-5   box-content')}>
 			<Breadcrumb>
 				<BreadcrumbList>
 					{crumbs && <Crumbs />}

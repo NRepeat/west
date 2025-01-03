@@ -22,7 +22,7 @@ const MainStoreGrid = () => {
 		setGridView(prev => !prev)
 	}
 	return (
-		<UiComponentContainer className={clsx(' col-span-9 col-start-4 flex justify-start items-center   box-content flex-col')}>
+		<UiComponentContainer className={clsx(' flex justify-start items-center   box-content flex-col')}>
 			<div className='flex items-center w-full'>
 				<FilterActiveBar activeFilters={[{ slug: "Gray" }, { slug: "Cast" }, { slug: "Audi" }, { slug: "Min" }, { slug: "Max" }]} />
 				<div className='flex  justify-end gap-4 pl-2.5'>

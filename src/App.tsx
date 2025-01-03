@@ -9,15 +9,24 @@ import Footer from "./components/ui/footer"
 function App() {
 
   return (
-    <Container className="font-IstokWebRegular">
-      <Navbar />
-      <Wrapper >
-        <Breadcrumbs crumbs={[{ href: '/', slug: 'Home' }, { href: "/disks", slug: "Disks" }]} />
-        <MainFilterBar />
-        <MainStoreGrid />
-      </Wrapper>
+
+    <div>
+      <Container className="font-IstokWebRegular">
+        <Navbar />
+        <div className="p-2.5">
+          <Breadcrumbs crumbs={[{ href: '/', slug: 'Home' }, { href: "/disks", slug: "Disks" }]} />
+        </div>
+        <Wrapper >
+          <div className=" col-span-3  row-span-12 relative">
+            <MainFilterBar />
+          </div>
+          <div className=" col-span-9 row-span-12  relative">
+            <MainStoreGrid />
+          </div>
+        </Wrapper>
+      </Container>
       <Footer />
-    </Container>
+    </div>
   )
 }
 

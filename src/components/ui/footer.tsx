@@ -1,8 +1,7 @@
-import React from 'react'
 
 const Footer = () => {
 	return (
-		<div className='font-Playwrite'>West coast</div>
+		<div className='font-Playwrite bg-black text-white p-12'>West coast</div>
 	)
 }
 
