@@ -11,21 +11,17 @@ function App() {
   return (
 
     <div>
-      <Container className="font-IstokWebRegular">
-        <Navbar />
-        <div className="p-2.5">
-          <Breadcrumbs crumbs={[{ href: '/', slug: 'Home' }, { href: "/disks", slug: "Disks" }]} />
+      <div className="p-2.5">
+        <Breadcrumbs crumbs={[{ href: '/', slug: 'Home' }, { href: "/disks", slug: "Disks" }]} />
+      </div>
+      <Wrapper >
+        <div className=" col-span-3  row-span-12 relative">
+          <MainFilterBar />
         </div>
-        <Wrapper >
-          <div className=" col-span-3  row-span-12 relative">
-            <MainFilterBar />
-          </div>
-          <div className=" col-span-9 row-span-12  relative">
-            <MainStoreGrid />
-          </div>
-        </Wrapper>
-      </Container>
-      <Footer />
+        <div className=" col-span-9 row-span-12  relative">
+          <MainStoreGrid />
+        </div>
+      </Wrapper>
     </div>
   )
 }

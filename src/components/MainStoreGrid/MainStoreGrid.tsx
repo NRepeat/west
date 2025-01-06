@@ -35,11 +35,8 @@ const MainStoreGrid = () => {
 							<SelectItem value="dark">Dark</SelectItem>
 							<SelectItem value="system">System</SelectItem>
 						</SelectContent>
-
 					</Select>
 					<Button onClick={handleGridView} variant={'ghost'} className='flex items-center p-1'>
-
-
 						{!gridView ?
 							<GripIcon />
 							:

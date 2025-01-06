@@ -4,6 +4,7 @@ import ImageWrapper from './image-wrapper'
 import { AudiImg } from '@/assets'
 import { Color, Pallet } from './color-palette'
 import clsx from 'clsx'
+import { NavLink, useNavigate } from 'react-router'
 
 interface ProductCardProps extends HTMLAttributes<HTMLDivElement> {
 	isHorizontal: boolean
@@ -24,8 +25,13 @@ export type ProductT = {
 
 }
 const ProductCard: FC<ProductCardProps & { product: ProductT }> = ({ isHorizontal, product, ...props }) => {
+	const nav = useNavigate()
+	const handleNav = (slug: string) => {
+		nav(`/product/${slug}`)
+	}
 	return (
-		<Card {...props} className={clsx('p-4  sm:col-span-12 md:col-span-6 xl:col-span-4 rounded-sm   hover:border-input hover:border-2 border-2 border-white duration-200', { 'flex-row flex justify-start items-center w-full sm:col-span-12 md:col-span-12 xl:col-span-12 gap-8': isHorizontal })} >
+		<Card {...props} onClick={() => handleNav(product.slug)} className={clsx('p-4  sm:col-span-12 md:col-span-6 xl:col-span-4 rounded-sm   hover:border-input hover:border-2 border-2 border-white duration-200', { 'flex-row flex justify-start items-center w-full sm:col-span-12 md:col-span-12 xl:col-span-12 gap-8': isHorizontal })} >
+
 			<CardHeader className={clsx('p-0 flex flex-col w-full  justify-self-center', { "max-w-[300px]": isHorizontal })}>
 				<ImageWrapper src={AudiImg} alt='audi' className='min-w-full max-w-[300px] justify-center flex items-center w-full' imgHeight='190' imgWidth='230' />
 				{!isHorizontal &&
@@ -52,17 +58,14 @@ const ProductCard: FC<ProductCardProps & { product: ProductT }> = ({ isHorizonta
 									</div>
 									{typedKey === 'color' && <div className={clsx({ 'justify-end w-full text-end': !isHorizontal }, 'w-full flex justify-end')}>  <Pallet className='w-full max-w-[200px]' color={product.props[typedKey]} />  </div>}
 									{typedKey !== 'color' && <div className={clsx('w-full text-end px-12', { 'text-center': !isHorizontal })}>   {String(product.props[typedKey])} </div>}
-
 								</div>
 							);
 						})}
 					</div>
 				</div>
-
-
-
 			</CardContent>
 		</Card >
+
 	)
 }
 
