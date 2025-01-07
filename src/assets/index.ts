@@ -8,4 +8,6 @@ import Audi from './Audi.svg'
 import CloseIcon from './Close.svg'
 import Grid from './Grid.svg'
 import AudiImg from './AudiImg.jpg'
-export { AudiImg, WishListIcon, CartIcon, MenuIcon, SearchIcon, InfoIcon, ChevronDownIcon, Audi, CloseIcon, Grid };
+import Paypal from "./PayPal.svg"
+import Bitcoin from './Bitcoin.svg'
+export { AudiImg, WishListIcon, CartIcon, MenuIcon, SearchIcon, InfoIcon, ChevronDownIcon, Audi, CloseIcon, Grid, Bitcoin, Paypal };
