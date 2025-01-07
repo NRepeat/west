@@ -24,7 +24,7 @@ const ProductSingleCard = () => {
 	}
 	const product = { title: "Anthracite 8.5 J x 20 Audi Q5", props: { color: { code: '43464B', name: "Gray", slug: "gray" }, diameter: 'R20', et: "ER35", pcd: "5x114.3", weight: "200", width: "8.5" }, slug: "Anthracite-8.5-J-x-20-Audi-Q5" }
 	return (
-		<UiComponentContainer>
+		<UiComponentContainer className='min-h-s'>
 			<div className='grid gap-4 grid-cols-12 grid-row-6 p-2.5'>
 				<div className='col-span-4 relative'>
 					<Button onClick={() => handleDView()} variant={'link'} className='absolute right-0 p-0 z-50'>

@@ -2,6 +2,10 @@ import { ProductProps } from './product-card'
 import { Pallet } from './color-palette';
 import clsx from 'clsx';
 
+
+
+
+
 const CharacteristicsCard = ({ props, isHorizontal }: { isHorizontal: boolean, props: ProductProps }) => {
 	const keys = Object.keys(props)
 	const typedKeys = keys.map(key => key as keyof typeof props)
