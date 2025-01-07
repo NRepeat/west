@@ -7,7 +7,7 @@ const CharacteristicsCard = ({ props, isHorizontal }: { isHorizontal: boolean, p
 	const typedKeys = keys.map(key => key as keyof typeof props)
 	return (
 		<>
-			{typedKeys.map(key => <div className={clsx("flex flex-col w-full gap-2.5 first-letter:uppercase justify-self-center", { 'justify-center px-2.5': isHorizontal })}>
+			{typedKeys.map(key => <div className={clsx("flex flex-col text-lg w-full gap-2.5 first-letter:uppercase justify-self-center", { 'justify-center px-2.5': isHorizontal })}>
 				<div key={key} className={clsx("flex ", { "justify-end": isHorizontal })}>
 					<div className="w-24 flex  items-center font-bold ">
 						<span className='first-letter:uppercase'>

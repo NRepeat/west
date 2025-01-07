@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import React from 'react'
 
 type PropType = {
@@ -13,12 +14,12 @@ export const Thumb: React.FC<PropType> = (props) => {
 	return (
 		<div
 			className={'embla-thumbs__slide'.concat(
-				selected ? ' embla-thumbs__slide--selected' : ''
+				selected ? ' embla-thumbs__slide--selected ' : ''
 			)}
 		>
 			<button
 				onClick={onClick}
-				className="embla-thumbs__slide__number"
+				className={clsx("embla-thumbs__slide__number ", { 'border-inputBorderHover rounded-sm border-2': selected })}
 			>
 				{slide}
 			</button>

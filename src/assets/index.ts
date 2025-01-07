@@ -10,4 +10,5 @@ import Grid from './Grid.svg'
 import AudiImg from './AudiImg.jpg'
 import Paypal from "./PayPal.svg"
 import Bitcoin from './Bitcoin.svg'
-export { AudiImg, WishListIcon, CartIcon, MenuIcon, SearchIcon, InfoIcon, ChevronDownIcon, Audi, CloseIcon, Grid, Bitcoin, Paypal };
+import DepthEffect from './DepthEffect.svg'
+export { DepthEffect, AudiImg, WishListIcon, CartIcon, MenuIcon, SearchIcon, InfoIcon, ChevronDownIcon, Audi, CloseIcon, Grid, Bitcoin, Paypal };
