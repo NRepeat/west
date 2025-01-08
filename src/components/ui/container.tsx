@@ -6,7 +6,7 @@ interface ContainerProps extends HTMLAttributes<HTMLDivElement> {
 
 const Container: FC<ContainerProps> = ({ children, ...props }) => {
 	return (
-		<div className={cn('bg-backgroundContainer xl:px-[200px] md:px-10 lg:px-10 py-[5px]', props.className)}>{children}</div>
+		<div className={cn('bg-backgroundContainer xl:px-[200px] md:px-10 lg:px-10 py-[5px] ', props.className)}>{children}</div>
 	)
 }
 

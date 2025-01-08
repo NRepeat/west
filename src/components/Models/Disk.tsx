@@ -22,7 +22,6 @@ const Disk = (props: Omit<PrimitiveProps, 'object'>) => {
 	}, [nodes, materials])
 	// return <primitive {...props} object={scene} />
 	return (
-		// <></>
 		<group ref={groupRef}
 			{...props}
 			dispose={null}

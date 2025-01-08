@@ -10,7 +10,7 @@ const Wrapper: FC<WrapperProps> = (props) => {
 			{...props}
 			className={clsx(
 				props.className,
-				'w-full  h-full p-2.5 grid  gap-5 grid-cols-12  grid-rows-12 '
+				'w-full  p-2.5 grid  gap-5 grid-cols-12  grid-rows-12  h-full'
 			)}
 		>
 			{props.children}

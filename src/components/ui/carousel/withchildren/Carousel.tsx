@@ -10,11 +10,12 @@ import { Thumb } from './Thumb'
 
 type PropType = {
 	slides: React.ReactNode[]
-	options?: EmblaOptionsType
+	options?: EmblaOptionsType,
+	setPointerDown: (isDown: boolean) => void
 }
 
 const EmblaCarousel: React.FC<PropType> = (props) => {
-	const { slides, options } = props
+	const { slides, options, setPointerDown } = props
 	const [selectedIndex, setSelectedIndex] = useState(0)
 	const [emblaMainRef, emblaMainApi] = useEmblaCarousel(options)
 	const [emblaThumbsRef, emblaThumbsApi] = useEmblaCarousel({
@@ -30,7 +31,9 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
 		},
 		[emblaMainApi, emblaThumbsApi]
 	)
-
+	const setPointer = useCallback((value: boolean) => {
+		setPointerDown(value)
+	}, [setPointerDown])
 	const onSelect = useCallback(() => {
 		if (!emblaMainApi || !emblaThumbsApi) return
 		setSelectedIndex(emblaMainApi.selectedScrollSnap())
@@ -39,10 +42,12 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
 
 	useEffect(() => {
 		if (!emblaMainApi) return
+		emblaMainApi.on("pointerDown", () => setPointer(true))
+		emblaMainApi.on("pointerUp", () => setPointer(false))
 		onSelect()
 
 		emblaMainApi.on('select', onSelect).on('reInit', onSelect)
-	}, [emblaMainApi, onSelect])
+	}, [emblaMainApi, onSelect, setPointer])
 
 	return (
 		<div className="embla w-full h-full flex flex-col justify-between">

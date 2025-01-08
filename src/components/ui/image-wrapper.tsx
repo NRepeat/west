@@ -1,14 +1,17 @@
 import React, { FC } from 'react'
+import { LazyLoadImage, LazyLoadImageProps } from 'react-lazy-load-image-component'
+import 'react-lazy-load-image-component/src/effects/opacity.css';
 
-type ImageWrapperProps = {
+type ImageWrapperProps<T> = {
 	src: string
 	alt: string
 	imgHeight?: string,
 	imgWidth?: string,
 	className?: string
+	options: T
 }
 
-const ImageWrapper: FC<ImageWrapperProps> = ({ src, alt, className, imgHeight, imgWidth }) => {
+const ImageWrapper: FC<ImageWrapperProps<LazyLoadImageProps>> = ({ src, alt, className, imgHeight, imgWidth, options }) => {
 	const handleError = (event: React.SyntheticEvent<HTMLImageElement>) => {
 		event.currentTarget.src = '/placeholder.png'
 		event.currentTarget.alt = 'Image not available'
@@ -16,7 +19,8 @@ const ImageWrapper: FC<ImageWrapperProps> = ({ src, alt, className, imgHeight, i
 
 	return (
 		<div className={`relative overflow-hidden ${className}`}>
-			<img
+			<LazyLoadImage
+				{...options}
 				src={src}
 				alt={alt}
 				style={{ width: `${imgWidth}px`, height: `${imgHeight}px` }}

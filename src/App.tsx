@@ -6,7 +6,7 @@ function App() {
 
   return (
 
-    <div>
+    <>
       <div className="p-2.5">
         <Breadcrumbs crumbs={[{ href: '/', slug: 'Home' }, { href: "/disks", slug: "Disks" }]} />
       </div>
@@ -18,7 +18,7 @@ function App() {
           <MainStoreGrid />
         </div>
       </Wrapper>
-    </div>
+    </>
   )
 }
 

@@ -18,7 +18,9 @@
     transition: all 200ms;
   }
 }
-
+#root {
+  height: 100vh;
+}
 @layer base {
   :root {
     --background-container: #e4e4e4;

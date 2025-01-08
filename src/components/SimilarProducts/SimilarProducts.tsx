@@ -32,7 +32,13 @@ const SimilarProductsCard = ({ product }: { product: ProductT }) => {
 				<NavLink to={`/product/${product.slug}`} className={'flex-1'} prefetch={'intent'}>
 					<Card onClick={() => handleNav(product.slug)} className='flex-1 min-h-[200px] hover:border-input border-2 border-white rounded-sm overflow-hidden p-2.5'>
 						<CardContent className='flex flex-col items-center gap-2.5 '>
-							<ImageWrapper src={AudiImg} alt='img' imgWidth='200' className='min-h-[200px] ' />
+							<ImageWrapper options={{
+								delayTime: 100,
+								effect: "opacity",
+								wrapperProps: {
+									style: { transitionDelay: "100" },
+								}
+							}} src={AudiImg} alt='img' imgWidth='200' className='min-h-[200px] ' />
 							<p className='w-full text-lg text-center'>
 								{product.title}
 							</p>

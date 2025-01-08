@@ -23,6 +23,5 @@ createRoot(document.getElementById('root')!).render(
       </BrowserRouter>
     </Container>
     <Footer />
-
   </StrictMode>,
 )
