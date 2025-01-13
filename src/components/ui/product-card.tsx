@@ -28,6 +28,7 @@ export type ProductT = {
   title: string
   description?: string
   slug: string
+  price?: number
   props: ProductProps
 }
 const ProductCard: FC<ProductCardProps & { product: ProductT }> = ({
@@ -57,6 +58,13 @@ const ProductCard: FC<ProductCardProps & { product: ProductT }> = ({
         })}
       >
         <ImageWrapper
+          options={{
+            delayTime: 100,
+            effect: 'opacity',
+            wrapperProps: {
+              style: { transitionDelay: '100' },
+            },
+          }}
           src={AudiImg}
           alt='audi'
           className='min-w-full max-w-[300px] justify-center flex items-center w-full'

@@ -1,4 +1,3 @@
-import React from 'react'
 import {
 	HoverCard,
 	HoverCardContent,
@@ -11,6 +10,7 @@ import { ProductT } from '../ui/product-card'
 import { products } from '../MainStoreGrid/MainStoreGrid'
 import CharacteristicsCard from '../ui/characteristics-card'
 import { NavLink, useNavigate } from 'react-router'
+
 const SimilarProducts = () => {
 	const Cards = () =>
 		products.map(product => <SimilarProductsCard product={product} />)

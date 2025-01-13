@@ -12,16 +12,19 @@ import Test from './pages/Test.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <Container className='font-IstokWebRegular'>
-      <Navbar />
-      <BrowserRouter>
+    <BrowserRouter>
+
+      <Container className='font-IstokWebRegular'>
+        <Navbar />
+
         <Routes>
           <Route path='/product/:slug' element={<Product />} />
           <Route path='/' element={<App />} />
           <Route path='/test' element={<Test />} />
         </Routes>
-      </BrowserRouter>
-    </Container>
+
+      </Container>
+    </BrowserRouter>
     <Footer />
   </StrictMode>,
 )

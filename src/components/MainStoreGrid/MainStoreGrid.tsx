@@ -8,13 +8,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import Icon from '../ui/icon'
-import { Grid, MenuIcon } from '@/assets'
 import { Button } from '../ui/button'
 import ProductCard, { ProductT } from '../ui/product-card'
 import { useState } from 'react'
 import { GripIcon } from '../ui/grip'
 import { LayoutPanelTopIcon } from '../ui/layout-panel-top'
+import useStickyScroll from '@/hooks/sticky-scroll'
 export const products: ProductT[] = [
   {
     title: 'Anthracite 8.5 J x 20 Audi Q6',
@@ -65,8 +64,8 @@ export const products: ProductT[] = [
     slug: 'Anthracite-8.5-J-x-20-Audi-Q5',
   },
 ]
-
 const MainStoreGrid = () => {
+  const [scrolled] = useStickyScroll({ option: { scrollStart: 165 } })
   const [gridView, setGridView] = useState<boolean>(false)
   const handleGridView = () => {
     setGridView(prev => !prev)
@@ -77,7 +76,7 @@ const MainStoreGrid = () => {
         ' flex justify-start items-center   box-content flex-col',
       )}
     >
-      <div className='flex items-center w-full'>
+      <div className={clsx('flex items-center w-full sticky top-0 z-10 bg-white', { 'shadow-md rounded-sm': scrolled })}>
         <FilterActiveBar
           activeFilters={[
             { slug: 'Gray' },
