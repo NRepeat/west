@@ -1,7 +1,7 @@
-'use client';
+'use client'
 
-import { AnimatePresence, motion, useAnimation } from 'motion/react';
-import { useEffect, useState } from 'react';
+import { AnimatePresence, motion, useAnimation } from 'motion/react'
+import { useEffect, useState } from 'react'
 
 const circles = [
   { cx: 19, cy: 5 }, // Top right
@@ -13,51 +13,51 @@ const circles = [
   { cx: 5, cy: 12 }, // Middle left
   { cx: 12, cy: 19 }, // Bottom middle
   { cx: 5, cy: 19 }, // Bottom left
-];
+]
 
 const GripIcon = () => {
-  const [isHovered, setIsHovered] = useState(false);
-  const controls = useAnimation();
+  const [isHovered, setIsHovered] = useState(false)
+  const controls = useAnimation()
 
   useEffect(() => {
     const animateCircles = async () => {
       if (isHovered) {
-        await controls.start((i) => ({
+        await controls.start(i => ({
           opacity: 0.3,
           transition: {
             delay: i * 0.1,
             duration: 0.2,
           },
-        }));
-        await controls.start((i) => ({
+        }))
+        await controls.start(i => ({
           opacity: 1,
           transition: {
             delay: i * 0.1,
             duration: 0.2,
           },
-        }));
+        }))
       }
-    };
+    }
 
-    animateCircles();
-  }, [isHovered, controls]);
+    animateCircles()
+  }, [isHovered, controls])
 
   return (
     <motion.div
-      className="cursor-pointer select-none  hover:bg-accent rounded-md transition-colors duration-200 flex  items-center justify-center"
+      className='cursor-pointer select-none  hover:bg-accent rounded-md transition-colors duration-200 flex  items-center justify-center'
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="28"
-        height="28"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
+        xmlns='http://www.w3.org/2000/svg'
+        width='28'
+        height='28'
+        viewBox='0 0 24 24'
+        fill='none'
+        stroke='currentColor'
+        strokeWidth='2'
+        strokeLinecap='round'
+        strokeLinejoin='round'
       >
         <AnimatePresence>
           {circles.map((circle, index) => (
@@ -65,22 +65,22 @@ const GripIcon = () => {
               key={`${circle.cx}-${circle.cy}`}
               cx={circle.cx}
               cy={circle.cy}
-              r="1"
-              initial="initial"
+              r='1'
+              initial='initial'
               variants={{
                 initial: {
                   opacity: 1,
                 },
               }}
               animate={controls}
-              exit="initial"
+              exit='initial'
               custom={index}
             />
           ))}
         </AnimatePresence>
       </svg>
     </motion.div>
-  );
-};
+  )
+}
 
-export { GripIcon };
+export { GripIcon }
