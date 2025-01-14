@@ -8,8 +8,11 @@ const useCanvasDashboard = () => {
 		setVehicleColor,
 		setWheelsRotation,
 		setWheelsColor,
+		setWheelsChange
 	} = useDashboardControlStore();
-
+	const handleChangeWheels = (isRotate: boolean) => {
+		setWheelsChange(isRotate);
+	};
 	const handleChangeColorWheels = (color: string) => {
 		setWheelsColor(color);
 	};
@@ -27,7 +30,7 @@ const useCanvasDashboard = () => {
 	};
 
 	const vehicleControl = { handleRotateVehicle, handleChangeColorVehicle };
-	const wheelControl = { handleRotateWheels, handleChangeColorWheels };
+	const wheelControl = { handleRotateWheels, handleChangeColorWheels, handleChangeWheels };
 
 	return { vehicleControl, wheelControl, vehicle, wheels };
 };

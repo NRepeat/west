@@ -1,18 +1,14 @@
 import { FC } from 'react'
 import { DiskGroup } from '../Models/Disk'
 import { useGLTF } from '@react-three/drei'
-
-import useCanvasDashboard from '@/hooks/canvas-dashboard'
 import useConfiguratorStore from '@/store/configurator-canvas'
 type DiskScenesProps = {
 	model: string
 }
 
 const DiskScenes: FC<DiskScenesProps> = ({ model }) => {
-	const { wheels } = useCanvasDashboard();
 	const { scene } = useGLTF(model);
 	const configuratorState = useConfiguratorStore()
-	console.log('configuratorState.wheels.axisPosition[\'porsche\'][0]', configuratorState.wheels.axisPosition['porsche'][0].x)
 	return (
 		<group dispose={null}>
 			<DiskGroup

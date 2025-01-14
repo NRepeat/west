@@ -20,7 +20,10 @@ const Dashboard = () => {
 			<p>Rotation: {wheels.isRotate ? "On" : "Off"}</p>
 			<p>Color: {wheels.color}</p>
 			<Button onClick={() => wheelControl.handleRotateWheels(!wheels.isRotate)}>
-				Toggle Wheels Rotation
+				Toggle Wheels
+			</Button>
+			<Button onClick={() => wheelControl.handleChangeWheels(!wheels.isChange)}>
+				Change Wheels
 			</Button>
 			<button onClick={() => wheelControl.handleChangeColorWheels("blue")}>
 				Change Wheels Color to Blue

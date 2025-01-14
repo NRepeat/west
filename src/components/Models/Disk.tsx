@@ -22,11 +22,12 @@ export const DiskGroup = ({
     positionZ
 }: DiskGroupProps) => {
     const { wheels } = useCanvasDashboard();
-    const toggle = wheels.isRotate
+    const toggle = wheels.isChange
+    console.log('toggle', toggle)
+    const isRotation = wheels.isRotate
     const transApi = useSpringRef();
     const springApi = useSpringRef();
     const rotationApi = useSpringRef();
-    console.log('toggle', toggle)
     const [{ x }] = useSpring(
         { x: toggle ? 1 : 0, config: { mass: 5, tension: 100, friction: 50 }, ref: springApi },
         [toggle]
@@ -40,12 +41,21 @@ export const DiskGroup = ({
 
         [toggle]
     );
+    const infRotation = useSpring({
+        // rotX: isRotation ? 1 : 0,
+        from: { rotate: 0 },
+        to: { rotate: -360 },
+        loop: { reverse: false },
+        config: { duration: 30500 },
+        ref: transApi,
+    });
+
+    // const rInf = infRotation.rotX.to((rotX) => rotX); // Full 360-degree rotation
 
     const [{ z }] = useSpring(
         { z: toggle ? 1 : 0, config: { mass: 5, tension: 100, friction: 50 }, ref: rotationApi },
         [toggle]
     );
-    console.log('toggle', toggle)
 
     const pZ = z.to(positionZ[0], positionZ[1]);
     const pX = x.to(positionX[0], positionX[1]);
@@ -55,13 +65,14 @@ export const DiskGroup = ({
         toggle ? [rotationApi, springApi] : [springApi, rotationApi],
         [0, 1], toggle ? 1500 : 1000
     );
+    useChain(isRotation ? [transApi] : [transApi], [0, 1], isRotation ? 1500 : 1000)
     return (
         <a.group position={position} rotation={rotation} >
             <a.mesh
                 receiveShadow
                 castShadow
                 raycast={meshBounds}
-                rotation-x={rX}
+                rotation-x={isRotation ? infRotation.rotate : rX}
                 position-z={pZ}
                 position-x={pX}
             >
