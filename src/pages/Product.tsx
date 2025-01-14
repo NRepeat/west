@@ -3,10 +3,9 @@ import SimilarProducts from '@/components/SimilarProducts/SimilarProducts';
 import Breadcrumbs from '@/components/ui/breadcrumbs';
 import UiComponentContainer from '@/components/ui/ui-component-container';
 import Wrapper from '@/components/ui/wrapper';
-import { useParams } from 'react-router';
 
 const Product = () => {
-    const { slug } = useParams();
+    // const { slug } = useParams();
     return (
         <div className="">
             <div className="p-2.5">

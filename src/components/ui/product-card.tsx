@@ -39,7 +39,7 @@ const ProductCard: FC<ProductCardProps & { product: ProductT }> = ({
             {...props}
             onClick={() => handleNav(product.slug)}
             className={clsx(
-                'p-4  sm:col-span-12 md:col-span-6 xl:col-span-4 rounded-sm   hover:border-input hover:border-2 border-2 border-white duration-200',
+                'cursor-pointer p-4  sm:col-span-12 md:col-span-6 xl:col-span-4 rounded-sm   hover:border-input hover:border-2 border-2 border-white duration-200',
                 {
                     'flex-row flex justify-start items-center w-full sm:col-span-12 md:col-span-12 xl:col-span-12 gap-8':
                         isHorizontal,

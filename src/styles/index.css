@@ -23,6 +23,7 @@
 }
 @layer base {
     :root {
+        --background-success: #325039;
         --background-container: #e4e4e4;
         --background-component-container: #ffffff;
         --input-border-hover: #d9d9d9;
