@@ -4,10 +4,8 @@ import { applyProps, PrimitiveProps } from '@react-three/fiber';
 import React, { useLayoutEffect, useRef } from 'react';
 
 const Disk = (props: Omit<PrimitiveProps, 'object'>) => {
-    const { scene, nodes, materials } = useGLTF('/disk.glb');
-    console.log('nodes', nodes);
-    console.log('materials', materials['Material.001']);
-    const groupRef = useRef(null);
+    const { scene, nodes, materials } = useGLTF('/model/disk/disk_2.gltf');
+    // const groupRef = useRef(null);
     useLayoutEffect(() => {
         Object.values(nodes).forEach((node) => {
             if (node) {
@@ -20,20 +18,21 @@ const Disk = (props: Omit<PrimitiveProps, 'object'>) => {
     }, [nodes, materials]);
     // return <primitive {...props} object={scene} />
     return (
-        <group
-            ref={groupRef}
-            {...props}
-            dispose={null}
-            position={[0, 0, 0]}
-            rotation={new THREE.Euler(0, 2, 1.4)}
-        >
-            <mesh
-                castShadow
-                receiveShadow
-                geometry={nodes['desirefxme_008001'].geometry}
-                material={materials['Material.001']}
-            />
-        </group>
+        <primitive {...props} object={scene} />
+        // <group
+        //     ref={groupRef}
+        //     {...props}
+        //     dispose={null}
+        //     position={[0, 0, 0]}
+        //     rotation={new THREE.Euler(0, 2, 1.4)}
+        // >
+        //     <mesh
+        //         castShadow
+        //         receiveShadow
+        //         geometry={nodes['desirefxme_008001'].geometry}
+        //         material={materials['Material.001']}
+        //     />
+        // </group>
     );
 };
 
