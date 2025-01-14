@@ -1,39 +1,73 @@
-import { useGLTF } from '@react-three/drei';
-import * as THREE from 'three';
-import { applyProps, PrimitiveProps } from '@react-three/fiber';
-import React, { useLayoutEffect, useRef } from 'react';
+import { meshBounds, } from '@react-three/drei'
+import { Interpolation } from "@react-spring/core"
+import { a } from "@react-spring/three"
+import type { Group, Object3DEventMap } from 'three'
+import { useChain, useSpring, useSpringRef } from "@react-spring/core"
+import useCanvasDashboard from '@/hooks/canvas-dashboard'
+export type PositionType = [number, number, number]
+type DiskGroupProps = {
+    position: PositionType;
+    rotation?: PositionType;
+    rX: Interpolation<number, number>;
+    pZ: Interpolation<number, number>;
+    pX: Interpolation<number, number>;
+    scene: Group<Object3DEventMap>
+}
+export const DiskGroup = ({
+    position,
+    rotation,
+    scene,
+    rotationX,
+    pozitionZ,
+    pozitionX
+}: DiskGroupProps) => {
+    const { wheels } = useCanvasDashboard();
+    const toggle = wheels.isRotate
+    const transApi = useSpringRef();
+    const springApi = useSpringRef();
+    const rotationApi = useSpringRef();
+    console.log('toggle', toggle)
+    const [{ x }] = useSpring(
+        { x: toggle ? 1 : 0, config: { mass: 5, tension: 100, friction: 50 }, ref: springApi },
+        [toggle]
+    );
+    const [{ rotX }] = useSpring(
+        {
+            rotX: toggle ? 1 : 0,
+            config: { mass: 5, tension: 100, friction: 50 },
+            ref: rotationApi,
+        },
 
-const Disk = (props: Omit<PrimitiveProps, 'object'>) => {
-    const { scene, nodes, materials } = useGLTF('/model/disk/disk_2.gltf');
-    // const groupRef = useRef(null);
-    useLayoutEffect(() => {
-        Object.values(nodes).forEach((node) => {
-            if (node) {
-                node.castShadow = true;
-                node.receiveShadow = true;
-            }
-        });
-        // applyProps(nodes['desirefxme_008001'].geometry)
-        // applyProps(materials['Material.001'], { color: materials['Material.001'].color, roughness: 0.6, roughnessMap: null, normalScale: [4, 4] })
-    }, [nodes, materials]);
-    // return <primitive {...props} object={scene} />
+        [toggle]
+    );
+
+    const [{ z }] = useSpring(
+        { z: toggle ? 1 : 0, config: { mass: 5, tension: 100, friction: 50 }, ref: rotationApi },
+        [toggle]
+    );
+
+    const pZ = z.to([0, 1], [0, 0]);
+    const pX = x.to([0, 1], [0, 0]);
+    const rX = rotX.to([0, 1], [0, Math.PI * 1.3]);
+    useChain(
+        toggle ? [rotationApi, springApi] : [springApi, rotationApi,],
+        [0, 1], 1000
+    );
     return (
-        <primitive {...props} object={scene} />
-        // <group
-        //     ref={groupRef}
-        //     {...props}
-        //     dispose={null}
-        //     position={[0, 0, 0]}
-        //     rotation={new THREE.Euler(0, 2, 1.4)}
-        // >
-        //     <mesh
-        //         castShadow
-        //         receiveShadow
-        //         geometry={nodes['desirefxme_008001'].geometry}
-        //         material={materials['Material.001']}
-        //     />
-        // </group>
+        <a.group position={position} rotation={rotation} >
+            <a.mesh
+                receiveShadow
+                castShadow
+                raycast={meshBounds}
+                rotation-x={rX}
+                position-z={pZ}
+                position-x={pX}
+            >
+                <mesh scale={10}>
+                    <primitive object={scene} />
+                </mesh>
+            </a.mesh>
+        </a.group>
     );
 };
 
-export default Disk;

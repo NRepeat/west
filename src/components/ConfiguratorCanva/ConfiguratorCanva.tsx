@@ -1,36 +1,59 @@
 import { Canvas, useThree } from '@react-three/fiber'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import * as THREE from 'three'
 import { useControls } from 'leva'
-import { Color } from 'three'
 import Porsche from '../Models/Porshe'
-import { Perf } from 'r3f-perf'
-import { posix } from 'path'
-import { Fisheye, Environment, ContactShadows, OrbitControls, PerspectiveCamera } from '@react-three/drei'
+import { Environment, ContactShadows, OrbitControls, PerspectiveCamera } from '@react-three/drei'
+import Dashboard from './Dashboard'
+import DiskScenes from '../Scenes/DiskScenes'
 const ConfiguratorCanvas = () => {
 	const { mapping, exposure } = useControls({
 		posix: 110,
 		exposure: { value: 0.85, min: 0, max: 4 },
 		mapping: { value: 'ACESFilmic', options: ['No', 'Linear', 'AgX', 'ACESFilmic', 'Reinhard', 'Cineon', 'Custom'] },
 	})
-	return (
-		<Canvas camera={{ fov: 45, near: 0.1, far: 2000, position: [4, 3, 10] }}
-			gl={{ antialias: true, pixelRatio: window.devicePixelRatio }}
 
-		>
-			{/* <Perf /> */}
-			<Porsche scale={10} />
-			<OrbitControls />
-			<Environment files={['/enviroment/hanger_exterior_cloudy_4k.exr']} ground={{ height: 35, radius: 100, scale: 200 }} />
-			{/* <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]}>
-				<planeGeometry args={[11, 11, 1]} />
-				<meshPhongMaterial />
-			</mesh> */}
-			<ContactShadows renderOrder={2} frames={1} resolution={1024} scale={120} blur={2} opacity={0.6} far={100} />
-			<OrbitControls enableZoom={false} enablePan={false} minPolarAngle={0} maxPolarAngle={Math.PI / 2.25} makeDefault />
-			<PerspectiveCamera makeDefault position={[25, 25, 10]} fov={100} />
-			<Tone mapping={mapping} exposure={exposure} />
-		</Canvas>
+	const [currentModel, setCurrentModel] = useState('/model/Disk1/disk.gltf'); // Состояние для выбранной модели
+
+	const models = [
+		{ name: 'Disk 1', path: '/model/Disk1/disk.gltf' },
+		{ name: 'Disk 2', path: 'model/Disk2/disk.gltf' },
+	];
+	return (
+		<>
+			<div className='absolute z-10'>
+				{models.map((model) => (
+					<button
+						key={model.path}
+						onClick={() => setCurrentModel(model.path)}
+						style={{
+							padding: '10px 20px',
+							backgroundColor: currentModel === model.path ? 'green' : 'gray',
+							color: 'white',
+							border: 'none',
+							borderRadius: '5px',
+							cursor: 'pointer',
+						}}
+					>
+						{model.name}
+					</button>
+				))}
+			</div>
+			<Canvas camera={{ fov: 45, near: 0.1, far: 2000, position: [4, 3, 10] }}
+				gl={{ antialias: true, pixelRatio: window.devicePixelRatio }}
+
+			>
+				{/* <Perf /> */}
+				<Porsche scale={10} />
+				<DiskScenes model={currentModel} />
+				<OrbitControls />
+				<Environment files={['/enviroment/Warehouse-with-lights.hdr']} ground={{ height: 35, radius: 300, scale: 300 }} />
+				<ContactShadows renderOrder={2} frames={1} resolution={1024} scale={120} blur={2} opacity={0.6} far={100} />
+				<OrbitControls enableZoom={false} enablePan={false} minPolarAngle={0} maxPolarAngle={Math.PI / 2.25} makeDefault />
+				<PerspectiveCamera makeDefault position={[25, 25, 10]} fov={100} />
+			</Canvas>
+		</>
+
 	)
 }
 function Tone({ mapping, exposure }) {

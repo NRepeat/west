@@ -1,5 +1,6 @@
 import CarModelPickerBar from '@/components/CarModelPickerBar/CarModelPickerBar'
 import ConfiguratorCanvas from '@/components/ConfiguratorCanva/ConfiguratorCanva'
+import Dashboard from '@/components/ConfiguratorCanva/Dashboard'
 import Breadcrumbs from '@/components/ui/breadcrumbs'
 import UiComponentContainer from '@/components/ui/ui-component-container'
 import Wrapper from '@/components/ui/wrapper'
@@ -23,6 +24,9 @@ const Configurator = () => {
 					<UiComponentContainer className="min-h-[210px] h-full">
 						<ConfiguratorCanvas />
 					</UiComponentContainer>
+				</div>
+				<div className=" col-span-12  row-span-1  relative">
+					<Dashboard />
 				</div>
 			</Wrapper>
 		</div>

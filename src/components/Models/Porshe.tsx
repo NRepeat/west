@@ -1,12 +1,9 @@
 import { useGLTF } from '@react-three/drei';
-import { applyProps, PrimitiveProps, useFrame } from '@react-three/fiber';
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { PrimitiveProps } from '@react-three/fiber';
+import { useLayoutEffect, } from 'react';
 
 function Porsche(props: Omit<PrimitiveProps, 'object'>) {
-    const { scene, nodes, materials } = useGLTF('/model/scene.gltf');
-    const disk = useGLTF('/model/disk/disk_3.gltf');
-    console.log('disk', disk)
-    console.log('materials', materials);
+    const { scene, nodes, materials } = useGLTF('model/Car/car.gltf');
     useLayoutEffect(() => {
         Object.values(nodes).forEach((node) => {
             if (node) {
@@ -20,9 +17,6 @@ function Porsche(props: Omit<PrimitiveProps, 'object'>) {
     //     disk.nodes.
     // })
     return <group position={[0, 0, 0]} >
-        <mesh position={[4, 0.31, 1.4]} scale={0.3}>
-            <primitive object={disk.scene} />;
-        </mesh>
         <mesh>
             <primitive {...props} object={scene} />;
         </mesh>
