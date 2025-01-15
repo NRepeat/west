@@ -1,34 +1,51 @@
 import { Canvas, useThree } from '@react-three/fiber'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import * as THREE from 'three'
-import { useControls } from 'leva'
 import Porsche from '../Models/Porshe'
-import { Environment, ContactShadows, OrbitControls, PerspectiveCamera } from '@react-three/drei'
-import Dashboard from './Dashboard'
+import { Environment, ContactShadows, OrbitControls } from '@react-three/drei'
+import useConfiguratorStore, { CurrentModelType } from '@/store/configurator-canvas'
 import DiskScenes from '../Scenes/DiskScenes'
+import useCanvasDashboard from '@/hooks/canvas-dashboard'
+
+
 const ConfiguratorCanvas = () => {
-	const { mapping, exposure } = useControls({
-		posix: 110,
-		exposure: { value: 0.85, min: 0, max: 4 },
-		mapping: { value: 'ACESFilmic', options: ['No', 'Linear', 'AgX', 'ACESFilmic', 'Reinhard', 'Cineon', 'Custom'] },
-	})
+	const { models, currentModel, newModel, setCurrentModel, setNewModel, isNewWheelModelSet, setIsNewWheelModelSet } = useConfiguratorStore();
+	const { vehicleControl, wheelControl, vehicle, wheels } = useCanvasDashboard();
+	console.log('currentModel', currentModel)
+	console.log('newModel', newModel)
+	console.log('isNewWheelModelSet', isNewWheelModelSet)
+	useEffect(() => {
+		if (newModel && isNewWheelModelSet) {
+			setCurrentModel(newModel)
+			setNewModel(null)
+			setIsNewWheelModelSet(false)
+			// wheelControl.handleChangeWheels(false)
+		}
+	}, [isNewWheelModelSet, newModel, setCurrentModel])
+	const handleChangeModel = (model: {
+		name: string;
+		path: string;
+		model: CurrentModelType;
+	}) => {
+		if (model.path !== currentModel.path && model.path !== newModel?.path) {
+			setNewModel(model)
+			setTimeout(() => {
+				wheelControl.handleChangeWheels(true)
 
-	const [currentModel, setCurrentModel] = useState('/model/Disk1/disk.gltf'); // Состояние для выбранной модели
+			}, 1100)
+		}
+	}
 
-	const models = [
-		{ name: 'Disk 1', path: '/model/Disk1/disk.gltf' },
-		{ name: 'Disk 2', path: 'model/Disk2/disk.gltf' },
-	];
 	return (
 		<>
-			<div className='absolute z-10'>
+			<div className='absolute z-10 flex gap-2'>
 				{models.map((model) => (
 					<button
 						key={model.path}
-						onClick={() => setCurrentModel(model.path)}
+						onClick={() => handleChangeModel(model)}
 						style={{
 							padding: '10px 20px',
-							backgroundColor: currentModel === model.path ? 'green' : 'gray',
+							backgroundColor: currentModel.path === model.path ? 'green' : 'gray',
 							color: 'white',
 							border: 'none',
 							borderRadius: '5px',
@@ -39,18 +56,23 @@ const ConfiguratorCanvas = () => {
 					</button>
 				))}
 			</div>
-			<Canvas camera={{ fov: 45, near: 0.1, far: 2000, position: [4, 3, 10] }}
+			<Canvas camera={{ near: 10.1, far: 1200, position: [54, 53, 50] }}
 				gl={{ antialias: true, pixelRatio: window.devicePixelRatio }}
 
 			>
 				{/* <Perf /> */}
 				<Porsche scale={10} />
-				<DiskScenes model={currentModel} />
+				{newModel && <DiskScenes model={newModel.path} modelPosition={newModel.model.currentPosition} isNewModel />}
+				<DiskScenes model={currentModel.path} modelPosition={currentModel.model.currentPosition} isNewModel={false} />
+				{/* <DiskScenes model={newModel} isNew={true} isOld={false} /> */}
+				{/* {isVisible &&
+					<DiskScenes model={newModel} isNew={true} />
+				} */}
 				<OrbitControls />
-				<Environment files={['/enviroment/Warehouse-with-lights.hdr']} ground={{ height: 35, radius: 300, scale: 300 }} />
+				<Environment files={['/enviroment/Warehouse-with-lights.hdr']} background />
 				<ContactShadows renderOrder={2} frames={1} resolution={1024} scale={120} blur={2} opacity={0.6} far={100} />
 				<OrbitControls enableZoom={false} enablePan={false} minPolarAngle={0} maxPolarAngle={Math.PI / 2.25} makeDefault />
-				<PerspectiveCamera makeDefault position={[25, 25, 10]} fov={100} />
+				{/* <PerspectiveCamera makeDefault position={[25, 25, 10]} fov={100} /> */}
 			</Canvas>
 		</>
 

@@ -1,83 +1,67 @@
 import { meshBounds, } from '@react-three/drei'
 import { a } from "@react-spring/three"
-import type { Group, Object3DEventMap } from 'three'
 import { useChain, useSpring, useSpringRef } from "@react-spring/core"
 import useCanvasDashboard from '@/hooks/canvas-dashboard'
 import { AxisAnimationType } from '@/store/configurator-canvas'
+import { useLayoutEffect } from 'react'
+import type { GLTF } from 'three-stdlib';
+import { applyProps, type ObjectMap } from '@react-three/fiber'
+import useWheelChangeAnimation, { useNewWheelChangeAnimation } from '@/hooks/animations/wheel-change'
 export type PositionType = [number, number, number]
-type DiskGroupProps = {
+export type DiskPosition = {
     position: PositionType;
     rotation?: PositionType;
     rotationX: AxisAnimationType;
     positionZ: AxisAnimationType;
     positionX: AxisAnimationType;
-    scene: Group<Object3DEventMap>
 }
+type DiskGroupProps = {
+    model: GLTF & ObjectMap
+    isNewModel: boolean
+} & DiskPosition
 export const DiskGroup = ({
     position,
     rotation,
-    scene,
+    model,
+    isNewModel,
     rotationX,
     positionX,
-    positionZ
+    positionZ,
 }: DiskGroupProps) => {
     const { wheels } = useCanvasDashboard();
-    const toggle = wheels.isChange
-    console.log('toggle', toggle)
+
+    const { scene } = model
     const isRotation = wheels.isRotate
-    const transApi = useSpringRef();
-    const springApi = useSpringRef();
-    const rotationApi = useSpringRef();
-    const [{ x }] = useSpring(
-        { x: toggle ? 1 : 0, config: { mass: 5, tension: 100, friction: 50 }, ref: springApi },
-        [toggle]
-    );
-    const [{ rotX }] = useSpring(
-        {
-            rotX: toggle ? 1 : 0,
-            config: { mass: 5, tension: 100, friction: 50 },
-            ref: rotationApi,
-        },
+    const wheelChangeAnimation = useWheelChangeAnimation({ isNew: isNewModel, toggle: wheels.isChange })
+    // const wheelFullRotation = useWheelFullRotation()
+    const newWheelChangeAnimation = useNewWheelChangeAnimation({ isNew: isNewModel, toggle: wheels.isChange })
 
-        [toggle]
-    );
-    const infRotation = useSpring({
-        // rotX: isRotation ? 1 : 0,
-        from: { rotate: 0 },
-        to: { rotate: -360 },
-        loop: { reverse: false },
-        config: { duration: 30500 },
-        ref: transApi,
-    });
 
-    // const rInf = infRotation.rotX.to((rotX) => rotX); // Full 360-degree rotation
+    const pZ = isNewModel ? newWheelChangeAnimation.positionZ.to(positionZ[0], positionZ[1]) : wheelChangeAnimation.positionZ.to(positionZ[0], positionZ[1]);
+    const pX = isNewModel ? newWheelChangeAnimation.positionX.to(positionX[0], positionX[1]) : wheelChangeAnimation.positionZ.to(positionX[0], positionX[1])
+    const rX = isNewModel ? newWheelChangeAnimation.rotationX.to(rotationX[0], rotationX[1]) : wheelChangeAnimation.positionZ.to(rotationX[0], rotationX[1])
 
-    const [{ z }] = useSpring(
-        { z: toggle ? 1 : 0, config: { mass: 5, tension: 100, friction: 50 }, ref: rotationApi },
-        [toggle]
-    );
-
-    const pZ = z.to(positionZ[0], positionZ[1]);
-    const pX = x.to(positionX[0], positionX[1]);
-    const rX = rotX.to(rotationX[0], rotationX[1]);
-
-    useChain(
-        toggle ? [rotationApi, springApi] : [springApi, rotationApi],
-        [0, 1], toggle ? 1500 : 1000
-    );
-    useChain(isRotation ? [transApi] : [transApi], [0, 1], isRotation ? 1500 : 1000)
+    useLayoutEffect(() => {
+        Object.values(model.nodes).forEach((node) => {
+            if (node) {
+                node.castShadow = true
+                node.receiveShadow = true
+            }
+        })
+        applyProps(model.materials['Tyre_Rim_Texture.006'], { color: '#00809C', roughness: 0.2, })
+    }, [model.nodes, model.materials]);
     return (
         <a.group position={position} rotation={rotation} >
             <a.mesh
                 receiveShadow
                 castShadow
                 raycast={meshBounds}
-                rotation-x={isRotation ? infRotation.rotate : rX}
+                rotation-x={rX}
                 position-z={pZ}
                 position-x={pX}
             >
                 <mesh scale={10}>
-                    <primitive object={scene} />
+                    <primitive object={scene.clone()} />
                 </mesh>
             </a.mesh>
         </a.group>
