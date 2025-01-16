@@ -139,7 +139,7 @@ const models: { name: string, path: string, model: CurrentModelType }[] = [
 					[-30, 9, -27.5],
 					[30, 9, -27.5],
 				], axisPosition: [
-					{ x: [defaultAnimationRange, [10, 0]], y: [defaultAnimationRange, [0, 0]], z: [defaultAnimationRange, [0, 90]] },
+					{ x: [defaultAnimationRange, [10, 0]], y: [defaultAnimationRange, [0, 0]], z: [defaultAnimationRange, [10, 10]] },
 					{ x: [defaultAnimationRange, [0, 9]], y: [defaultAnimationRange, [0, 0]], z: [defaultAnimationRange, [0, 0]] },
 					{ x: [defaultAnimationRange, [0, 9]], y: [defaultAnimationRange, [0, 0]], z: [defaultAnimationRange, [-140, 0]] },
 					{ x: [defaultAnimationRange, [0, 9]], y: [defaultAnimationRange, [0, 0]], z: [defaultAnimationRange, [140, 0]] }],
