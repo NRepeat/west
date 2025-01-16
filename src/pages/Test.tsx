@@ -1,7 +1,7 @@
 import { FC, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
-import { useSpring, animated } from '@react-spring/three';
+import { useSpring, animated, useInView } from '@react-spring/three';
 import { Button } from '@/components/ui/button';
 import { create } from 'zustand';
 import { useBoxStore } from '@/store/ball-store';
@@ -14,12 +14,11 @@ type BoxProps = {
 };
 
 const Box: FC<BoxProps> = ({ name, defaultPosition, opacity, color }) => {
-    console.log('defaultPosition', defaultPosition)
-    console.log('opacity', opacity)
     const state = useBoxStore((state) => state)
     const [springs, api] = useSpring(() => ({
         defaultPosition,
         opacity,
+        config: { duration: 1000 },
         onRest: () => {
             const n = state.boxs.findIndex(f => f.defaultPosition[0] === 5)
             console.log('n', n)
@@ -30,7 +29,7 @@ const Box: FC<BoxProps> = ({ name, defaultPosition, opacity, color }) => {
             }
 
         },
-    }), [defaultPosition]);
+    }), [defaultPosition, opacity]);
 
     return (
         <animated.mesh
@@ -48,7 +47,7 @@ const Box: FC<BoxProps> = ({ name, defaultPosition, opacity, color }) => {
 export default function Test() {
 
     const state = useBoxStore((state) => state)
-    const [selectedModel, setSelectedModel] = useState<{ name: string; color: string; defaultPosition: [number, number, number]; }>()
+    const [selectedModel, setSelectedModel] = useState<{ name: string; color: string; defaultPosition: [number, number, number]; }>(state.boxs[0])
     console.log('selectedModel', selectedModel)
     const changeBoxArr = (key: string) => {
         if (key === selectedModel?.name) {
@@ -62,12 +61,12 @@ export default function Test() {
 
         // Swap positions of the selected balls
         const newBalls = [...state.boxs];
-        setSelectedModel(newBalls[currentIndex])
         newBalls[currentIndex].opacity = 1
         newBalls[currentIndex].defaultPosition = [0, 0, 0];
         newBalls[nextIndex].defaultPosition = [5, 0, 0];
         newBalls[nextIndex].opacity = 0;
         console.log('newBalls', newBalls)
+        setSelectedModel(newBalls[currentIndex])
 
         state.setBoxs(newBalls);
     };

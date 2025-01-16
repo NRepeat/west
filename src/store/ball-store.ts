@@ -8,8 +8,8 @@ type useBoxStore = {
 export const useBoxStore = create<useBoxStore>((set) => ({
 	boxs: [
 		{ name: '1', color: 'green', defaultPosition: [0, 0, 0], opacity: 1 },
-		{ name: '2', color: 'red', defaultPosition: [-4, 0, 0], opacity: 1 },
-		{ name: '3', color: 'black', defaultPosition: [-4, 0, 0], opacity: 1 },
+		{ name: '2', color: 'red', defaultPosition: [-4, 0, 0], opacity: 0 },
+		{ name: '3', color: 'black', defaultPosition: [-4, 0, 0], opacity: 0 },
 	],
 
 	// setBoxs: () =>

@@ -21,6 +21,7 @@
 #root {
     height: 100vh;
 }
+
 @layer base {
     :root {
         --background-success: #325039;
