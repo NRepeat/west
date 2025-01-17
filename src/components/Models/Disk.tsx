@@ -1,32 +1,23 @@
 import { meshBounds, } from '@react-three/drei'
-import { a, SpringValue, useSpring } from "@react-spring/three"
+import { a, SpringValue } from "@react-spring/three"
 import { useLayoutEffect } from 'react'
 import type { GLTF } from 'three-stdlib';
 import { applyProps, type ObjectMap } from '@react-three/fiber'
-import { MathUtils } from 'three';
-export type PositionType = [number, number, number]
+import { EulerOrder, MathUtils } from 'three';
+export type PositionType = SpringValue<number[]>
 export type DiskPosition = {
     position: PositionType;
-    rotation?: PositionType;
+    rotation?: [x: number, y: number, z: number, order?: EulerOrder | undefined]
     rotationX: SpringValue<number>
-    positionZ: SpringValue<number>
-    positionX: SpringValue<number>
 }
 type DiskGroupProps = {
     model: GLTF & ObjectMap
 } & DiskPosition
-export const DiskGroup = ({
-    position,
-    rotation,
-    model,
-    // isNewModel,
-    rotationX,
-    positionX,
-    positionZ,
-}: DiskGroupProps) => {
+export const DiskGroup = (props: DiskGroupProps) => {
 
+    const { model, rotationX, rotation } = props
     const { scene } = model
-
+    const position = props.position as unknown as SpringValue<[x: number, y: number, z: number]>
     const rX = rotationX.to([0, 1], [0, MathUtils.degToRad(320)]);
     useLayoutEffect(() => {
         Object.values(model.nodes).forEach((node) => {
@@ -46,8 +37,6 @@ export const DiskGroup = ({
                 castShadow
                 raycast={meshBounds}
                 rotation-x={rX}
-            // position-z={pZ}
-            // position-x={pX}
             >
                 <mesh scale={10}>
                     <primitive object={scene.clone()} />

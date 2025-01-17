@@ -10,21 +10,15 @@ type DiskScenesProps = {
 	axisRotation: SpringValue<number>[],
 }
 export type CurrentModelPosition = {
-	// rotation: WheelsPosition,
-	// axisPosition: AxisPositionType<AxisType>[],
-
 	position: SpringValue<number[]>
-
 }
 
-const DiskScenes: FC<DiskScenesProps> = ({ model, modelPosition, isNewModel, disksPosition, opacity, axisRotation }) => {
-	console.log('opacity', opacity)
+const DiskScenes: FC<DiskScenesProps> = ({ model, modelPosition, disksPosition, axisRotation }) => {
 	const diskModel = useGLTF(model);
-	const { position, rotation, axisPosition, } = modelPosition
-	const visible = opacity.to((value) => value > 0);
-	console.log('visible', visible)
+	const position = modelPosition.position as unknown as SpringValue<[x: number, y: number, z: number]>
+
 	return (
-		<a.mesh position={position} visible={visible}>
+		<a.mesh position={position} >
 			<group dispose={null}>
 				<DiskGroup
 					position={disksPosition[0]}
