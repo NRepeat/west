@@ -11,9 +11,7 @@ import useCanvasDashboard from '@/hooks/canvas-dashboard'
 const ConfiguratorCanvas = () => {
 	const { models, currentModel, newModel, setCurrentModel, setNewModel, isNewWheelModelSet, setIsNewWheelModelSet } = useConfiguratorStore();
 	const { vehicleControl, wheelControl, vehicle, wheels } = useCanvasDashboard();
-	console.log('currentModel', currentModel)
-	console.log('newModel', newModel)
-	console.log('isNewWheelModelSet', isNewWheelModelSet)
+
 	useEffect(() => {
 		if (newModel && isNewWheelModelSet) {
 			setCurrentModel(newModel)

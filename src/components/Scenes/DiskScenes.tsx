@@ -1,53 +1,61 @@
 import { FC, } from 'react'
 import { DiskGroup, DiskPosition } from '../Models/Disk'
 import { useGLTF } from '@react-three/drei'
-import { CurrentModelPosition } from '@/store/configurator-canvas'
+import { SpringValue, a } from '@react-spring/three'
 type DiskScenesProps = {
 	model: string
 	modelPosition: CurrentModelPosition,
-	isNewModel: boolean
+	disksPosition: SpringValue<number[]>[]
+	opacity: SpringValue<number>
+	axisRotation: SpringValue<number>[],
+}
+export type CurrentModelPosition = {
+	// rotation: WheelsPosition,
+	// axisPosition: AxisPositionType<AxisType>[],
+
+	position: SpringValue<number[]>
+
 }
 
-const DiskScenes: FC<DiskScenesProps> = ({ model, modelPosition, isNewModel }) => {
+const DiskScenes: FC<DiskScenesProps> = ({ model, modelPosition, isNewModel, disksPosition, opacity, axisRotation }) => {
+	console.log('opacity', opacity)
 	const diskModel = useGLTF(model);
-	const { position, rotation, axisPosition, axisRotation } = modelPosition
-
+	const { position, rotation, axisPosition, } = modelPosition
+	const visible = opacity.to((value) => value > 0);
+	console.log('visible', visible)
 	return (
-		<group dispose={null}>
-			<DiskGroup
-				isNewModel={isNewModel}
-				position={position[0]}
-				rotation={rotation[0]}
-				positionZ={axisPosition[0].z}
-				positionX={axisPosition[0].x}
-				rotationX={axisRotation[0].x}
-				model={diskModel}
-			/>
-			{/* <DiskGroup
-				position={configuratorState.wheels.position['porsche'][1]}
-				rotation={configuratorState.wheels.rotation['porsche'][1]}
-				positionZ={configuratorState.wheels.axisPosition['porsche'][1].z}
-				positionX={configuratorState.wheels.axisPosition['porsche'][1].x}
-				rotationX={configuratorState.wheels.axisRotation['porsche'][1].x}
-				model={tempModel}
-			/>
-			<DiskGroup
-				position={configuratorState.wheels.position['porsche'][2]}
-				rotation={configuratorState.wheels.rotation['porsche'][2]}
-				positionZ={configuratorState.wheels.axisPosition['porsche'][2].z}
-				positionX={configuratorState.wheels.axisPosition['porsche'][2].x}
-				rotationX={configuratorState.wheels.axisRotation['porsche'][2].x}
-				model={tempModel}
-			/>
-			<DiskGroup
-				position={configuratorState.wheels.position['porsche'][3]}
-				rotation={configuratorState.wheels.rotation['porsche'][3]}
-				positionZ={configuratorState.wheels.axisPosition['porsche'][3].z}
-				positionX={configuratorState.wheels.axisPosition['porsche'][3].x}
-				rotationX={configuratorState.wheels.axisRotation['porsche'][3].x}
-				model={tempModel}
-			/> */}
-		</group>
+		<a.mesh position={position} visible={visible}>
+			<group dispose={null}>
+				<DiskGroup
+					position={disksPosition[0]}
+					rotationX={axisRotation[0]}
+					// rotation={rotation[0]}
+					// positionZ={axisPosition[0].z}
+					// positionX={axisPosition[0].x}
+
+					model={diskModel}
+				/>
+				<DiskGroup
+					position={disksPosition[1]}
+					// rotation={configuratorState.wheels.rotation['porsche'][1]}
+					rotationX={axisRotation[0]}
+					model={diskModel}
+				/>
+				<DiskGroup
+					position={disksPosition[2]}
+					rotation={[0, 3.15, 0]}
+					rotationX={axisRotation[0]}
+					model={diskModel}
+				/>
+				<DiskGroup
+					position={disksPosition[3]}
+					rotation={[0, 3.15, 0]}
+					rotationX={axisRotation[0]}
+					model={diskModel}
+				/>
+			</group>
+		</a.mesh>
+
 	)
 }
 

@@ -1,6 +1,5 @@
 import { Canvas } from '@react-three/fiber';
 import * as THREE from 'three';
-import Disk from '../Models/Disk';
 import { Environment, OrbitControls } from '@react-three/drei';
 import { FC } from 'react';
 
@@ -18,7 +17,7 @@ const DView: FC<DViewProps> = ({ setPointerDown }) => {
             onMouseUp={() => setPointerDown(false)}
             onMouseOut={() => setPointerDown(false)}
         >
-            <Disk />
+            {/* <Disk /> */}
             <OrbitControls />
             <Environment preset="sunset" background />
         </Canvas>

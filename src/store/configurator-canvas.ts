@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 type Vehicle = 'porsche';
-type WheelsPosition = Array<[number, number, number]>
+type WheelsPosition = [number, number, number]
 type PositionByVehicle<T extends Vehicle> = {
 	[key in T]: { default: WheelsPosition, new: WheelsPosition, old: WheelsPosition };
 }
@@ -24,9 +24,7 @@ type AxisRotationByVehicleType<T extends Vehicle> = {
 }
 export type VehicleModalType = { isRotate: boolean, color: string, position: [number, number, number] }
 export type WheelsModalType = { isRotate: boolean, color: string, position: PositionByVehicle<Vehicle>, rotation: RotationByVehicle<Vehicle>, axisPosition: AxisPositionByVehicleType<Vehicle>, axisRotation: AxisRotationByVehicleType<Vehicle> }
-export type CurrentModelPosition = {
-	rotation: WheelsPosition, axisPosition: AxisPositionType<AxisType>[], axisRotation: AxisPositionType<AxisType>[], position: WheelsPosition
-}
+
 export type CurrentModelType = { currentPosition: CurrentModelPosition, newPosition: CurrentModelPosition | null, isAnimated: boolean }
 interface ConfiguratorStoreState {
 	vehicle: VehicleModalType

@@ -4,7 +4,7 @@ import { OrbitControls } from '@react-three/drei';
 import { useSpring, animated, useInView } from '@react-spring/three';
 import { Button } from '@/components/ui/button';
 import { create } from 'zustand';
-import { useBoxStore } from '@/store/ball-store';
+import { useBoxStore } from '@/store/disk-store';
 
 type BoxProps = {
     name: string;
