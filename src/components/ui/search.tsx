@@ -24,7 +24,7 @@ const Search: FC<SearchProps> = ({ isLabelVisible = false, ...props }) => {
     });
     return (
         <RVForm form={form}>
-            <div className="px-2.5 focus:outline-none">
+            <div className=" focus:outline-none flex">
                 <FromInput
                     className="focus-visible:outline-none"
                     scope={form.scope('value')}

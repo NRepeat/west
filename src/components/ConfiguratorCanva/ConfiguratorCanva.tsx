@@ -21,7 +21,7 @@ type DiskSceneProps =
 		axisRotation: SpringValue<number>[]
 	}
 
-type TierButtonsProps = { position: Vector3, defaultAnimation: boolean, textValue?: string | undefined }
+export type TierButtonsProps = { position: Vector3, defaultAnimation: boolean, textValue?: string | undefined }
 
 
 const ConfiguratorCanvas = () => {

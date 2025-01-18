@@ -3,27 +3,43 @@ import { Card, CardContent } from '../ui/card';
 import ImageWrapper from '../ui/image-wrapper';
 import { AudiImg } from '@/assets';
 import { ProductT } from '../ui/product-card';
-import { products } from '../MainStoreGrid/MainStoreGrid';
 import CharacteristicsCard from '../ui/characteristics-card';
-import { NavLink, useNavigate } from 'react-router';
+import { NavLink } from 'react-router';
+import { useBoxStore } from '@/store/disk-store';
+import { FC } from 'react';
+import clsx from 'clsx';
+import Search from '../ui/search';
+import { DiskModel } from '@/context/Configurator';
+import { useConfiguratorStore } from '@/store/configurator-store';
 
-const SimilarProducts = () => {
-    const Cards = () => products.map((product) => <SimilarProductsCard product={product} />);
+type SimilarProductsProps = {
+    isVertical:boolean
+    withSearch:boolean
+    onClick?:(value: string | number,p?:any)=> void
+    products:DiskModel[]
+}
+
+const SimilarProducts:FC<SimilarProductsProps> = ({isVertical,withSearch,onClick,products}) => {
+            const cameraConfig = useConfiguratorStore(state => state.cameraConfig)
+    const Cards = () => products.map((product,i) => <SimilarProductsCard product={product} onClick={()=> product.path ?onClick &&  onClick(i,
+    cameraConfig.defaultCameraPosition
+
+    ) : onClick && onClick(product.slug)}/>);
     return (
-        <div className="flex flex-wrap gap-2">
+        <div className='flex gap-2 flex-col'>
+           {withSearch && <Search label='' isLabelVisible={withSearch}/>} 
+           <div className={clsx({"flex flex-wrap gap-2":!isVertical,'grid  grid-cols-2 overflow-auto ':isVertical})}>
             <Cards />
         </div>
+        </div>
+     
     );
 };
 
 export default SimilarProducts;
 
-const SimilarProductsCard = ({ product }: { product: ProductT }) => {
-    const nav = useNavigate();
-    const handleNav = (slug: string) => {
-        console.log('slug', slug);
-        nav(`/product/${slug}`);
-    };
+const SimilarProductsCard = ({ product ,onClick}: { product: ProductT ,onClick?:()=> void}) => {
+  
     return (
         <>
             <HoverCard>
@@ -34,8 +50,8 @@ const SimilarProductsCard = ({ product }: { product: ProductT }) => {
                         prefetch={'intent'}
                     >
                         <Card
-                            onClick={() => handleNav(product.slug)}
-                            className="flex-1 min-h-[200px] hover:border-input border-2 border-white rounded-sm overflow-hidden p-2.5"
+                            onClick={() =>onClick && onClick()}
+                            className="  hover:border-input border-2 border-white rounded-sm overflow-hidden p-2.5"
                         >
                             <CardContent className="flex flex-col items-center gap-2.5 ">
                                 <ImageWrapper
@@ -49,7 +65,7 @@ const SimilarProductsCard = ({ product }: { product: ProductT }) => {
                                     src={AudiImg}
                                     alt="img"
                                     imgWidth="200"
-                                    className="min-h-[200px] "
+                                    className=""
                                 />
                                 <p className="w-full text-lg text-center">{product.title}</p>
                             </CardContent>

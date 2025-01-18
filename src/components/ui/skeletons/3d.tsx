@@ -7,9 +7,10 @@ type LoaderProps = {
     height?: number;
     speed?: number;
     isResponsive?: boolean;
+    children?:React.ReactNode
 };
 
-const DLoader: FC<LoaderProps> = ({ height = 400, speed = 2, width = 200, isResponsive }) => (
+const DLoader: FC<LoaderProps> = ({ height = 400, speed = 2, width = 200, isResponsive ,children}) => (
     <ContentLoader
         speed={speed}
         width={isResponsive ? '100%' : width}
@@ -17,7 +18,7 @@ const DLoader: FC<LoaderProps> = ({ height = 400, speed = 2, width = 200, isResp
         preserveAspectRatio="xMidYMid meet"
         backgroundColor="#f3f3f3"
         foregroundColor="#ecebeb"
-        className={clsx({ 'h-full ': isResponsive })}
+        className={clsx({ 'h-full z-1': isResponsive })}
     >
         <rect
             x="0"
@@ -27,6 +28,7 @@ const DLoader: FC<LoaderProps> = ({ height = 400, speed = 2, width = 200, isResp
             width={isResponsive ? '100%' : String(width)}
             height={isResponsive ? '100%' : String(height)}
         />
+        {children}
     </ContentLoader>
 );
 export default DLoader;

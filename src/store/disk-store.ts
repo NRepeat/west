@@ -1,5 +1,4 @@
 import { create } from "zustand";
-import { Vector3 } from "three";
 import { DiskModel } from "@/context/Configurator";
 
 
@@ -10,31 +9,41 @@ type UseDiskStoreT = {
 	setIndex: (index: number) => void,
 
 }
-interface CanvasState {
-	cameraPosition: Vector3
-	defaultCameraPosition: Vector3,
-	setCameraPosition: (position: Vector3) => void
-	orbitControlBehavior: boolean,
-	defaultAnimation: boolean,
-	setIsDefaultAnimation: (isDefault: boolean) => void
-	setOrbitControlBehavior: (is: boolean) => void
-}
+
 
 export const useBoxStore = create<UseDiskStoreT>((set) => ({
 	disks: [
-		{ name: '1', path: 'model/Disk1/disk.gltf' },
-		{ name: '2', path: "model/Disk2/disk.gltf" },
-		{ name: '2', path: "model/Disk2/disk.gltf" },
+		{ name: 'Anthracite-8.5-J-x-20-Audi-Q1', path: 'model/Disk1/disk.gltf',   title: 'Anthracite 8.5 J x 20 Audi Q1',
+			props: {
+							color: { code: '43464B', name: 'Gray', slug: 'gray' },
+							diameter: 'R20',
+							et: 'ER35',
+							pcd: '5x114.3',
+							weight: '200',
+							width: '8.5',
+			},
+			slug: 'Anthracite-8.5-J-x-20-Audi-Q1',},
+		{ name: 'Anthracite-8.5-J-x-20-Audi-Q2', path: "model/Disk2/disk.gltf",   title: 'Anthracite 8.5 J x 20 Audi Q2',
+			props: {
+							color: { code: '43464B', name: 'Gray', slug: 'gray' },
+							diameter: 'R20',
+							et: 'ER35',
+							pcd: '5x114.3',
+							weight: '200',
+							width: '8.5',
+			},
+			slug: 'Anthracite-8.5-J-x-20-Audi-Q2', },
+		{ name: 'Anthracite-8.5-J-x-20-Audi-Q6', path: "model/Disk2/disk.gltf" ,   title: 'Anthracite 8.5 J x 20 Audi Q6',
+			props: {
+							color: { code: '43464B', name: 'Gray', slug: 'gray' },
+							diameter: 'R20',
+							et: 'ER35',
+							pcd: '5x114.3',
+							weight: '200',
+							width: '8.5',
+			},
+			slug: 'Anthracite-8.5-J-x-20-Audi-Q6',},
 	],
 	selectedIndex: 0,
 	setIndex: (index) => set(() => ({ selectedIndex: index }))
 }));
-export const useStore = create<CanvasState>(set => ({
-	cameraPosition: new Vector3(60, 19, 80),
-	defaultCameraPosition: new Vector3(60, 19, 80),
-	defaultAnimation: true,
-	setIsDefaultAnimation: (isDefault) => set(() => ({ defaultAnimation: isDefault })),
-	setCameraPosition: (position) => set(() => ({ cameraPosition: position })),
-	setOrbitControlBehavior: (is) => set(() => ({ orbitControlBehavior: is })),
-	orbitControlBehavior: false,
-}))

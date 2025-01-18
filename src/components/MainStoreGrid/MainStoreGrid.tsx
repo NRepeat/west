@@ -14,57 +14,9 @@ import { useState } from 'react';
 import { GripIcon } from '../ui/grip';
 import { LayoutPanelTopIcon } from '../ui/layout-panel-top';
 import useStickyScroll from '@/hooks/sticky-scroll';
-export const products: ProductT[] = [
-    {
-        title: 'Anthracite 8.5 J x 20 Audi Q6',
-        props: {
-            color: { code: '43464B', name: 'Gray', slug: 'gray' },
-            diameter: 'R20',
-            et: 'ER35',
-            pcd: '5x114.3',
-            weight: '200',
-            width: '8.5',
-        },
-        slug: 'Anthracite-8.5-J-x-20-Audi-Q6',
-    },
-    {
-        title: 'Anthracite 8.5 J x 20 Audi Q5',
-        props: {
-            color: { code: '43464B', name: 'Gray', slug: 'gray' },
-            diameter: 'R20',
-            et: 'ER35',
-            pcd: '5x114.3',
-            weight: '200',
-            width: '8.5',
-        },
-        slug: 'Anthracite-8.5-J-x-20-Audi-Q5',
-    },
-    {
-        title: 'Anthracite 8.5 J x 20 Audi Q5',
-        props: {
-            color: { code: '43464B', name: 'Gray', slug: 'gray' },
-            diameter: 'R20',
-            et: 'ER35',
-            pcd: '5x114.3',
-            weight: '200',
-            width: '8.5',
-        },
-        slug: 'Anthracite-8.5-J-x-20-Audi-Q5',
-    },
-    {
-        title: 'Anthracite 8.5 J x 20 Audi Q5',
-        props: {
-            color: { code: '43464B', name: 'Gray', slug: 'gray' },
-            diameter: 'R20',
-            et: 'ER35',
-            pcd: '5x114.3',
-            weight: '200',
-            width: '8.5',
-        },
-        slug: 'Anthracite-8.5-J-x-20-Audi-Q5',
-    },
-];
+import { useBoxStore } from '@/store/disk-store';
 const MainStoreGrid = () => {
+    const products: ProductT[] = useBoxStore(state => state.disks)
     const [scrolled] = useStickyScroll({ option: { scrollStart: 165 } });
     const [gridView, setGridView] = useState<boolean>(false);
     const handleGridView = () => {

@@ -8,6 +8,7 @@ type UseWheelChangeTransitionAnimationType = {
 export const useWheelChangeAnimation = ({ index }: UseWheelChangeTransitionAnimationType) => {
 	// const isAnimationStarted = useConfiguratorStore(state => state.isAnimationStarted)
 	const setAnimationState = useConfiguratorStore(state => state.setAnimationState)
+	const setIsDefaultAnimation = useConfiguratorStore(state => state.cameraConfig.setIsDefaultAnimation)
 	const transRef = useSpringRef()
 	const view = useSpringRef()
 	const start = useSpringRef()
@@ -103,6 +104,7 @@ export const useWheelChangeAnimation = ({ index }: UseWheelChangeTransitionAnima
 				ref: end,
 				onRest: () => {
 					setAnimationState(false)
+					setIsDefaultAnimation(true)
 				}
 			},
 		],

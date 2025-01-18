@@ -33,7 +33,7 @@ const ImageWrapper: FC<ImageWrapperProps<LazyLoadImageProps>> = ({
                 style={{ width: `${imgWidth}px`, height: `${imgHeight}px` }}
                 loading="lazy"
                 onError={handleError}
-                className="w-full h-full object-cover "
+                className="w-full h-full object-fill"
             />
         </div>
     );
