@@ -1,8 +1,8 @@
 import { create } from 'zustand'
 
 interface DashboardControlState {
-	vehicle: { isRotate: boolean, color: string }
-	wheels: { isRotate: boolean, color: string, isChange: boolean }
+	vehicle: { isRotate: boolean, color: string, defaultColor: string }
+	wheels: { isRotate: boolean, color: string, isChange: boolean, defaultColor: string }
 	setVehicleRotation: (isRotate: boolean) => void;
 	setVehicleColor: (color: string) => void;
 	setWheelsRotation: (isRotate: boolean) => void;
@@ -11,8 +11,8 @@ interface DashboardControlState {
 }
 
 const useDashboardControlStore = create<DashboardControlState>((set) => ({
-	vehicle: { isRotate: false, color: 'white' },
-	wheels: { isRotate: false, color: 'black', isChange: false },
+	vehicle: { isRotate: false, color: 'black', defaultColor: 'black', },
+	wheels: { isRotate: false, color: 'black', defaultColor: 'black', isChange: false },
 	setVehicleRotation: (isRotate) =>
 		set((state) => ({
 			vehicle: { ...state.vehicle, isRotate },

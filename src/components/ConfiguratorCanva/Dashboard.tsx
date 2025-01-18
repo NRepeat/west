@@ -1,35 +1,76 @@
 import useCanvasDashboard from '@/hooks/canvas-dashboard';
 import { Button } from '../ui/button';
+import { FC } from 'react';
+import { Card, CardContent, CardTitle } from '../ui/card';
+import clsx from 'clsx';
+import { i } from 'node_modules/react-router/dist/development/route-data-aSUFWnQ6.d.mts';
+import { RotateCwIcon, SprayCanIcon, Sun, SunIcon, TreesIcon } from 'lucide-react';
+import { Separator } from '../ui/separator';
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 
 const Dashboard = () => {
 	const { vehicleControl, wheelControl, vehicle, wheels } = useCanvasDashboard();
 
 	return (
-		<div>
-			<h3>Vehicle</h3>
-			<p>Rotation: {vehicle.isRotate ? "On" : "Off"}</p>
-			<p>Color: {vehicle.color}</p>
-			<Button onClick={() => vehicleControl.handleRotateVehicle(!vehicle.isRotate)}>
-				Toggle Vehicle Rotation
-			</Button>
-			<Button onClick={() => vehicleControl.handleChangeColorVehicle("red")}>
-				Change Vehicle Color to Red
-			</Button>
+		<div className='flex p-2.5 w-full gap-2.5 flex-wrap items-center justify-center'>
+			<DashboardCard title="Vehicle" className='flex-1'>
+				<DashboardButton onClick={() => vehicleControl.handleRotateVehicle(!vehicle.isRotate)} type='rotate' active={vehicle.isRotate} />
+				<DashboardButton onClick={() => vehicleControl.handleChangeColorVehicle("red")} type='pallet' active={vehicle.color !== vehicle.defaultColor} />
+			</DashboardCard>
+			<DashboardCard title="Wheels" className='flex-1'>
+				<DashboardButton onClick={() => wheelControl.handleRotateWheels(!wheels.isRotate)} type='rotate' active={wheels.isRotate} />
+				<Popover>
+					<PopoverTrigger>
+						<DashboardButton onClick={() => { }} type='pallet' active={wheels.color !== wheels.defaultColor} /></PopoverTrigger>
+					<PopoverContent>Place content for the popover here.</PopoverContent>
+				</Popover>
 
-			<h3>Wheels</h3>
-			<p>Rotation: {wheels.isRotate ? "On" : "Off"}</p>
-			<p>Color: {wheels.color}</p>
-			<Button onClick={() => wheelControl.handleRotateWheels(!wheels.isRotate)}>
-				Toggle Wheels
-			</Button>
-			<Button onClick={() => wheelControl.handleChangeWheels(!wheels.isChange)}>
-				Change Wheels
-			</Button>
-			<button onClick={() => wheelControl.handleChangeColorWheels("blue")}>
-				Change Wheels Color to Blue
-			</button>
+			</DashboardCard>
+			<DashboardCard title="Environment" className='flex-1'>
+				<DashboardButton onClick={() => vehicleControl.handleRotateVehicle(!vehicle.isRotate)} type='rotate' active={vehicle.isRotate} />
+				<DashboardButton onClick={() => vehicleControl.handleChangeColorVehicle("red")} type='pallet' active={vehicle.color !== vehicle.defaultColor} />
+				<DashboardButton onClick={() => vehicleControl.handleChangeColorVehicle("red")} type='light' active={vehicle.color !== vehicle.defaultColor} />
+			</DashboardCard>
+			<DashboardCard title="Light" className='flex-1 '>
+				<DashboardButton onClick={() => vehicleControl.handleRotateVehicle(!vehicle.isRotate)} type='rotate' active={vehicle.isRotate} />
+				<DashboardButton onClick={() => vehicleControl.handleChangeColorVehicle("red")} type='pallet' active={vehicle.color !== vehicle.defaultColor} />
+				<DashboardButton onClick={() => vehicleControl.handleChangeColorVehicle("red")} type='light' active={vehicle.color !== vehicle.defaultColor} />
+			</DashboardCard>
 		</div>
 	);
 };
 
+type DashboardCardProps = {
+	children: React.ReactNode
+	title: string
+	className?: string
+}
+const DashboardCard: FC<DashboardCardProps> = ({ title, children, className }) => {
+	return <Card className={clsx(className, 'flex flex-col gap-2.5 bg-[#454545] p-2.5 rounded-sm')}>
+		<CardTitle className='text-center w-full text-white text-2xl'>
+			{title}
+		</CardTitle>
+		<Separator className='bg-[#5A5A5A]' />
+		<CardContent className='flex gap-2.5 p-4'>
+			{children}
+		</CardContent>
+	</Card>
+}
+type DashboardButtonType = 'rotate' | 'pallet' | 'light' | "environment"
+const DashboardButton: FC<{ onClick: () => void, type: DashboardButtonType, active: boolean }> = ({ onClick, type, active }) => {
+
+	const getIcon = (type: DashboardButtonType) => {
+		const icons = {
+			rotate: <RotateCwIcon />,
+			pallet: <SprayCanIcon />,
+			light: <SunIcon />,
+			environment: <TreesIcon />
+		}
+		return icons[type]
+	}
+
+	return <Button onClick={onClick} variant={'default'} className={clsx('border-[#99A3A3] border-2 p-6', { 'border-[#26A142]': active })}>
+		{getIcon(type)}
+	</Button>
+}
 export default Dashboard;

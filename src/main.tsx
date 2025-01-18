@@ -9,6 +9,7 @@ import Navbar from './components/ui/navbar.tsx';
 import Container from './components/ui/container.tsx';
 import Footer from './components/ui/footer.tsx';
 import Configurator from './pages/Configurator.tsx';
+import Transition from './pages/Transition.tsx';
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
@@ -19,6 +20,7 @@ createRoot(document.getElementById('root')!).render(
                     <Route path="/" element={<App />} />
                     <Route path="/product/:slug" element={<Product />} />
                     <Route path="/configuration" element={<Configurator />} />
+                    <Route path="/test" element={<Transition />} />
                 </Routes>
             </Container>
         </BrowserRouter>

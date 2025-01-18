@@ -5,6 +5,7 @@ import { immer } from 'zustand/middleware/immer'
 type State = {
 	isAnimationStarted: boolean
 	selectedIndex: number
+	fullScreen: boolean
 	cameraConfig: {
 		defaultCameraPosition: Vector3
 		cameraPosition: Vector3
@@ -23,11 +24,13 @@ type State = {
 type Actions = {
 	setAnimationState: (isAnimationStarted: boolean) => void
 	setSelectedIndex: (index: number) => void
-
+	setFullScreen: (isFullScreen: boolean) => void
 }
 
 export const useConfiguratorStore = create<State & Actions>()(
 	immer((set) => ({
+		fullScreen: false,
+		setFullScreen: (isFullScreen) => set((state) => { state.fullScreen = isFullScreen }),
 		cameraConfig: {
 			defaultCameraPosition: new Vector3(60, 19, 80),
 			cameraPosition: new Vector3(60, 19, 80),

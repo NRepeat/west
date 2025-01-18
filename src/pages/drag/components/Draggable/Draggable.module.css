@@ -1,0 +1,32 @@
+@property --progress {
+    syntax: '<number>';
+    initial-value: 0;
+    inherits: false;
+}
+
+.Draggable {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    transition: transform 250ms ease;
+
+    > button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 54px;
+        flex-shrink: 1;
+        appearance: none;
+        outline: none;
+        border: 0;
+        padding: 8px 18px;
+        background-color: #181a22;
+        border-radius: 5px;
+        box-shadow: var(--box-shadow);
+        transform: translate3d(var(--translate-x, 0), var(--translate-y, 0), 0);
+
+        transition: box-shadow 300ms ease;
+    }
+}

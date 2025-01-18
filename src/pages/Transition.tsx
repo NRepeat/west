@@ -1,156 +1,158 @@
-import React, { useState, CSSProperties, useEffect } from 'react'
-import { useTransition, animated, AnimatedProps, useSpringRef, config, useChain, useSpring, SpringValue, to, } from '@react-spring/three'
-import { Canvas } from '@react-three/fiber'
-import { Button } from '@/components/ui/button'
-import { ContactShadows, Environment, OrbitControls } from '@react-three/drei'
-import Porsche from '@/components/Models/Porshe'
-import { DiskGroup } from '@/components/Models/Disk'
-import DiskScenes from '@/components/Scenes/DiskScenes'
-import { useBoxStore } from '@/store/disk-store'
+import React, { useCallback, useMemo, useRef, useState } from 'react';
+import {
+	DndContext,
+	useDraggable,
+	useSensor,
+	MouseSensor,
+	TouchSensor,
+	KeyboardSensor,
+	PointerActivationConstraint,
+	Modifiers,
+	useSensors,
+	type DragPendingEvent,
+	useDndMonitor,
+} from '@dnd-kit/core';
 
+import type { Coordinates } from '@dnd-kit/utilities';
+import { Button } from "@/components/ui/button";
+import { Axis, Draggable, Wrapper } from './drag/components';
+import clsx from 'clsx';
+import { Canvas } from '@react-three/fiber';
+import { ContactShadows, OrbitControls } from '@react-three/drei';
+import Porsche from '@/components/Models/Porshe';
+import { AmbientLight } from 'three';
 
-const pages: ((props: { style: { color: string, position: SpringValue<number[]>, opacity: SpringValue<number>, model: string, }, onClick: () => void, disksPosition: SpringValue<number[]>[], axisRotation: SpringValue<number>[] }) => React.ReactElement)[] = [
-	({ style, disksPosition, axisRotation }) => <DiskScenes modelPosition={{ position: style.position }} model={style.model} disksPosition={disksPosition} opacity={style.opacity} axisRotation={axisRotation} />,
-	({ style, disksPosition, axisRotation }) => <DiskScenes modelPosition={{ position: style.position }} model={style.model} disksPosition={disksPosition} opacity={style.opacity} axisRotation={axisRotation} />,
+const defaultCoordinates = {
+	x: 0,
+	y: 0,
+};
+interface Props {
+	activationConstraint?: PointerActivationConstraint;
+	axis?: Axis;
+	handle?: boolean;
+	modifiers?: Modifiers;
+	buttonStyle?: React.CSSProperties;
+	style?: React.CSSProperties;
+	label?: string;
+	showConstraintCue?: boolean;
+}
+export default function Transition({
+	activationConstraint,
+	axis,
+	handle,
+	label = 'Go ahead, drag me.',
+	modifiers,
+	style,
+	buttonStyle,
+	showConstraintCue,
+}: Props) {
+	const [{ x, y }, setCoordinates] = useState<Coordinates>(defaultCoordinates);
+	const mouseSensor = useSensor(MouseSensor, {
+		activationConstraint,
+	});
 
-
-]
-
-export default function Transition() {
-	const [index, set] = useState(0)
-
-	// Creates a spring with predefined animation slots
-	const disks = useBoxStore((state) => state.disks)
-	const onClick = (index) => set(index)
-	const transRef = useSpringRef()
-	const view = useSpringRef()
-	const start = useSpringRef()
-	const end = useSpringRef()
-
-	const transitions = useTransition(index, {
-		ref: transRef,
-		keys: null,
-
-		config: { ...config.stiff },
-
-		from: {
-			opacity: 1,
-			position: [0, 0, 0],
-			disks1: [-140, 9, -27],
-			disks2: [-140, 9, 37],
-			disks3: [140, 9, -27],
-			disks4: [140, 9, 37],
-
-			rotX: 0,
-			// from: { rotX: 0 }, to: { rotX: 1 },
-			ref: start,
-		},
-		enter: [
-			{
-				from: {
-					position: [0, 0, 0],
-				},
-				to: {
-					position: [0, 0, 0],
-				},
-				opacity: 0,
-				ref: view,
-				delay: 1100,
-				config: { duration: 1000, bounce: 0 },
-			},
-			{
-				from: {
-					disks1: [-140, 9, -27],
-					disks2: [-140, 9, 37],
-					disks3: [140, 9, -27],
-					disks4: [140, 9, 37],
-
-				},
-				to: {
-					disks1: [-20, 9, -27],
-					disks2: [-20, 9, 37],
-					disks3: [20, 9, -27],
-					disks4: [20, 9, 37],
-				},
-				opacity: 1,
-
-				ref: view,
-				config: { duration: 700, bounce: 0.6, mass: 4, tension: 270, friction: 126 },
-			},
-		],
-
-		leave: [
-			{
-				from: {
-					disks1: [-20, 9, -27],
-					disks2: [-20, 9, 37],
-					disks3: [20, 9, -27],
-					disks4: [20, 9, 37],
-				},
-				to: {
-					disks1: [-40, 9, -27],
-					disks2: [-40, 9, 37],
-					disks3: [40, 9, -27],
-					disks4: [40, 9, 37],
-
-				},
-				config: { duration: 1000, bounce: 0.2 },
-				opacity: 1,
-				ref: end,
-			},
-			{
-				from: {
-					position: [0, 0, 0],
-					rotX: 0
-
-				},
-				to: {
-					position: [0, 0, 200],
-					rotX: 1
-
-				},
-				config: { duration: 1000, bounce: 0.2, mass: 1, tension: 170, friction: 26 },
-				opacity: 0,
-				ref: end,
-			},
-		],
-
-	})
-	useChain([start, view, end], [0, 1, 2], 2100)
-	useEffect(() => {
-		transRef.start()
-	}, [index, transRef])
+	const touchSensor = useSensor(TouchSensor, {
+		activationConstraint,
+	});
+	const keyboardSensor = useSensor(KeyboardSensor, {});
+	const sensors = useSensors(mouseSensor, touchSensor, keyboardSensor);
+	const Item = DraggableItem;
 
 	return (
-		<>
-			{/* <div className="absolute gap-2 p-4 flex z-10">
-				{pages.map((_, i) => {
-					return <Button key={i} onClick={() => onClick(i)}>Add {i} </Button>
-
-				})}
-			</div> */}
-			<Canvas camera={{ near: 10.1, far: 1200, position: [54, 53, 50] }}
-				gl={{ antialias: true, pixelRatio: window.devicePixelRatio }}
-
+		<div className="h-screen w-full">
+			<DndContext
+				sensors={sensors}
+				onDragEnd={({ delta }) => {
+					setCoordinates(({ x, y }) => {
+						return {
+							x: x + delta.x,
+							y: y + delta.y,
+						};
+					});
+				}}
+				modifiers={modifiers}
 			>
-				<Porsche scale={10} />
-				{transitions((style, i) => {
+				<Canvas camera={{ near: 10.1, far: 1200, position: [54, 53, 50] }}
+					gl={{ antialias: true, pixelRatio: window.devicePixelRatio }}
+				>
+					<ambientLight intensity={0.5} />
+					<OrbitControls />
+					<ContactShadows renderOrder={2} frames={1} resolution={1024} scale={120} blur={2} opacity={0.6} far={100} />
+					<Porsche scale={10} />
+				</Canvas>
+				<Wrapper>
+					<Item
+						axis={axis}
+						label={label}
+						handle={handle}
+						top={y}
+						left={x}
+						style={style}
+						buttonStyle={buttonStyle}
+					/>
+				</Wrapper>
+			</DndContext>
+		</div>
+	);
+}
+interface DraggableItemProps {
+	label: string;
+	handle?: boolean;
+	style?: React.CSSProperties;
+	buttonStyle?: React.CSSProperties;
+	axis?: Axis;
+	top?: number;
+	left?: number;
+}
+function DraggableItem({
+	axis,
+	label,
+	style,
+	top,
+	left,
+	handle,
+	buttonStyle,
+}: DraggableItemProps) {
+	const { attributes, isDragging, listeners, setNodeRef, transform } =
+		useDraggable({
+			id: 'draggable',
+		});
+	console.log('transform', transform)
 
-					const Scene = pages[i]
-					const disk = disks[i]
-					const disksPosition = [style.disks1, style.disks2, style.disks3, style.disks4]
-					const axisRotation = [style.rotX]
-					return <Scene style={{ color: disk.color, model: disk.path, opacity: style.opacity, position: style.position }} key={i} disksPosition={disksPosition} axisRotation={axisRotation} />
-				})}
-				<OrbitControls />
-				<Environment files={['/enviroment/Warehouse-with-lights.hdr']} background />
-				<ContactShadows renderOrder={2} frames={1} resolution={1024} scale={120} blur={2} opacity={0.6} far={100} />
-				<OrbitControls enableZoom={false} enablePan={false} minPolarAngle={0} maxPolarAngle={Math.PI / 2.25} makeDefault />
+	const handleStyle = {
+		...style,
+		top: `${top}px`, // Убедитесь, что передаёте пиксели
+		left: `${left}px`, // Аналогично
+		transform: `translate3d(${transform?.x ?? 0}px, ${transform?.y ?? 0}px, 0)`, // Исправлено на использование transform?.x
+	} as React.CSSProperties;
 
-			</Canvas>
-		</>
+	console.log('handleStyle', handleStyle)
 
+	return (
+		<div
+			className='relative'
+			{...listeners}
+			{...attributes}
+			style={handleStyle}
+		>
+			<Button
 
-
-	)
+				ref={setNodeRef}
+			>
+				Drag me
+			</Button>
+		</div>
+		// <Draggable
+		// 	ref={setNodeRef}
+		// 	dragging={isDragging}
+		// 	handle={handle}
+		// 	label={label}
+		// 	listeners={listeners}
+		// 	style={{ ...style, top, left }}
+		// 	buttonStyle={buttonStyle}
+		// 	transform={transform}
+		// 	axis={axis}
+		// 	{...attributes}
+		// />
+	);
 }

@@ -3,15 +3,9 @@ import SimilarProducts from '@/components/SimilarProducts/SimilarProducts';
 import Breadcrumbs from '@/components/ui/breadcrumbs';
 import UiComponentContainer from '@/components/ui/ui-component-container';
 import Wrapper from '@/components/ui/wrapper';
-import { useNavigate } from 'react-router';
 
 const Product = () => {
-    const nav = useNavigate();
 
-    const handleNav = (slug: string) => {
-        console.log('slug', slug);
-        nav(`/product/${slug}`);
-    };
     // const { slug } = useParams();
     return (
         <div className="">
@@ -29,7 +23,7 @@ const Product = () => {
                 </div>
                 <div className=" col-span-12 row-span-4  relative">
                     <UiComponentContainer className="min-h-[210px]">
-                        <SimilarProducts  isVertical={false} withSearch={false} onClick={()=>handleNav}/>
+                        <SimilarProducts isVertical={false} />
                     </UiComponentContainer>
                 </div>
             </Wrapper>

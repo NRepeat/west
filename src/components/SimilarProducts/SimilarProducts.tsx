@@ -4,42 +4,38 @@ import ImageWrapper from '../ui/image-wrapper';
 import { AudiImg } from '@/assets';
 import { ProductT } from '../ui/product-card';
 import CharacteristicsCard from '../ui/characteristics-card';
-import { NavLink } from 'react-router';
+import { NavLink, useNavigate } from 'react-router';
 import { useBoxStore } from '@/store/disk-store';
 import { FC } from 'react';
 import clsx from 'clsx';
-import Search from '../ui/search';
 import { DiskModel } from '@/context/Configurator';
-import { useConfiguratorStore } from '@/store/configurator-store';
 
 type SimilarProductsProps = {
-    isVertical:boolean
-    withSearch:boolean
-    onClick?:(value: string | number,p?:any)=> void
-    products:DiskModel[]
+    isVertical: boolean
 }
 
-const SimilarProducts:FC<SimilarProductsProps> = ({isVertical,withSearch,onClick,products}) => {
-            const cameraConfig = useConfiguratorStore(state => state.cameraConfig)
-    const Cards = () => products.map((product,i) => <SimilarProductsCard product={product} onClick={()=> product.path ?onClick &&  onClick(i,
-    cameraConfig.defaultCameraPosition
-
-    ) : onClick && onClick(product.slug)}/>);
+const SimilarProducts: FC<SimilarProductsProps> = ({ isVertical }) => {
+    const products = useBoxStore((state) => state.disks)
     return (
         <div className='flex gap-2 flex-col'>
-           {withSearch && <Search label='' isLabelVisible={withSearch}/>} 
-           <div className={clsx({"flex flex-wrap gap-2":!isVertical,'grid  grid-cols-2 overflow-auto ':isVertical})}>
-            <Cards />
+            <div className={clsx({ "flex flex-wrap gap-2": !isVertical, 'grid  grid-cols-2 overflow-auto ': isVertical })}>
+                {products.map((product: DiskModel) => <SimilarProductsCard product={product} />)}
+            </div>
         </div>
-        </div>
-     
+
     );
 };
 
 export default SimilarProducts;
 
-const SimilarProductsCard = ({ product ,onClick}: { product: ProductT ,onClick?:()=> void}) => {
-  
+const SimilarProductsCard = ({ product }: { product: ProductT }) => {
+    const nav = useNavigate();
+
+
+    const handleNav = (slug: string) => {
+        console.log('slug', slug);
+        nav(`/product/${slug}`);
+    };
     return (
         <>
             <HoverCard>
@@ -50,7 +46,7 @@ const SimilarProductsCard = ({ product ,onClick}: { product: ProductT ,onClick?:
                         prefetch={'intent'}
                     >
                         <Card
-                            onClick={() =>onClick && onClick()}
+                            onClick={() => handleNav(product.slug)}
                             className="  hover:border-input border-2 border-white rounded-sm overflow-hidden p-2.5"
                         >
                             <CardContent className="flex flex-col items-center gap-2.5 ">

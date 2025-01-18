@@ -26,9 +26,8 @@ export type TierButtonsProps = { position: Vector3, defaultAnimation: boolean, t
 
 const ConfiguratorCanvas = () => {
 	const index = useConfiguratorStore(state => state.selectedIndex)
-	const isAnimationStarted = useConfiguratorStore(state => state.isAnimationStarted)
-	const setSelectedIndex = useConfiguratorStore(state => state.setSelectedIndex)
 	const cameraConfig = useConfiguratorStore(state => state.cameraConfig)
+	const setFullScreen = useConfiguratorStore(state => state.setFullScreen)
 	const orbitControlBehaviorConfig = useConfiguratorStore(state => state.orbitControlBehaviorConfig)
 	const disks: DiskModel[] = useBoxStore((state) => state.disks)
 	const transitions = useWheelChangeAnimation({ index })
@@ -44,14 +43,7 @@ const ConfiguratorCanvas = () => {
 		}, cameraConfig.timeoutTime)
 	}
 
-	const handleChangePosition = ({ position, defaultAnimation }: TierButtonsProps) => {
-		cameraConfig.setCameraPosition(new Vector3(...position))
-		cameraConfig.setIsDefaultAnimation(defaultAnimation)
-	}
-	const handleClick = (index: number, position: Vector3) => {
-		handleChangePosition({ defaultAnimation: false, position })
-		setSelectedIndex(index)
-	}
+
 
 	const scenes: ((props: DiskSceneProps) => React.ReactElement)[] = disks.map(() => {
 		return ({ axisRotation, disksPosition, style }: DiskSceneProps) => (
@@ -75,12 +67,15 @@ const ConfiguratorCanvas = () => {
 			})}
 		</>)
 	}
+	const handleFullScreen = () => {
+		setFullScreen(true)
+	}
 	return (
 		<>
-			<div className="absolute gap-2 p-4 flex z-10">
-				{scenes.map((_, i) => {
-					return <Button disabled={isAnimationStarted} key={i} onClick={() => handleClick(i, cameraConfig.defaultCameraPosition)}>Add {i} </Button>
-				})}
+			<div className="absolute	top-0 right-0 z-10">
+				<Button onClick={handleFullScreen} className="bg-gray-500 text-white">
+					Full
+				</Button>
 			</div>
 			<Configurator>
 				<DiskAnimationScene />
@@ -91,6 +86,7 @@ const ConfiguratorCanvas = () => {
 				<Porsche scale={10} />
 			</Configurator>
 		</>
+
 	)
 }
 
