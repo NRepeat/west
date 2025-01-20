@@ -1,14 +1,13 @@
-import { Button } from '@/components/ui/button'
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
+import { Dialog, DialogContent, } from '@/components/ui/dialog'
 import { ProductT } from '@/components/ui/product-card'
 import DLoader from '@/components/ui/skeletons/3d'
 import { useConfiguratorStore } from '@/store/configurator-store'
 import { useBoxStore } from '@/store/disk-store'
-import { Html, useGLTF, useProgress } from '@react-three/drei'
-import { Canvas, useLoader } from '@react-three/fiber'
-import { LoaderCircle } from 'lucide-react'
+import { Html, useGLTF, } from '@react-three/drei'
+import { Canvas, } from '@react-three/fiber'
+import { LoaderCircle, Scaling } from 'lucide-react'
+import * as DialogPrimitive from "@radix-ui/react-dialog"
 import React, { createContext, FC, Suspense, useEffect, useState, } from 'react'
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 interface Model {
 	path: string
 	name: string
@@ -63,6 +62,10 @@ const Configurator: FC<ConfiguratorProps> = ({ children }) => {
 									</Suspense>
 								</Canvas>
 							) : <LoaderCircle className='h-10 w-10 animate-spin' />}
+							<DialogPrimitive.Close className="absolute right-4 top-4 z-20  ">
+								<Scaling />
+								<span className="sr-only">Close</span>
+							</DialogPrimitive.Close>
 						</DialogContent>
 					</Dialog>
 				</div>

@@ -1,9 +1,11 @@
 import { meshBounds, } from '@react-three/drei'
-import { a, SpringValue } from "@react-spring/three"
+import { a, SpringValue, useSpring, useSpringRef } from "@react-spring/three"
 import { useLayoutEffect } from 'react'
 import type { GLTF } from 'three-stdlib';
 import { applyProps, type ObjectMap } from '@react-three/fiber'
 import { EulerOrder, MathUtils } from 'three';
+
+import useDashboardControlStore from '@/store/daschboard-control';
 export type PositionType = SpringValue<number[]>
 export type DiskPosition = {
     position: PositionType;
@@ -18,7 +20,11 @@ export const DiskGroup = (props: DiskGroupProps) => {
     const { model, rotationX, rotation } = props
     const { scene } = model
     const position = props.position as unknown as SpringValue<[x: number, y: number, z: number]>
-    const rX = rotationX.to([0, 1], [0, MathUtils.degToRad(320)]);
+    const { wheels } = useDashboardControlStore((state) => state);
+    const { rotX } = useSpring({ from: { rotX: 0 }, to: { rotX: 1 }, loop: true, config: { duration: 1000 } })
+
+    const rX = rotationX.to([0, 1], [0, MathUtils.degToRad(920)]);
+    const handleRotation = rotX.to([0, 1], [0, MathUtils.degToRad(920)]);
     useLayoutEffect(() => {
         Object.values(model.nodes).forEach((node) => {
             if (node) {
@@ -30,13 +36,14 @@ export const DiskGroup = (props: DiskGroupProps) => {
     }, [model.nodes, model.materials]);
     return (
         <a.group position={position}
-            rotation={rotation}
+
         >
             <a.mesh
                 receiveShadow
                 castShadow
+                rotation={rotation}
                 raycast={meshBounds}
-                rotation-x={rX}
+                rotation-x={wheels.isRotate ? handleRotation : rX}
             >
                 <mesh scale={10}>
                     <primitive object={scene.clone()} />

@@ -17,7 +17,6 @@ const DView: FC<DViewProps> = ({ setPointerDown }) => {
             onMouseUp={() => setPointerDown(false)}
             onMouseOut={() => setPointerDown(false)}
         >
-            {/* <Disk /> */}
             <OrbitControls />
             <Environment preset="sunset" background />
         </Canvas>

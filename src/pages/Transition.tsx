@@ -130,7 +130,7 @@ function DraggableItem({
 
 	return (
 		<div
-			className='relative'
+			className='relative z-10'
 			{...listeners}
 			{...attributes}
 			style={handleStyle}

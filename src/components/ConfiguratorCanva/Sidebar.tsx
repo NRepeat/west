@@ -57,7 +57,7 @@ const ProductsCard = ({ product, index }: { product: DiskModel, index: number })
 						src={AudiImg}
 						alt="img"
 						imgWidth="200"
-						className="min-h-[100px] w-full"
+						className="min-h-[100px] w-full flex justify-center"
 					/>
 					<p className="w-full text-lg text-center">{product.title}</p>
 				</CardContent>

@@ -23,7 +23,7 @@ const DiskScenes: FC<DiskScenesProps> = ({ model, modelPosition, disksPosition, 
 				<DiskGroup
 					position={disksPosition[0]}
 					rotationX={axisRotation[0]}
-					// rotation={rotation[0]}
+					rotation={[0, 0, 0]}
 					// positionZ={axisPosition[0].z}
 					// positionX={axisPosition[0].x}
 
@@ -31,7 +31,7 @@ const DiskScenes: FC<DiskScenesProps> = ({ model, modelPosition, disksPosition, 
 				/>
 				<DiskGroup
 					position={disksPosition[1]}
-					// rotation={configuratorState.wheels.rotation['porsche'][1]}
+					rotation={[190, 0, 0]}
 					rotationX={axisRotation[0]}
 					model={diskModel}
 				/>

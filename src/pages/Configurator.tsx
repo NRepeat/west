@@ -27,19 +27,19 @@ const Configurator = () => {
 				<div className=" col-span-12  row-span-1 relative">
 					<CarModelPickerBar />
 				</div>
-				<div className=" col-span-8 row-span-6 relative">
+				<div className=" col-span-8 row-span-9 relative">
 					<UiComponentContainer className=" bg-[#1D1D1D]  overflow-hidden h-full">
 						<ConfiguratorCanvas />
 					</UiComponentContainer>
 				</div>
-				<div className=" col-span-4  row-span-11  relative  ">
+				<div className=" col-span-4  row-span-9  relative  ">
 					<UiComponentContainer className=" overflow-auto h-full">
 						<UiComponentContainer className=" overflow-auto  ">
 							<Sidebar products={product} />
 						</UiComponentContainer>
 					</UiComponentContainer>
 				</div>
-				<div className=" col-span-8 row-span-5    relative">
+				<div className=" col-span-8 row-span-4    relative">
 					<UiComponentContainer className="bg-[#1D1D1D] overflow-hidden h-full">
 						<Dashboard />
 					</UiComponentContainer>
