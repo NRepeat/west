@@ -25,7 +25,7 @@ const Sidebar: FC<{ products: DiskModel[] }> = ({ products }) => {
 
 export default Sidebar
 
-const ProductsCard = ({ product, index }: { product: DiskModel, index: number }) => {
+export const ProductsCard = ({ product, index }: { product: DiskModel, index: number }) => {
 	const setSelectedIndex = useConfiguratorStore(state => state.setSelectedIndex)
 	const isAnimationStarted = useConfiguratorStore(state => state.isAnimationStarted)
 	const selectedIndex = useConfiguratorStore(state => state.selectedIndex)
@@ -63,7 +63,7 @@ const ProductsCard = ({ product, index }: { product: DiskModel, index: number })
 				</CardContent>
 			</Card>
 		</HoverCardTrigger>
-		<HoverCardContent className="w-[350px]">
+		<HoverCardContent className="w-[350px] absolute z-10">
 			<CharacteristicsCard isHorizontal={false} props={product.props} />
 		</HoverCardContent>
 	</HoverCard>

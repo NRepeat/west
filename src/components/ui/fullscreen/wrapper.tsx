@@ -1,13 +1,12 @@
 import { useDraggable } from '@dnd-kit/core'
 import React, { useContext } from 'react'
 import { DragContextState, ItemsId } from './container'
+import clsx from 'clsx'
 
 const Wrapper = ({ id, children }: { id: ItemsId, children?: React.ReactNode }) => {
 	console.log('id', id)
 	const data = useContext(DragContextState)
-	console.log('data', data)
-	const item = data.coordinates.find((item) => item.id === id)
-	console.log('item', item)
+	const item = data?.coordinates.find((item) => item.id === id)
 	const { attributes, isDragging, listeners, setNodeRef, transform } =
 		useDraggable({
 			id,
@@ -19,7 +18,7 @@ const Wrapper = ({ id, children }: { id: ItemsId, children?: React.ReactNode }) 
 	} as React.CSSProperties;
 	return (
 		<div
-			className='absolute z-10'
+			className={clsx('absolute z-10 cursor-grab',{"cursor-grabbing": isDragging})}
 			{...listeners}
 			ref={setNodeRef}
 			{...attributes}

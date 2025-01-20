@@ -8,7 +8,6 @@ import { createSnapModifier } from '@dnd-kit/modifiers';
 import {
 	useWindowSize,
 	useWindowWidth,
-	useWindowHeight,
 } from '@react-hook/window-size'
 const gridSize = 20; // pixels
 const snapToGridModifier = createSnapModifier(gridSize);
@@ -26,7 +25,7 @@ const Container: FC<ContainerProps> = (props) => {
 	const [width, height] = useWindowSize()
 	console.log('width, height', width, height)
 
-	const [coordinates, setCoordinates] = useState<ItemCoordinates[]>([{ id: 'models', x: 0, y: 100 }, { id: "disks", x: 0, y: 500 }, { id: "controls", x: width / 2, y: height - 100 }]);
+	const [coordinates, setCoordinates] = useState<ItemCoordinates[]>([{ id: 'models', x: 0, y: 100 }, { id: "disks", x: 0, y: 500 }, { id: "controls", x: width / 2, y: height  }]);
 	useEffect((
 
 	) => {
@@ -34,7 +33,13 @@ const Container: FC<ContainerProps> = (props) => {
 		setCoordinates((prev) => {
 			return prev.map((item) => {
 				if (item.id === 'controls') {
-					return { ...item, x: width / 3 - 200, y: height - 400 }
+					return { ...item, x: width / 3 -400 , y: height -200  }
+				}
+				if (item.id === 'models') {
+					return { ...item, x: width / 3 -200 , y: 100 }
+				}
+				if (item.id === 'disks') {
+					return { ...item, x: width -450  , y: 100 }
 				}
 				return item
 			})

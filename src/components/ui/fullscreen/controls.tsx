@@ -39,7 +39,6 @@ const Controls = () => {
 	)
 }
 const ControlsItem = ({ children }: { children: React.ReactNode }) => {
-
 	return (<div className='flex flex-1 gap-2 '>
 		{children}
 	</div>)

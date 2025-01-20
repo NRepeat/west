@@ -11,6 +11,8 @@ import React, { createContext, FC, Suspense, useEffect, useState, } from 'react'
 import Container from '@/components/ui/fullscreen/container'
 import Wrapper from '@/components/ui/fullscreen/wrapper'
 import Controls from '@/components/ui/fullscreen/controls'
+import CarModels from '@/components/ui/fullscreen/car-models'
+import Disks from '@/components/ui/fullscreen/disks'
 interface Model {
 	path: string
 	name: string
@@ -53,10 +55,10 @@ const Configurator: FC<ConfiguratorProps> = ({ children }) => {
 				<div className='absolute top-0 right-0 z-10'>
 					<Dialog open={fullScreen} onOpenChange={() => setFullScreen(!fullScreen)} >
 						{/* <DialogTrigger>Open</DialogTrigger> */}
-						<DialogContent className=' overflow-hidden flex w-screen h-screen items-center justify-center'>
+						<DialogContent className=' overflow-hidden flex w-screen h-screen items-center justify-center p-2.5'>
 							<Container >
-
-								{showCanvas ? (
+							<div className='rounded-md overflow-hidden h-full w-full flex justify-center items-center'>
+							{showCanvas ? (
 									<Canvas camera={{ near: 10.1, far: 1200, position: [54, 53, 50] }}
 										gl={{ antialias: true, pixelRatio: window.devicePixelRatio }}
 									>
@@ -70,12 +72,18 @@ const Configurator: FC<ConfiguratorProps> = ({ children }) => {
 									<Wrapper id='controls' >
 										<Controls />
 									</Wrapper>
-									<Wrapper id='disks' />
-									<Wrapper id='models' />
+									<Wrapper id='disks' >
+										<Disks/>
+									</Wrapper>
+									<Wrapper id='models' >
+										<CarModels/>
+									</Wrapper>
 								</>}
+							</div>
+				
 							</Container>
 
-							<DialogPrimitive.Close className="absolute right-4 top-4 z-20  ">
+							<DialogPrimitive.Close className="absolute right-4 top-4 z-20 bg-white rounded-md ">
 								<Scaling />
 								<span className="sr-only">Close</span>
 							</DialogPrimitive.Close>
