@@ -87,7 +87,6 @@ export default function Transition({
 						handle={handle}
 						top={y}
 						left={x}
-						style={style}
 						buttonStyle={buttonStyle}
 					/>
 				</Wrapper>

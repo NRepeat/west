@@ -3,8 +3,7 @@ import { Button } from '../ui/button';
 import { FC } from 'react';
 import { Card, CardContent, CardTitle } from '../ui/card';
 import clsx from 'clsx';
-import { i } from 'node_modules/react-router/dist/development/route-data-aSUFWnQ6.d.mts';
-import { RotateCwIcon, SprayCanIcon, Sun, SunIcon, TreesIcon } from 'lucide-react';
+import { RotateCwIcon, SprayCanIcon, SunIcon, TreesIcon } from 'lucide-react';
 import { Separator } from '../ui/separator';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 
@@ -57,7 +56,7 @@ const DashboardCard: FC<DashboardCardProps> = ({ title, children, className }) =
 	</Card>
 }
 type DashboardButtonType = 'rotate' | 'pallet' | 'light' | "environment"
-const DashboardButton: FC<{ onClick: () => void, type: DashboardButtonType, active: boolean }> = ({ onClick, type, active }) => {
+export const DashboardButton: FC<{ onClick: () => void, type: DashboardButtonType, active: boolean }> = ({ onClick, type, active }) => {
 
 	const getIcon = (type: DashboardButtonType) => {
 		const icons = {

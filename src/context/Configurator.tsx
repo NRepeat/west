@@ -8,6 +8,9 @@ import { Canvas, } from '@react-three/fiber'
 import { LoaderCircle, Scaling } from 'lucide-react'
 import * as DialogPrimitive from "@radix-ui/react-dialog"
 import React, { createContext, FC, Suspense, useEffect, useState, } from 'react'
+import Container from '@/components/ui/fullscreen/container'
+import Wrapper from '@/components/ui/fullscreen/wrapper'
+import Controls from '@/components/ui/fullscreen/controls'
 interface Model {
 	path: string
 	name: string
@@ -45,23 +48,33 @@ const Configurator: FC<ConfiguratorProps> = ({ children }) => {
 
 	return (
 		<ConfiguratorContext.Provider value={{ disks: null }} >
-
 			<div className='rounded-sm
 			 overflow-hidden h-full'>
 				<div className='absolute top-0 right-0 z-10'>
 					<Dialog open={fullScreen} onOpenChange={() => setFullScreen(!fullScreen)} >
 						{/* <DialogTrigger>Open</DialogTrigger> */}
 						<DialogContent className=' overflow-hidden flex w-screen h-screen items-center justify-center'>
-							{showCanvas ? (
-								<Canvas camera={{ near: 10.1, far: 1200, position: [54, 53, 50] }}
-									gl={{ antialias: true, pixelRatio: window.devicePixelRatio }}
-								>
-									<Suspense fallback={<Loader />}>
-										{disks.map((disk) => <Preload key={disk.path} model={disk.path} />)}
-										{children}
-									</Suspense>
-								</Canvas>
-							) : <LoaderCircle className='h-10 w-10 animate-spin' />}
+							<Container >
+
+								{showCanvas ? (
+									<Canvas camera={{ near: 10.1, far: 1200, position: [54, 53, 50] }}
+										gl={{ antialias: true, pixelRatio: window.devicePixelRatio }}
+									>
+										<Suspense fallback={<Loader />}>
+											{disks.map((disk) => <Preload key={disk.path} model={disk.path} />)}
+											{children}
+										</Suspense>
+									</Canvas>
+								) : <LoaderCircle className='h-10 w-10 animate-spin' />}
+								{showCanvas && <>
+									<Wrapper id='controls' >
+										<Controls />
+									</Wrapper>
+									<Wrapper id='disks' />
+									<Wrapper id='models' />
+								</>}
+							</Container>
+
 							<DialogPrimitive.Close className="absolute right-4 top-4 z-20  ">
 								<Scaling />
 								<span className="sr-only">Close</span>

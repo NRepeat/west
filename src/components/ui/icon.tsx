@@ -6,10 +6,9 @@ interface IconProps extends ImgHTMLAttributes<HTMLImageElement> {
     height?: string;
     fill?: string;
 }
-const Icon: FC<IconProps> = ({ width = 12, height = 12, fill, ...props }) => {
+const Icon: FC<IconProps> = ({ fill, ...props }) => {
     return (
         <div
-            style={{ height: `${height}px`, width: `${width}px` }}
             className={clsx(fill, 'flex justify-center items-center ')}
         >
             <img className={clsx('w-full h-auto')} {...props} src={props.src} alt={props.alt} />

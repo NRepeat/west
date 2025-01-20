@@ -11,7 +11,11 @@ import AudiImg from './AudiImg.jpg';
 import Paypal from './PayPal.svg';
 import Bitcoin from './Bitcoin.svg';
 import DepthEffect from './DepthEffect.svg';
+import Car from './Car.svg';
+import WheelCar from './alloy-wheel-car.svg';
 export {
+    WheelCar,
+    Car,
     DepthEffect,
     AudiImg,
     WishListIcon,
