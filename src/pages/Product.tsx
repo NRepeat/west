@@ -5,7 +5,6 @@ import UiComponentContainer from '@/components/ui/ui-component-container';
 import Wrapper from '@/components/ui/wrapper';
 
 const Product = () => {
-
     // const { slug } = useParams();
     return (
         <div className="">

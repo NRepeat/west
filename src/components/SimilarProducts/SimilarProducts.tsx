@@ -11,18 +11,24 @@ import clsx from 'clsx';
 import { DiskModel } from '@/context/Configurator';
 
 type SimilarProductsProps = {
-    isVertical: boolean
-}
+    isVertical: boolean;
+};
 
 const SimilarProducts: FC<SimilarProductsProps> = ({ isVertical }) => {
-    const products = useBoxStore((state) => state.disks)
+    const products = useBoxStore((state) => state.disks);
     return (
-        <div className='flex gap-2 flex-col'>
-            <div className={clsx({ "flex flex-wrap gap-2": !isVertical, 'grid  grid-cols-2 overflow-auto ': isVertical })}>
-                {products.map((product: DiskModel) => <SimilarProductsCard product={product} />)}
+        <div className="flex gap-2 flex-col">
+            <div
+                className={clsx({
+                    'flex flex-wrap gap-2': !isVertical,
+                    'grid  grid-cols-2 overflow-auto ': isVertical,
+                })}
+            >
+                {products.map((product: DiskModel) => (
+                    <SimilarProductsCard product={product} />
+                ))}
             </div>
         </div>
-
     );
 };
 
@@ -30,7 +36,6 @@ export default SimilarProducts;
 
 const SimilarProductsCard = ({ product }: { product: ProductT }) => {
     const nav = useNavigate();
-
 
     const handleNav = (slug: string) => {
         console.log('slug', slug);

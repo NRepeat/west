@@ -7,10 +7,16 @@ type LoaderProps = {
     height?: number;
     speed?: number;
     isResponsive?: boolean;
-    children?:React.ReactNode
+    children?: React.ReactNode;
 };
 
-const DLoader: FC<LoaderProps> = ({ height = 400, speed = 2, width = 200, isResponsive ,children}) => (
+const DLoader: FC<LoaderProps> = ({
+    height = 400,
+    speed = 2,
+    width = 200,
+    isResponsive,
+    children,
+}) => (
     <ContentLoader
         speed={speed}
         width={isResponsive ? '100%' : width}

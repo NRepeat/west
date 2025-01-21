@@ -16,7 +16,7 @@ import { LayoutPanelTopIcon } from '../ui/layout-panel-top';
 import useStickyScroll from '@/hooks/sticky-scroll';
 import { useBoxStore } from '@/store/disk-store';
 const MainStoreGrid = ({ isWishCard = false }: { isWishCard?: boolean }) => {
-    const products: ProductT[] = useBoxStore(state => state.disks)
+    const products: ProductT[] = useBoxStore((state) => state.disks);
     const [scrolled] = useStickyScroll({ option: { scrollStart: 165 } });
     const [gridView, setGridView] = useState<boolean>(false);
     const handleGridView = () => {
@@ -62,7 +62,12 @@ const MainStoreGrid = ({ isWishCard = false }: { isWishCard?: boolean }) => {
             </div>
             <div className="grid  grid-cols-12 justify-start w-full gap-4  pt-2 ">
                 {products.map((product) => (
-                    <ProductCard isWishCard={isWishCard} key={product.slug} isHorizontal={gridView} product={product} />
+                    <ProductCard
+                        isWishCard={isWishCard}
+                        key={product.slug}
+                        isHorizontal={gridView}
+                        product={product}
+                    />
                 ))}
             </div>
         </UiComponentContainer>

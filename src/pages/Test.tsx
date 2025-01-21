@@ -14,29 +14,31 @@ type BoxProps = {
 };
 
 const Box: FC<BoxProps> = ({ name, defaultPosition, opacity, color }) => {
-    const state = useBoxStore((state) => state)
-    const [springs, api] = useSpring(() => ({
-        defaultPosition,
-        opacity,
-        config: { duration: 1000 },
-        onRest: () => {
-            const n = state.boxs.findIndex(f => f.defaultPosition[0] === 5)
-            console.log('n', n)
-            if (n !== -1) {
-                const newBalls = [...state.boxs];
-                newBalls[n].defaultPosition = [-4, 0, 0]
-                state.setBoxs(newBalls)
-            }
-
-        },
-    }), [defaultPosition, opacity]);
+    const state = useBoxStore((state) => state);
+    const [springs, api] = useSpring(
+        () => ({
+            defaultPosition,
+            opacity,
+            config: { duration: 1000 },
+            onRest: () => {
+                const n = state.boxs.findIndex((f) => f.defaultPosition[0] === 5);
+                console.log('n', n);
+                if (n !== -1) {
+                    const newBalls = [...state.boxs];
+                    newBalls[n].defaultPosition = [-4, 0, 0];
+                    state.setBoxs(newBalls);
+                }
+            },
+        }),
+        [defaultPosition, opacity],
+    );
 
     return (
         <animated.mesh
             name={name}
             position={springs.defaultPosition}
             scale={1}
-            visible={springs.opacity.to(o => o > 0)}
+            visible={springs.opacity.to((o) => o > 0)}
         >
             <boxGeometry args={[1, 1, 1]} />
             <animated.meshStandardMaterial color={color} transparent />
@@ -45,40 +47,53 @@ const Box: FC<BoxProps> = ({ name, defaultPosition, opacity, color }) => {
 };
 
 export default function Test() {
-
-    const state = useBoxStore((state) => state)
-    const [selectedModel, setSelectedModel] = useState<{ name: string; color: string; defaultPosition: [number, number, number]; }>(state.boxs[0])
-    console.log('selectedModel', selectedModel)
+    const state = useBoxStore((state) => state);
+    const [selectedModel, setSelectedModel] = useState<{
+        name: string;
+        color: string;
+        defaultPosition: [number, number, number];
+    }>(state.boxs[0]);
+    console.log('selectedModel', selectedModel);
     const changeBoxArr = (key: string) => {
         if (key === selectedModel?.name) {
-            return
+            return;
         }
         // Find clicked ball and the next ball to swap
-        const middleBox = state.boxs.findIndex((ball) => ball.defaultPosition[0] === 0)
+        const middleBox = state.boxs.findIndex((ball) => ball.defaultPosition[0] === 0);
         const currentIndex = state.boxs.findIndex((ball) => ball.name === key);
-        console.log('currentIndex', currentIndex)
-        const nextIndex = middleBox
+        console.log('currentIndex', currentIndex);
+        const nextIndex = middleBox;
 
         // Swap positions of the selected balls
         const newBalls = [...state.boxs];
-        newBalls[currentIndex].opacity = 1
+        newBalls[currentIndex].opacity = 1;
         newBalls[currentIndex].defaultPosition = [0, 0, 0];
         newBalls[nextIndex].defaultPosition = [5, 0, 0];
         newBalls[nextIndex].opacity = 0;
-        console.log('newBalls', newBalls)
-        setSelectedModel(newBalls[currentIndex])
+        console.log('newBalls', newBalls);
+        setSelectedModel(newBalls[currentIndex]);
 
         state.setBoxs(newBalls);
     };
     const handleAdd = () => {
-        const n = [...state.boxs, { name: `${state.boxs.length + 1}`, color: 'green', defaultPosition: [-4, 0, 0], opacity: 1 }]
-        state.setBoxs(n)
-    }
+        const n = [
+            ...state.boxs,
+            {
+                name: `${state.boxs.length + 1}`,
+                color: 'green',
+                defaultPosition: [-4, 0, 0],
+                opacity: 1,
+            },
+        ];
+        state.setBoxs(n);
+    };
     return (
         <>
             <div className="absolute gap-2 p-4 flex z-10">
                 <Button onClick={handleAdd}>Add </Button>
-                {state.boxs.map(d => <Button onClick={() => changeBoxArr(d.name)}>Change {d.name}</Button>)}
+                {state.boxs.map((d) => (
+                    <Button onClick={() => changeBoxArr(d.name)}>Change {d.name}</Button>
+                ))}
             </div>
             <Canvas>
                 <ambientLight intensity={1.5} />
@@ -89,7 +104,11 @@ export default function Test() {
                             name={b.name}
                             opacity={b.opacity}
                             color={b.color}
-                            defaultPosition={[b.defaultPosition[0], b.defaultPosition[1], b.defaultPosition[2]]}
+                            defaultPosition={[
+                                b.defaultPosition[0],
+                                b.defaultPosition[1],
+                                b.defaultPosition[2],
+                            ]}
                         />
                     ))}
                 </group>

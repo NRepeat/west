@@ -10,13 +10,14 @@ import { lazy, startTransition, Suspense, useState } from 'react';
 import clsx from 'clsx';
 import DLoader from '../ui/skeletons/3d';
 import ImageWrapper from '../ui/image-wrapper';
+import { useNavigate } from 'react-router';
 const DView = lazy(() => import('../DView/DView'));
 const ProductSingleCard = () => {
     const [isPointerDown, setPointerDown] = useState<boolean>(false);
     const [isComponentVisible, setComponentVisible] = useState(false);
     const OPTIONS: EmblaOptionsType = { loop: true };
     const SLIDE_COUNT = 5;
-
+    const nav = useNavigate();
     const SLIDES = Array.from(
         Array(SLIDE_COUNT).fill(
             <div className="flex w-full justify-center items-center">
@@ -40,7 +41,9 @@ const ProductSingleCard = () => {
             setComponentVisible((prev) => !prev);
         });
     };
-
+    const handelBuy = () => {
+        nav('/checkout');
+    };
     const product = {
         title: 'Anthracite 8.5 J x 20 Audi Q5',
         props: {
@@ -111,12 +114,14 @@ const ProductSingleCard = () => {
                     </div>
                     <div className="flex flex-col w-full gap-2 rounded-sm">
                         <Button variant={'ghost'} className="text-xl font-bold h-[50px]">
-                            {' '}
-                            Add to cart{' '}
+                            Add to cart
                         </Button>
-                        <Button variant={'success'} className="text-xl font-bold h-[50px]">
-                            {' '}
-                            Buy{' '}
+                        <Button
+                            onClick={handelBuy}
+                            variant={'success'}
+                            className="text-xl font-bold h-[50px]"
+                        >
+                            Buy
                         </Button>
                     </div>
                 </div>

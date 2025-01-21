@@ -43,12 +43,13 @@ const SheetMenu: FC<MenuProps> = ({
             <SheetTrigger asChild>{trigger}</SheetTrigger>
             <SheetContent side={side} className={clsx(className)}>
                 <SheetHeader>
-                    <SheetTitle className="w-full flex justify-center text-2xl">{header}
+                    <SheetTitle className="w-full flex justify-center text-2xl pt-2.5">
+                        {header}
                     </SheetTitle>
                 </SheetHeader>
-                <div className="w-full flex flex-col gap-2 pt-5">{children}</div>
+                <div className="w-full flex flex-col gap-2 pt-5 pl-2.5 flex-1">{children}</div>
                 {footer && (
-                    <SheetFooter className="w-full pt-5">
+                    <SheetFooter className="w-full pt-5 ">
                         <SheetClose asChild>{footer}</SheetClose>
                     </SheetFooter>
                 )}
@@ -56,6 +57,5 @@ const SheetMenu: FC<MenuProps> = ({
         </Sheet>
     );
 };
-
 
 export default SheetMenu;

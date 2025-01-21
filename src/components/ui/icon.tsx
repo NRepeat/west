@@ -8,9 +8,7 @@ interface IconProps extends ImgHTMLAttributes<HTMLImageElement> {
 }
 const Icon: FC<IconProps> = ({ fill, ...props }) => {
     return (
-        <div
-            className={clsx(fill, 'flex justify-center items-center ')}
-        >
+        <div className={clsx(fill, 'flex justify-center items-center ')}>
             <img className={clsx('w-full h-auto')} {...props} src={props.src} alt={props.alt} />
         </div>
     );

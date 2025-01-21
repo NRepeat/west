@@ -88,16 +88,21 @@ const ProductCard: FC<ProductCardProps & { product: ProductT }> = ({
                     <CharacteristicsCard isHorizontal={isHorizontal} props={product.props} />
                 </div>
             </CardContent>
-            {props.isWishCard && (<CardFooter className={clsx(' p-0', { 'h-full': isHorizontal, "w-full": !isHorizontal })}>
-                <Button onClick={(e) => {
-                    e.stopPropagation();
-                    console.log('Кнопка нажата');
-
-                }} className='h-full rounded-none flex  items-center justify-center w-full p-2.5 '>
-                    <X />
-                </Button>
-            </CardFooter>)}
-
+            {props.isWishCard && (
+                <CardFooter
+                    className={clsx(' p-0', { 'h-full': isHorizontal, 'w-full': !isHorizontal })}
+                >
+                    <Button
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            console.log('Кнопка нажата');
+                        }}
+                        className="h-full rounded-none flex  items-center justify-center w-full p-2.5 "
+                    >
+                        <X />
+                    </Button>
+                </CardFooter>
+            )}
         </Card>
     );
 };

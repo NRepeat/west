@@ -10,17 +10,19 @@ import Container from './components/ui/container.tsx';
 import Footer from './components/ui/footer.tsx';
 import Configurator from './pages/Configurator.tsx';
 import Wishlist from './pages/Wishlist.tsx';
+import Checkout from './pages/Checkout.tsx';
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
         <BrowserRouter>
-            <Container className="font-IstokWebRegular">
+            <Container className="font-IstokWebRegular min-h-screen">
                 <Navbar />
                 <Routes>
                     <Route path="/" element={<App />} />
                     <Route path="/product/:slug" element={<Product />} />
                     <Route path="/configuration" element={<Configurator />} />
                     <Route path="/wish" element={<Wishlist />} />
+                    <Route path="/checkout" element={<Checkout />} />
                 </Routes>
             </Container>
         </BrowserRouter>
