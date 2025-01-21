@@ -4,6 +4,7 @@ import CartMenuCard from '../CartMenuCard/CartMenuCard';
 import SheetMenu from '../Menu/Menu';
 import { Button } from './button';
 import Icon from './icon';
+import { ShoppingCart } from 'lucide-react';
 const CartMenu = () => {
   const [isOpen, setIsOpen] = useSheetMenu();
   return (
@@ -16,9 +17,10 @@ const CartMenu = () => {
         header="Cart"
         footer={<CartButton price={4 * 200} />}
         trigger={
-          <div className="font-SignPainter flex justify-start items-center">
-            <Button variant={'ghost'}>
-              <Icon src={CartIcon} height="30" width="30" alt="cart-icon" />
+          <div className="font-SignPainter flex justify-start items-center px-2.5">
+                    <Button variant={'ghost'} className='h-8 w-8 p-0 hover:bg-transparent'>
+              {/* <Icon src={CartIcon} height="30" width="30" alt="cart-icon" /> */}
+              <ShoppingCart  className='w-full h-full'/>
             </Button>
           </div>
         }
