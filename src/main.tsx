@@ -22,7 +22,9 @@ createRoot(document.getElementById('root')!).render(
                     <Route path="/product/:slug" element={<Product />} />
                     <Route path="/configuration" element={<Configurator />} />
                     <Route path="/wish" element={<Wishlist />} />
-                    <Route path="/checkout" element={<Checkout />} />
+                    <Route path="/checkout/:step" element={<Checkout />} />
+                    <Route path="/admin" element={<Checkout />}  />
+                    
                 </Routes>
             </Container>
         </BrowserRouter>
