@@ -1,10 +1,13 @@
 import React, { FC, HTMLAttributes } from 'react';
 import { cn } from '@/lib/utils';
+import { QueryClientProvider, useQueryClient } from '@tanstack/react-query';
+
 interface ContainerProps extends HTMLAttributes<HTMLDivElement> {
     children?: React.ReactNode;
 }
 
 const Container: FC<ContainerProps> = ({ children, ...props }) => {
+
     return (
         <div
             className={cn(
@@ -14,6 +17,7 @@ const Container: FC<ContainerProps> = ({ children, ...props }) => {
         >
             {children}
         </div>
+
     );
 };
 

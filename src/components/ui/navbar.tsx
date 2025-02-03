@@ -1,13 +1,19 @@
-import React, { FC, HTMLAttributes } from 'react';
+import React, { FC, HTMLAttributes, useContext } from 'react';
 import Menu from './nav-menu';
 import CartMenu from './cart-menu';
 import { NavLink } from 'react-router';
+import { SessionContext } from '@/context/StoreSession';
+import { Button } from './button';
+import ImageWrapper from './image-wrapper';
+import Icon from './icon';
+import { WishListIcon } from '@/assets';
 
 interface NavbarProps extends HTMLAttributes<HTMLElement> {
     children?: React.ReactNode;
 }
 
 const Navbar: FC<NavbarProps> = (props) => {
+    const context = useContext(SessionContext);
     return (
         <nav
             {...props}
@@ -17,7 +23,26 @@ const Navbar: FC<NavbarProps> = (props) => {
             <NavLink to={'/'} className="text-[42px] font-Playwrite text-center ">
                 West custom
             </NavLink>
-            <CartMenu />
+            <div className='flex justify-end'>
+                {context?.isAuthenticated ? (
+                    <>
+                        <Button variant={'link'}>
+                            <Icon src={WishListIcon} />
+                        </Button>
+                        <NavLink to={'/acount'} className="">
+                            Acount
+                        </NavLink>
+                    </>
+
+                ) : (
+                    <Button>
+                        Login
+                    </Button>
+                )}
+                <CartMenu />
+
+            </div>
+
             {props.children}
         </nav>
     );

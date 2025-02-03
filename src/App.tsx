@@ -2,7 +2,10 @@ import Wrapper from './components/ui/wrapper';
 import MainFilterBar from './components/MainFilterbar/MainFilterbar';
 import Breadcrumbs from './components/ui/breadcrumbs';
 import MainStoreGrid from './components/MainStoreGrid/MainStoreGrid';
+
 function App() {
+
+
     return (
         <>
             <div className="p-2.5">
