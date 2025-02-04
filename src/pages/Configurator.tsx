@@ -10,8 +10,7 @@ import { useBoxStore } from '@/store/disk-store';
 
 const Configurator = () => {
     const modles = useBoxStore((state) => state.disks);
-    const product = modles.filter((m) => m.path);
-    console.log('product', product);
+
     return (
         <div>
             <div className="p-2.5">
@@ -32,11 +31,11 @@ const Configurator = () => {
                     </UiComponentContainer>
                 </div>
                 <div className=" col-span-4  row-span-9  relative  ">
-                    <UiComponentContainer className=" overflow-auto h-full">
+                    {/* <UiComponentContainer className=" overflow-auto h-full">
                         <UiComponentContainer className=" overflow-auto  ">
-                            <Sidebar products={product} />
+                            <Sidebar products={[product]} />
                         </UiComponentContainer>
-                    </UiComponentContainer>
+                    </UiComponentContainer> */}
                 </div>
                 <div className=" col-span-8 row-span-4    relative">
                     <UiComponentContainer className="bg-[#1D1D1D] overflow-hidden h-full">
@@ -45,7 +44,7 @@ const Configurator = () => {
                 </div>
                 <div className=" col-span-12     relative">
                     <UiComponentContainer className=" overflow-hidden h-full">
-                        <ProductSingleCard></ProductSingleCard>
+                        <ProductSingleCard product={product}></ProductSingleCard>
                     </UiComponentContainer>
                 </div>
             </Wrapper>

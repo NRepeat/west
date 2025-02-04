@@ -7,6 +7,7 @@ import { Button } from './button';
 import ImageWrapper from './image-wrapper';
 import Icon from './icon';
 import { WishListIcon } from '@/assets';
+import { User } from 'lucide-react';
 
 interface NavbarProps extends HTMLAttributes<HTMLElement> {
     children?: React.ReactNode;
@@ -30,14 +31,18 @@ const Navbar: FC<NavbarProps> = (props) => {
                             <Icon src={WishListIcon} />
                         </Button>
                         <NavLink to={'/acount'} className="">
-                            Acount
+                            <Button variant={'link'}>
+                                Acount
+                            </Button>
                         </NavLink>
                     </>
-
                 ) : (
-                    <Button>
-                        Login
-                    </Button>
+                    <NavLink to={'/auth'} className="">
+                        <Button>
+                            <User />
+                        </Button>
+                    </NavLink>
+
                 )}
                 <CartMenu />
 

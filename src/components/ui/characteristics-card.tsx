@@ -1,5 +1,4 @@
-import { ProductProps } from './product-card';
-import { Pallet } from './color-palette';
+import { ProductProps } from '@/shared/types';
 import clsx from 'clsx';
 
 const CharacteristicsCard = ({
@@ -9,7 +8,7 @@ const CharacteristicsCard = ({
     isHorizontal: boolean;
     props: ProductProps;
 }) => {
-    const keys = Object.keys(props);
+    const keys = Object.keys(props).filter((key) => key !== 'uuid');
     const typedKeys = keys.map((key) => key as keyof typeof props);
     return (
         <>
@@ -31,8 +30,7 @@ const CharacteristicsCard = ({
                                     'w-full flex justify-end',
                                 )}
                             >
-                                {' '}
-                                <Pallet className="w-full max-w-[150px]" color={props[key]} />{' '}
+                                {/* <Pallet className="w-full max-w-[150px]" color={props[key]} /> */}
                             </div>
                         )}
                         {key !== 'color' && (
@@ -41,8 +39,7 @@ const CharacteristicsCard = ({
                                     'text-center': !isHorizontal,
                                 })}
                             >
-                                {' '}
-                                {String(props[key])}{' '}
+                                {String(props[key])}
                             </div>
                         )}
                     </div>

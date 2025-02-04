@@ -9,14 +9,30 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { Button } from '../ui/button';
-import ProductCard, { ProductT } from '../ui/product-card';
+import ProductCard from '../ui/product-card';
 import { useState } from 'react';
 import { GripIcon } from '../ui/grip';
 import { LayoutPanelTopIcon } from '../ui/layout-panel-top';
 import useStickyScroll from '@/hooks/sticky-scroll';
-import { useBoxStore } from '@/store/disk-store';
+import { useQuery } from '@tanstack/react-query';
+import { ProductT } from '@/shared/types';
 const MainStoreGrid = ({ isWishCard = false }: { isWishCard?: boolean }) => {
-    const products: ProductT[] = useBoxStore((state) => state.disks);
+    const data = useQuery({
+        queryKey: ['getProducts'],
+        queryFn: async () => {
+            const response = await fetch(`http://localhost:3000/product/`)
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json() as ProductT[]
+            console.log('data', data)
+            if (!data) {
+                throw new Error('Product not found');
+            }
+            return data
+        }
+    })
+
     const [scrolled] = useStickyScroll({ option: { scrollStart: 165 } });
     const [gridView, setGridView] = useState<boolean>(false);
     const handleGridView = () => {
@@ -60,16 +76,20 @@ const MainStoreGrid = ({ isWishCard = false }: { isWishCard?: boolean }) => {
                     </Button>
                 </div>
             </div>
-            <div className="grid  grid-cols-12 justify-start w-full gap-4  pt-2 ">
-                {products.map((product) => (
-                    <ProductCard
-                        isWishCard={isWishCard}
-                        key={product.slug}
-                        isHorizontal={gridView}
-                        product={product}
-                    />
-                ))}
-            </div>
+            {data.isSuccess &&
+
+                <div className="grid  grid-cols-12 justify-start w-full gap-4  pt-2 ">
+                    {data.data.map((product) => (
+                        <ProductCard
+                            isWishCard={isWishCard}
+                            key={product.slug}
+                            isHorizontal={gridView}
+                            product={product}
+                        />
+                    ))}
+                </div>
+            }
+
         </UiComponentContainer>
     );
 };

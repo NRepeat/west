@@ -8,7 +8,6 @@ const useCustomMutation = <TData, TVariables>(
 ): UseMutationResult<TData, unknown, TVariables> => {
 	return useMutation({
 		mutationFn,
-
 	});
 };
 

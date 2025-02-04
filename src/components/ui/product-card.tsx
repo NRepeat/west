@@ -2,32 +2,19 @@ import { FC, HTMLAttributes } from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './card';
 import ImageWrapper from './image-wrapper';
 import { AudiImg } from '@/assets';
-import { Color } from './color-palette';
 import clsx from 'clsx';
 import { useNavigate } from 'react-router';
 import CharacteristicsCard from './characteristics-card';
 import { Button } from './button';
 import { X } from 'lucide-react';
+import { ProductT } from '@/shared/types';
 
 interface ProductCardProps extends HTMLAttributes<HTMLDivElement> {
     isHorizontal: boolean;
     isWishCard?: boolean;
 }
-export type ProductProps = {
-    color: Color;
-    width: string;
-    weight: string;
-    diameter: string;
-    et: string;
-    pcd: string;
-};
-export type ProductT = {
-    title: string;
-    description?: string;
-    slug: string;
-    price?: number;
-    props: ProductProps;
-};
+
+
 const ProductCard: FC<ProductCardProps & { product: ProductT }> = ({
     isHorizontal,
     product,
@@ -70,10 +57,10 @@ const ProductCard: FC<ProductCardProps & { product: ProductT }> = ({
                 />
                 {!isHorizontal && (
                     <CardTitle className="text-lg pt-3.5 w-full text-start ">
-                        {product.title}
+                        {product.variants[0].slug}
                     </CardTitle>
                 )}
-                {product.description && <CardDescription>{product.description}</CardDescription>}
+                {product.variants[0].description && <CardDescription>{product.variants[0].description}</CardDescription>}
             </CardHeader>
             <CardContent
                 className={clsx('mt-3.5 p-2.5 flex w-full', {
@@ -82,10 +69,10 @@ const ProductCard: FC<ProductCardProps & { product: ProductT }> = ({
             >
                 <div className={clsx('w-full', { ' max-w-[75%]': isHorizontal })}>
                     {isHorizontal && (
-                        <CardTitle className="text-lg pb-2.5 px-2.5">{product.title}</CardTitle>
+                        <CardTitle className="text-lg pb-2.5 px-2.5">{product.variants[0].slug}</CardTitle>
                     )}
 
-                    <CharacteristicsCard isHorizontal={isHorizontal} props={product.props} />
+                    <CharacteristicsCard isHorizontal={isHorizontal} props={product.variants[0]} />
                 </div>
             </CardContent>
             {props.isWishCard && (

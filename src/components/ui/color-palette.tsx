@@ -9,7 +9,7 @@ export type Color = { code: string; slug: string; name: string };
 interface ColorPaletteProps {
     colors: Color[];
 }
-export const Pallet = ({ color, className }: { color: Color; className?: string }) => {
+export const Pallet = ({ color, className }: { color: string; className?: string }) => {
     return (
         <div
             className={clsx(
@@ -18,7 +18,7 @@ export const Pallet = ({ color, className }: { color: Color; className?: string 
             )}
         >
             <div
-                style={{ backgroundColor: '#' + color.code }}
+                style={{ backgroundColor: '#' + color }}
                 className="min-w-12 min-h-10 rounded-sm"
             ></div>
             <div className="inline-flex  items-center justify-between w-full">

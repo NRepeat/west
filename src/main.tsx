@@ -23,8 +23,8 @@ import Account from './pages/Account.tsx';
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
-        <SessionProvider>
-            <Query>
+        <Query>
+            <SessionProvider>
                 <BrowserRouter>
                     <Container className="font-IstokWebRegular min-h-screen">
                         <Navbar />
@@ -44,8 +44,8 @@ createRoot(document.getElementById('root')!).render(
                         </Routes>
                     </Container>
                 </BrowserRouter>
-            </Query>
-        </SessionProvider>
+            </SessionProvider>
+        </Query>
 
 
         <Footer />
