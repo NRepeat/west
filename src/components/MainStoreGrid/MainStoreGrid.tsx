@@ -20,7 +20,7 @@ const MainStoreGrid = ({ isWishCard = false }: { isWishCard?: boolean }) => {
     const data = useQuery({
         queryKey: ['getProducts'],
         queryFn: async () => {
-            const response = await fetch(`http://localhost:3000/product/`)
+            const response = await fetch(`http://localhost:3000/product/products/`)
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
@@ -29,9 +29,11 @@ const MainStoreGrid = ({ isWishCard = false }: { isWishCard?: boolean }) => {
             if (!data) {
                 throw new Error('Product not found');
             }
+
             return data
         }
     })
+    console.log('data', data)
 
     const [scrolled] = useStickyScroll({ option: { scrollStart: 165 } });
     const [gridView, setGridView] = useState<boolean>(false);

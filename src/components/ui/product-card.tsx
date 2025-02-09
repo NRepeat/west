@@ -4,7 +4,6 @@ import ImageWrapper from './image-wrapper';
 import { AudiImg } from '@/assets';
 import clsx from 'clsx';
 import { useNavigate } from 'react-router';
-import CharacteristicsCard from './characteristics-card';
 import { Button } from './button';
 import { X } from 'lucide-react';
 import { ProductT } from '@/shared/types';
@@ -17,6 +16,7 @@ interface ProductCardProps extends HTMLAttributes<HTMLDivElement> {
 
 const ProductCard: FC<ProductCardProps & { product: ProductT }> = ({
     isHorizontal,
+    isWishCard,
     product,
     ...props
 }) => {
@@ -57,10 +57,10 @@ const ProductCard: FC<ProductCardProps & { product: ProductT }> = ({
                 />
                 {!isHorizontal && (
                     <CardTitle className="text-lg pt-3.5 w-full text-start ">
-                        {product.variants[0].slug}
+                        {product.slug}
                     </CardTitle>
                 )}
-                {product.variants[0].description && <CardDescription>{product.variants[0].description}</CardDescription>}
+                {product.description && <CardDescription>{product.description}</CardDescription>}
             </CardHeader>
             <CardContent
                 className={clsx('mt-3.5 p-2.5 flex w-full', {
@@ -69,13 +69,43 @@ const ProductCard: FC<ProductCardProps & { product: ProductT }> = ({
             >
                 <div className={clsx('w-full', { ' max-w-[75%]': isHorizontal })}>
                     {isHorizontal && (
-                        <CardTitle className="text-lg pb-2.5 px-2.5">{product.variants[0].slug}</CardTitle>
+                        <CardTitle className="text-lg pb-2.5 px-2.5">{product.slug}</CardTitle>
                     )}
-
-                    <CharacteristicsCard isHorizontal={isHorizontal} props={product.variants[0]} />
+                    <div
+                        className={clsx(
+                            'flex flex-col text-lg w-full gap-2.5 first-letter:uppercase justify-self-center',
+                            { 'justify-center px-2.5': isHorizontal },
+                        )}
+                    >
+                        <div className={clsx('flex ', { 'justify-end': isHorizontal })}>
+                            <div className="w-24 flex  items-center font-bold ">
+                                <span className="first-letter:uppercase">  Diameter</span>
+                            </div>
+                            {(
+                                <div
+                                    className={clsx(
+                                        { 'justify-end w-full text-end': !isHorizontal },
+                                        'w-full flex justify-end',
+                                    )}
+                                >
+                                    {/* <Pallet className="w-full max-w-[150px]" color={props[key]} /> */}
+                                </div>
+                            )}
+                            {(
+                                <div
+                                    className={clsx('w-full text-end px-12', {
+                                        'text-center': !isHorizontal,
+                                    })}
+                                >
+                                    {product.variants[0].diameter}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                    {/* <CharacteristicsCard isHorizontal={isHorizontal} props={product.variants[0]} /> */}
                 </div>
             </CardContent>
-            {props.isWishCard && (
+            {isWishCard && (
                 <CardFooter
                     className={clsx(' p-0', { 'h-full': isHorizontal, 'w-full': !isHorizontal })}
                 >

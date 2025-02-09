@@ -26,5 +26,6 @@ type ProductVariant = {
 export interface ProductT {
 	slug: string;
 	uuid: string;
+	description: string;
 	variants: ProductVariant[]
 }

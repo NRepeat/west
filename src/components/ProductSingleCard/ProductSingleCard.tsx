@@ -32,7 +32,7 @@ const ProductSingleCard = ({ product }: { product: ProductT }) => {
             },
             body: JSON.stringify({
                 cartId: state.userSession?.cartId,
-                productId: product.uuid,
+                productId: product.variants[0].uuid,
                 quantity: 1,
             }),
         });

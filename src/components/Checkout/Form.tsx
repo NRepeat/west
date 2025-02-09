@@ -4,7 +4,8 @@ import { useForm } from '@rvf/react'
 import { withZod } from '@rvf/zod'
 import { z } from 'zod';
 import { useBoxStore } from '@/store/disk-store';
-import ProductCard, { ProductT } from '../ui/product-card';
+import ProductCard from '../ui/product-card';
+import { ProductT } from '@/shared/types';
 export enum Steps {
 	products,
 	info,

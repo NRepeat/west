@@ -14,6 +14,7 @@ const CharacteristicsCard = ({
         <>
             {typedKeys.map((key) => (
                 <div
+                    key={key}
                     className={clsx(
                         'flex flex-col text-lg w-full gap-2.5 first-letter:uppercase justify-self-center',
                         { 'justify-center px-2.5': isHorizontal },
