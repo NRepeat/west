@@ -1,41 +1,30 @@
-import { FC, HTMLAttributes } from 'react';
+import { FC, HTMLAttributes, useState } from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './card';
 import ImageWrapper from './image-wrapper';
 import { AudiImg } from '@/assets';
-import { Color } from './color-palette';
 import clsx from 'clsx';
 import { useNavigate } from 'react-router';
-import CharacteristicsCard from './characteristics-card';
 import { Button } from './button';
 import { X } from 'lucide-react';
+import { ProductT } from '@/shared/types';
+import CharacteristicsCard from './characteristics-card';
 
 interface ProductCardProps extends HTMLAttributes<HTMLDivElement> {
     isHorizontal: boolean;
     isWishCard?: boolean;
 }
-export type ProductProps = {
-    color: Color;
-    width: string;
-    weight: string;
-    diameter: string;
-    et: string;
-    pcd: string;
-};
-export type ProductT = {
-    title: string;
-    description?: string;
-    slug: string;
-    price?: number;
-    props: ProductProps;
-};
+
+
 const ProductCard: FC<ProductCardProps & { product: ProductT }> = ({
     isHorizontal,
+    isWishCard,
     product,
     ...props
 }) => {
     const nav = useNavigate();
+    const [selectedVariant, setSelectedVariant] = useState(product.variants[0]);
     const handleNav = (slug: string) => {
-        nav(`/product/${slug}`);
+        nav(`/product/${slug}/var/${selectedVariant.uuid}`);
     };
     return (
         <Card
@@ -62,7 +51,7 @@ const ProductCard: FC<ProductCardProps & { product: ProductT }> = ({
                             style: { transitionDelay: '100' },
                         },
                     }}
-                    src={AudiImg}
+                    src={selectedVariant.thumbnail}
                     alt="audi"
                     className="min-w-full max-w-[300px] justify-center flex items-center w-full p-2.5"
                     imgHeight="190"
@@ -70,7 +59,7 @@ const ProductCard: FC<ProductCardProps & { product: ProductT }> = ({
                 />
                 {!isHorizontal && (
                     <CardTitle className="text-lg pt-3.5 w-full text-start ">
-                        {product.title}
+                        {product.slug}
                     </CardTitle>
                 )}
                 {product.description && <CardDescription>{product.description}</CardDescription>}
@@ -82,13 +71,43 @@ const ProductCard: FC<ProductCardProps & { product: ProductT }> = ({
             >
                 <div className={clsx('w-full', { ' max-w-[75%]': isHorizontal })}>
                     {isHorizontal && (
-                        <CardTitle className="text-lg pb-2.5 px-2.5">{product.title}</CardTitle>
+                        <CardTitle className="text-lg pb-2.5 px-2.5">{product.slug}</CardTitle>
                     )}
-
-                    <CharacteristicsCard isHorizontal={isHorizontal} props={product.props} />
+                    <div
+                        className={clsx(
+                            'flex flex-col text-lg w-full gap-2.5 first-letter:uppercase justify-self-center',
+                            { 'justify-center px-2.5': isHorizontal },
+                        )}
+                    >
+                        <div className={clsx('flex ', { 'justify-end': isHorizontal })}>
+                            <div className="w-24 flex  items-center font-bold ">
+                                <span className="first-letter:uppercase">  Diameter</span>
+                            </div>
+                            {(
+                                <div
+                                    className={clsx(
+                                        { 'justify-end w-full text-end': !isHorizontal },
+                                        'w-full flex justify-end',
+                                    )}
+                                >
+                                    {/* <Pallet className="w-full max-w-[150px]" color={props[key]} /> */}
+                                </div>
+                            )}
+                            {(
+                                <div
+                                    className={clsx('w-full text-end px-12', {
+                                        'text-center': !isHorizontal,
+                                    })}
+                                >
+                                    {selectedVariant.diameter}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                    <CharacteristicsCard isHorizontal={isHorizontal} props={selectedVariant} />
                 </div>
             </CardContent>
-            {props.isWishCard && (
+            {isWishCard && (
                 <CardFooter
                     className={clsx(' p-0', { 'h-full': isHorizontal, 'w-full': !isHorizontal })}
                 >

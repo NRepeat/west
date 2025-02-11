@@ -3,8 +3,9 @@ import { Card, CardContent } from './card';
 import Icon from './icon';
 import { InfoIcon } from '@/assets';
 import clsx from 'clsx';
+import { Color } from '@/shared/types';
 
-export type Color = { code: string; slug: string; name: string };
+
 
 interface ColorPaletteProps {
     colors: Color[];
@@ -18,7 +19,7 @@ export const Pallet = ({ color, className }: { color: Color; className?: string 
             )}
         >
             <div
-                style={{ backgroundColor: '#' + color.code }}
+                style={{ backgroundColor: '#' + color }}
                 className="min-w-12 min-h-10 rounded-sm"
             ></div>
             <div className="inline-flex  items-center justify-between w-full">

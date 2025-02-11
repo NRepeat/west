@@ -3,10 +3,30 @@ import { AudiImg } from '../../assets';
 import CartMenuCard from '../CartMenuCard/CartMenuCard';
 import SheetMenu from '../Menu/Menu';
 import { Button } from './button';
-import { ShoppingCart } from 'lucide-react';
+import { LoaderIcon, ShoppingCart } from 'lucide-react';
 import { useNavigate } from 'react-router';
+import { useSessionStore } from '@/store/user-store';
+import { useQuery } from '@tanstack/react-query';
+import { ProductT } from '@/shared/types';
 const CartMenu = () => {
+    const state = useSessionStore((state) => state);
     const [isOpen, setIsOpen] = useSheetMenu();
+
+    const qyery = useQuery({
+        queryKey: ['getCart'], queryFn: async () => {
+            const response = await fetch('http://localhost:3000/cart?cartId=' + state.userSession?.cartId)
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json()
+            console.log('data', data)
+            state.setCart({ id: data.id, items: data.items })
+
+            return data
+        },
+        enabled: isOpen
+    })
+    console.log('qyery', qyery.data)
     return (
         <div className="flex gap-4 justify-end px-2.5">
             <SheetMenu
@@ -25,29 +45,8 @@ const CartMenu = () => {
                     </div>
                 }
             >
-                <CartMenuCard
-                    img={AudiImg}
-                    price={200}
-                    quantity={4}
-                    slug="Anthracite-8.5-J-x-20-Audi-Q6"
-                    title="Audi"
-                />
-                <CartMenuCard img={AudiImg} price={200} quantity={4} slug="Audi" title="Audi" />
-                <CartMenuCard
-                    img={AudiImg}
-                    price={200}
-                    quantity={4}
-                    slug="Anthracite-8.5-J-x-20-Audi-Q6"
-                    title="Audi"
-                />
-                <CartMenuCard
-                    img={AudiImg}
-                    price={200}
-                    quantity={4}
-                    slug="Anthracite-8.5-J-x-20-Audi-Q6"
-                    title="Audi"
-                />
-                <CartMenuCard img={AudiImg} price={200} quantity={4} slug="Audi" title="Audi" />
+                {qyery.isFetching && <LoaderIcon className='animate-spin' />}
+                {qyery.isSuccess && qyery.data.items.map((item: { uuid: string, quantity: number, product: ProductT, }) => <CartMenuCard key={item.uuid} quantity={item.quantity} img={AudiImg} price={100} slug={item.product.slug} title={item.product.slug} />)}
             </SheetMenu>
         </div>
     );

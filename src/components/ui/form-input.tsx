@@ -5,6 +5,7 @@ import clsx from 'clsx';
 import { Input } from './input';
 import { Label } from './label';
 import { Button } from './button';
+import { Image } from '@/shared/types';
 
 // For our props, we'll take everything from the native input element except for `type`.
 // You can make futher changes here to suite your needs.
@@ -12,9 +13,9 @@ type BaseInputProps = Omit<ComponentPropsWithRef<'input'>, 'type'>;
 
 interface MyInputProps<Type extends string> extends BaseInputProps {
     label: string;
-    islabelvisible: boolean;
+    islabelvisible?: boolean;
     type?: Type;
-    scope: FormScope<ValueOfInputType<Type>>;
+    scope: FormScope<ValueOfInputType<Type>> | FormScope<string[]> | FormScope<Image>;
     icon?: string;
     iconSize?: string;
     search?: boolean;
@@ -30,7 +31,7 @@ const InputImpl = forwardRef<HTMLInputElement, MyInputProps<string>>(
             className,
             iconSize,
             search,
-            islabelvisible,
+            islabelvisible = true,
             label,
             scope,
             type,

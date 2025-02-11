@@ -1,6 +1,6 @@
+import { ProductT } from '@/shared/types'
 import React, { createContext } from 'react'
 import { create } from 'zustand'
-import { ProductT } from '../ui/product-card'
 
 
 
