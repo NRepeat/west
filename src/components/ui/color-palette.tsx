@@ -3,13 +3,14 @@ import { Card, CardContent } from './card';
 import Icon from './icon';
 import { InfoIcon } from '@/assets';
 import clsx from 'clsx';
+import { Color } from '@/shared/types';
 
-export type Color = { code: string; slug: string; name: string };
+
 
 interface ColorPaletteProps {
     colors: Color[];
 }
-export const Pallet = ({ color, className }: { color: string; className?: string }) => {
+export const Pallet = ({ color, className }: { color: Color; className?: string }) => {
     return (
         <div
             className={clsx(

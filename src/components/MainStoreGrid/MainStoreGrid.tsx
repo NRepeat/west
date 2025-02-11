@@ -25,7 +25,6 @@ const MainStoreGrid = ({ isWishCard = false }: { isWishCard?: boolean }) => {
                 throw new Error('Network response was not ok');
             }
             const data = await response.json() as ProductT[]
-            console.log('data', data)
             if (!data) {
                 throw new Error('Product not found');
             }
@@ -33,7 +32,6 @@ const MainStoreGrid = ({ isWishCard = false }: { isWishCard?: boolean }) => {
             return data
         }
     })
-    console.log('data', data)
 
     const [scrolled] = useStickyScroll({ option: { scrollStart: 165 } });
     const [gridView, setGridView] = useState<boolean>(false);

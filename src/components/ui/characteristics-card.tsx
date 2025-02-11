@@ -1,5 +1,6 @@
 import { ProductProps } from '@/shared/types';
 import clsx from 'clsx';
+import { Pallet } from './color-palette';
 
 const CharacteristicsCard = ({
     props,
@@ -8,7 +9,7 @@ const CharacteristicsCard = ({
     isHorizontal: boolean;
     props: ProductProps;
 }) => {
-    const keys = Object.keys(props).filter((key) => key !== 'uuid');
+    const keys = Object.keys(props).filter((key) => key !== 'uuid' && key !== 'images' && key !== 'thumbnail' && key !== 'price' && key !== 'description' && key !== 'slug' && key !== 'title' && key !== 'variants' && key !== 'updated_at' && key !== 'created_at' && key !== 'id' && key !== 'products');
     const typedKeys = keys.map((key) => key as keyof typeof props);
     return (
         <>

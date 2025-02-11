@@ -11,9 +11,9 @@ export type ProductProps = {
 	diameter: string;
 	et: string;
 	pcd: string;
-	color: string;
+	color: Color
 }
-
+export type Color = { code: string; slug: string; name: string };
 type ProductVariant = {
 	uuid: string;
 	description: string;
@@ -23,9 +23,17 @@ type ProductVariant = {
 	price: number;
 } & ProductProps
 
-export interface ProductT {
+export interface ProductT extends ProductVariant {
 	slug: string;
+	title: string;
 	uuid: string;
 	description: string;
 	variants: ProductVariant[]
+
+}
+
+export interface Image {
+	base64: string;
+	originalName: string;
+	isThumbnail: boolean;
 }

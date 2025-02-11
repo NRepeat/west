@@ -1,4 +1,4 @@
-import { FC, HTMLAttributes } from 'react';
+import { FC, HTMLAttributes, useState } from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './card';
 import ImageWrapper from './image-wrapper';
 import { AudiImg } from '@/assets';
@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router';
 import { Button } from './button';
 import { X } from 'lucide-react';
 import { ProductT } from '@/shared/types';
+import CharacteristicsCard from './characteristics-card';
 
 interface ProductCardProps extends HTMLAttributes<HTMLDivElement> {
     isHorizontal: boolean;
@@ -21,8 +22,9 @@ const ProductCard: FC<ProductCardProps & { product: ProductT }> = ({
     ...props
 }) => {
     const nav = useNavigate();
+    const [selectedVariant, setSelectedVariant] = useState(product.variants[0]);
     const handleNav = (slug: string) => {
-        nav(`/product/${slug}`);
+        nav(`/product/${slug}/var/${selectedVariant.uuid}`);
     };
     return (
         <Card
@@ -49,7 +51,7 @@ const ProductCard: FC<ProductCardProps & { product: ProductT }> = ({
                             style: { transitionDelay: '100' },
                         },
                     }}
-                    src={AudiImg}
+                    src={selectedVariant.thumbnail}
                     alt="audi"
                     className="min-w-full max-w-[300px] justify-center flex items-center w-full p-2.5"
                     imgHeight="190"
@@ -97,12 +99,12 @@ const ProductCard: FC<ProductCardProps & { product: ProductT }> = ({
                                         'text-center': !isHorizontal,
                                     })}
                                 >
-                                    {product.variants[0].diameter}
+                                    {selectedVariant.diameter}
                                 </div>
                             )}
                         </div>
                     </div>
-                    {/* <CharacteristicsCard isHorizontal={isHorizontal} props={product.variants[0]} /> */}
+                    <CharacteristicsCard isHorizontal={isHorizontal} props={selectedVariant} />
                 </div>
             </CardContent>
             {isWishCard && (

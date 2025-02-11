@@ -18,6 +18,7 @@ import Auth from './pages/Auth.tsx';
 import Query from './context/Query.tsx';
 import { SessionProvider } from './context/StoreSession.tsx';
 import Account from './pages/Account.tsx';
+import Admin from './pages/Admin.tsx';
 
 
 
@@ -30,17 +31,18 @@ createRoot(document.getElementById('root')!).render(
                         <Navbar />
                         <Routes>
                             <Route path="/" element={<App />} />
-                            <Route path="/product/:slug" element={<Product />} />
+                            <Route path="/product/:slug/var/:variantId" element={<Product />} />
                             <Route path="/configuration" element={<Configurator />} />
                             <Route path="/wish" element={<Wishlist />} />
                             <Route path="/checkout/:step" element={<Checkout />} />
-                            <Route path="/admin" element={<Checkout />} />
+                            {/* <Route path="/admin" element={<Checkout />} /> */}
                             <Route path='/acount' element={<Account />} />
                             <Route path='/auth' element={<AuthLayout />}>
                                 <Route index element={<Auth />} />
                                 <Route path='login' element={<Login />} />
                                 <Route path='signup' element={<Signup />} />
                             </Route>
+                            <Route path='admin' element={<Admin />} />
                         </Routes>
                     </Container>
                 </BrowserRouter>

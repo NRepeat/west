@@ -1,4 +1,4 @@
-import { AudiImg, Bitcoin, DepthEffect, Paypal } from '@/assets';
+import { Bitcoin, DepthEffect, Paypal } from '@/assets';
 import UiComponentContainer from '../ui/ui-component-container';
 import { EmblaOptionsType } from 'embla-carousel';
 import EmblaCarousel from '../ui/carousel/withchildren/Carousel';
@@ -22,7 +22,7 @@ const ProductSingleCard = ({ product }: { product: ProductT }) => {
     const [isPointerDown, setPointerDown] = useState<boolean>(false);
     const [isComponentVisible, setComponentVisible] = useState(false);
     const OPTIONS: EmblaOptionsType = { loop: true };
-    const SLIDE_COUNT = 5;
+    const SLIDE_COUNT = product.images.length;
     const nav = useNavigate();
     const addProductToCart = async () => {
         const response = await fetch('http://localhost:3000/cart/add', {
@@ -32,7 +32,7 @@ const ProductSingleCard = ({ product }: { product: ProductT }) => {
             },
             body: JSON.stringify({
                 cartId: state.userSession?.cartId,
-                productId: product.variants[0].uuid,
+                productId: product.uuid,
                 quantity: 1,
             }),
         });
@@ -40,7 +40,8 @@ const ProductSingleCard = ({ product }: { product: ProductT }) => {
             throw new Error('Network response was not ok');
         }
         const data = await response.json();
-        console.log('data', data);
+
+
         return data
     }
     const queryClient = useQueryClient()
@@ -58,8 +59,8 @@ const ProductSingleCard = ({ product }: { product: ProductT }) => {
         Array(SLIDE_COUNT).fill(
             <div className="flex w-full justify-center items-center">
                 <ImageWrapper
-                    src={AudiImg}
-                    alt="audi"
+                    src={product.variants[0].thumbnail}
+                    alt=""
                     options={{
                         delayTime: 100,
                         effect: 'opacity',
@@ -112,22 +113,19 @@ const ProductSingleCard = ({ product }: { product: ProductT }) => {
                     )}
                 </div>
                 <div className="col-start-5 col-span-4 grid-flow-col min-w-[300px]">
-                    <h2 className="font-bold text-2xl">Anthracite 8.5 J x 20 Audi Q5</h2>
+                    <h2 className="font-bold text-2xl">{product.title}</h2>
                     <div className="pt-4 text-lg">
-                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quia labore
-                        excepturi magnam earum aspernatur sed ut officia reiciendis impedit iure,
-                        porro id rerum repellendus explicabo mollitia cumque autem! Esse,
-                        laudantium.
+                        {product.description}
                     </div>
                 </div>
 
                 <div className="flex flex-col gap-10 col-start-9 col-span-4">
                     <h3 className="font-bold text-2xl">Characteristics</h3>
                     <div className="flex flex-col gap-2">
-                        <CharacteristicsCard props={product.variants[0]} isHorizontal={false} />
+                        <CharacteristicsCard props={product} isHorizontal={false} />
                     </div>
                     <div className="inline-flex items-center p-2.5  justify-between w-full px-2.5">
-                        <p className="font-bold text-2xl flex items-center h-full">300 $</p>
+                        <p className="font-bold text-2xl flex items-center h-full">{product.price}</p>
                         <div className="flex gap-1">
                             <Button variant={'link'} className="p-0">
                                 <Icon src={Paypal} width="40" height="40" />
