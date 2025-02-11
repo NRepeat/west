@@ -1,7 +1,7 @@
 import React, { createContext, useContext, ReactNode, useEffect } from 'react';
 import { useSessionStore } from '@/store/user-store';
 import Cookie from 'js-cookie';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 interface SessionContextProps {
 
 	isAuthenticated: boolean;
@@ -25,15 +25,16 @@ export const SessionProvider: React.FC<SessionProviderProps> = ({ children }) =>
 	const state = useSessionStore((state) => state);
 	useQuery({
 		queryKey: ['getSession'], queryFn: async () => {
-			const response = await fetch('http://localhost:3000/session/create')
-			if (!response.ok) {
-				throw new Error('Network response was not ok');
-			}
-			const data = await response.json()
+
 			if (!state.userSession) {
+				const response = await fetch('http://localhost:3000/session/create')
+				if (!response.ok) {
+					throw new Error('Network response was not ok');
+				}
+				const data = await response.json()
 				state.createSession({ uid: data.uuid, cartId: data.cartId })
+				return data
 			}
-			return data
 		},
 		enabled: state.userSession?.cartId ? false : true
 	})
@@ -42,8 +43,7 @@ export const SessionProvider: React.FC<SessionProviderProps> = ({ children }) =>
 		if (user) {
 			state.setUser(JSON.parse(user))
 		}
-
-	}, [])
+	}, [state])
 
 	return (
 		<SessionContext.Provider

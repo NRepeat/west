@@ -14,16 +14,18 @@ import { useNavigate } from 'react-router';
 import { useSessionStore } from '@/store/user-store';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { ProductT } from '@/shared/types';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 
 const DView = lazy(() => import('../DView/DView'));
 const ProductSingleCard = ({ product }: { product: ProductT }) => {
-    console.log('product', product)
+
     const state = useSessionStore((state) => state);
     const [isPointerDown, setPointerDown] = useState<boolean>(false);
     const [isComponentVisible, setComponentVisible] = useState(false);
     const OPTIONS: EmblaOptionsType = { loop: true };
     const SLIDE_COUNT = product.images.length;
     const nav = useNavigate();
+    const setCart = useSessionStore((state) => state.setCart);
     const addProductToCart = async () => {
         const response = await fetch('http://localhost:3000/cart/add', {
             method: 'PUT',
@@ -40,8 +42,7 @@ const ProductSingleCard = ({ product }: { product: ProductT }) => {
             throw new Error('Network response was not ok');
         }
         const data = await response.json();
-
-
+        setCart({ id: data.id, items: data.items });
         return data
     }
     const queryClient = useQueryClient()
@@ -122,7 +123,17 @@ const ProductSingleCard = ({ product }: { product: ProductT }) => {
                 <div className="flex flex-col gap-10 col-start-9 col-span-4">
                     <h3 className="font-bold text-2xl">Characteristics</h3>
                     <div className="flex flex-col gap-2">
-                        <CharacteristicsCard props={product} isHorizontal={false} />
+                        <Tabs defaultValue="account" className="w-[400px]">
+                            <TabsList>
+                                {product.variants.map((variant) => ((<TabsTrigger key={variant.uuid} value={variant.uuid}>{variant.diameter}</TabsTrigger>)))}
+                            </TabsList>
+                            {product.variants.map((variant) => (
+                                <TabsContent key={variant.uuid} value={variant.uuid}>
+                                    <CharacteristicsCard isHorizontal props={product} />
+                                </TabsContent>
+                            ))}
+                        </Tabs>
+
                     </div>
                     <div className="inline-flex items-center p-2.5  justify-between w-full px-2.5">
                         <p className="font-bold text-2xl flex items-center h-full">{product.price}</p>
