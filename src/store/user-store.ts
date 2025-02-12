@@ -24,7 +24,7 @@ export const useSessionStore = create<StoreSessionState>()(
         refreshToken: null,
         setUser: (user, refreshToken) =>
           set({ user, refreshToken: refreshToken }),
-        logout: () => set({ user: null, refreshToken: null }),
+        logout: () => set({ user: null, refreshToken: null, userSession: null, }),
         createSession: (userSession) => set((state) => ({ userSession: userSession, cart: { id: userSession.cartId, items: state.cart?.items } })),
         cart: null,
         setCart: (cart) => set((state) => ({ cart: { id: state.cart?.id, items: cart.items } })),

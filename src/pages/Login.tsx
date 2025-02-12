@@ -1,5 +1,4 @@
 import { loginUser } from '@/api/mutations/login';
-import { sync } from '@/api/mutations/sync';
 import { Button } from '@/components/ui/button';
 import RVForm from '@/components/ui/form';
 import { FromInput } from '@/components/ui/form-input';
@@ -23,33 +22,26 @@ const Login = () => {
 	);
 	const nav = useNavigate()
 	const mutation = useCustomMutation(loginUser);
-	const mutationSync = useCustomMutation(sync);
-	const handleLogin = async (userData: IUser) => {
-		return await mutation.mutateAsync(userData);
+	// const mutationSync = useCustomMutation(sync);
+	const handleLogin = async (userData: IUser, sessionId: string) => {
+		return await mutation.mutateAsync({ newUser: userData, session: sessionId });
 	};
-	const handleSyncSessions = async (activeSession: string, newSession: string) => {
-		return await mutationSync.mutateAsync({ activeSession, newSession });
-	}
+	// const handleSyncSessions = async (activeSession: string, newSession: string) => {
+	// 	return await mutationSync.mutateAsync({ activeSession, newSession });
+	// }
 	const form = useForm({
 		validator,
 		handleSubmit: async (data) => {
-			return handleLogin({ email: data.email, password: data.password, provider: 'local' });
+			return handleLogin({ email: data.email, password: data.password, provider: 'local' }, activeSessionId ?? '');
 		},
 		onSubmitSuccess: async (data) => {
-			const user = { email: data.email, provider: 'local' }
-			console.log('user', user)
-			if (activeSessionId) {
-				const newSession = await handleSyncSessions(activeSessionId, data.sessionId)
-				console.log('newSession', newSession)
-				setSession({
-					uid: newSession.syncedCart
-						.storeSessionId, cartId: newSession.syncedCart.
-							uuid
-				})
-			}
-
+			console.log('data', data)
+			const user = { email: data.user.email, provider: 'local' }
+			setSession({
+				uid: data.sessionId
+				, cartId: data.cartId
+			})
 			setUser(user, data.refreshToken)
-
 			return nav('/')
 		}
 

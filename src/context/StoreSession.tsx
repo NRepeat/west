@@ -27,11 +27,25 @@ export const SessionProvider: React.FC<SessionProviderProps> = ({ children }) =>
 		queryKey: ['getSession'], queryFn: async () => {
 
 			if (!state.userSession) {
+
 				const response = await fetch('http://localhost:3000/session/create')
+				const data = await response.json()
+				if (state.cart?.items && state.cart.items.length > 0) {
+					await fetch('http://localhost:3000/session/sync/cart', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+						},
+						body: JSON.stringify({
+							activeSessionId: data.uuid,
+							cartId: state.cart.id
+						}),
+					})
+				}
 				if (!response.ok) {
 					throw new Error('Network response was not ok');
 				}
-				const data = await response.json()
+
 				state.createSession({ uid: data.uuid, cartId: data.cartId })
 				return data
 			}
