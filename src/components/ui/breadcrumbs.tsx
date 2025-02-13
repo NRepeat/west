@@ -27,7 +27,7 @@ const Breadcrumbs = ({ crumbs }: { crumbs: { slug: string; href: string }[] }) =
         ));
     return (
         <UiComponentContainer
-            className={clsx(' flex justify-start items-center px-5   box-content')}
+            className={clsx(' flex justify-start items-center  px-2.5 py-2   rounded-t-sm border-b-[1px] border-dashed')}
         >
             <Breadcrumb>
                 <BreadcrumbList>{crumbs && <Crumbs />}</BreadcrumbList>

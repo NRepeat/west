@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
-const useStickyScroll = ({ option }: { option: { scrollStart: number } }): [boolean] => {
-    const [scrolled, setScrolled] = useState(false);
+const useStickyScroll = ({ option, setScrolled }: { option: { scrollStart: number }, setScrolled: (value: boolean) => void }) => {
+
     useEffect(() => {
         window.onscroll = function () {
             if (window.scrollY > option.scrollStart) {
@@ -10,8 +10,8 @@ const useStickyScroll = ({ option }: { option: { scrollStart: number } }): [bool
                 setScrolled(false);
             }
         };
-    }, [option]);
-    return [scrolled];
+    }, [option.scrollStart, setScrolled]);
+
 };
 
 export default useStickyScroll;

@@ -2,8 +2,7 @@ import { useNavigate } from 'react-router';
 import SheetMenu from '../Menu/Menu';
 import { Button } from './button';
 import { useSheetMenu } from '@/hooks/use-sheet-menu';
-import { Menu } from 'lucide-react';
-import { MenuIconA } from './menu';
+import { MenuIcon } from './menu';
 const NavMenu = () => {
     const [isOpen, setIsOpen] = useSheetMenu();
     const nav = useNavigate();
@@ -19,7 +18,7 @@ const NavMenu = () => {
             header="Menu"
             trigger={
                 <Button variant={'ghost'} className=" hover:bg-transparent">
-                    <MenuIconA />
+                    <MenuIcon />
                 </Button>
             }
         >

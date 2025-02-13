@@ -1,13 +1,13 @@
 import clsx from 'clsx';
 import { FC, HTMLAttributes } from 'react';
 
-interface UiComponentContainer extends HTMLAttributes<HTMLDivElement> {}
+interface UiComponentContainer extends HTMLAttributes<HTMLDivElement> { }
 const UiComponentContainer: FC<UiComponentContainer> = (props) => {
     return (
         <div
             {...props}
             className={clsx(
-                `p-2.5 bg-backgroundComponentContainer rounded-componentContainerRadius `,
+                ` bg-backgroundComponentContainer  `,
                 props.className,
             )}
         >

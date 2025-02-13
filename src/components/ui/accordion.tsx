@@ -22,13 +22,13 @@ const AccordionTrigger = React.forwardRef<
         <AccordionPrimitive.Trigger
             ref={ref}
             className={cn(
-                'flex flex-1 items-center hover:underline  justify-between py-4 font-medium text-xl transition-all  [&[data-state=open]>svg]:rotate-180 ',
+                'flex flex-1 items-center border-b-[1px]  justify-between py-4  text-xl transition-all  [&[data-state=open]>svg]:rotate-180 hover:bg-accent  px-2.5',
                 className,
             )}
             {...props}
         >
             {children}
-            <ChevronDown className="h-8 w-8 shrink-0 transition-transform duration-200" />
+            <ChevronDown className="h-4 w-4 shrink-0 transition-transform duration-200" />
         </AccordionPrimitive.Trigger>
     </AccordionPrimitive.Header>
 ));

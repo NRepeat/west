@@ -21,12 +21,12 @@ const MainFilterBar = () => {
         defaultValues: { min: 0, max: 100 },
     });
     return (
-        <FilterBar className="sticky top-0 ">
+        <FilterBar className="rounded-t-sm border-r-[1px] border-dashed">
             {/* <Search label="search" /> */}
-            <RVForm form={form}>
-                <Accordion type="single" collapsible className="px-2.5 box-content">
+            <RVForm form={form} className='sticky h-fit top-[70px] '>
+                <Accordion type="single" collapsible className='w-[300px]'>
                     <AccordionItem value="item-1">
-                        <AccordionTrigger className="pt-2.5">Color</AccordionTrigger>
+                        <AccordionTrigger className="">Color</AccordionTrigger>
                         <AccordionContent>
                             <ColorPalette
                                 colors={[
@@ -38,8 +38,8 @@ const MainFilterBar = () => {
                         </AccordionContent>
                     </AccordionItem>
                     <AccordionItem value="item-2">
-                        <AccordionTrigger>Material</AccordionTrigger>
-                        <AccordionContent>
+                        <AccordionTrigger >Material</AccordionTrigger>
+                        <AccordionContent >
                             <ColorPalette
                                 colors={[
                                     { code: '43464B', name: 'Gray', slug: 'gray' },

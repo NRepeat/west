@@ -32,18 +32,18 @@ const MainStoreGrid = ({ isWishCard = false }: { isWishCard?: boolean }) => {
             return data
         }
     })
-
-    const [scrolled] = useStickyScroll({ option: { scrollStart: 165 } });
+    const [scrolled, setScrolled] = useState<boolean>(false)
+    useStickyScroll({ option: { scrollStart: 50 }, setScrolled });
     const [gridView, setGridView] = useState<boolean>(false);
     const handleGridView = () => {
         setGridView((prev) => !prev);
     };
     return (
         <UiComponentContainer
-            className={clsx(' flex justify-start items-center   box-content flex-col')}
+            className={clsx(' flex justify-start items-center  flex-col')}
         >
             <div
-                className={clsx('flex items-center w-full sticky top-0 z-10 bg-white', {
+                className={clsx('flex items-center w-full sticky top-[70px]  bg-white', {
                     'shadow-md rounded-sm': scrolled,
                 })}
             >

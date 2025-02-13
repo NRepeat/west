@@ -24,27 +24,23 @@ const CartMenu = () => {
         enabled: isOpen
     })
     return (
-        <div className="flex gap-4 justify-end px-2.5">
-            <SheetMenu
-                onOpenChange={setIsOpen}
-                open={isOpen}
-                className="bg-input overflow-auto min-w-[500px]"
-                side={'right'}
-                header="Cart"
-                footer={<CartButton price={4 * 200} onClick={setIsOpen} />}
-                trigger={
-                    <div className="font-SignPainter flex justify-start items-center px-2.5">
-                        <Button variant={'ghost'} className="h-8 w-8 p-0 hover:bg-transparent">
-                            {/* <Icon src={CartIcon} height="30" width="30" alt="cart-icon" /> */}
-                            <ShoppingCart className="w-8 h-8" />
-                        </Button>
-                    </div>
-                }
-            >
-                {cartQuery.isFetching && <LoaderIcon className='animate-spin' />}
-                {cartQuery.isSuccess && cartQuery.data.items.map((item: { uuid: string, quantity: number, product: ProductT, }) => <CartMenuCard key={item.uuid} quantity={item.quantity} img={item.product.thumbnail} price={item.product.price} slug={item.product.slug} title={item.product.slug} />)}
-            </SheetMenu>
-        </div>
+        <SheetMenu
+            onOpenChange={setIsOpen}
+            open={isOpen}
+            className="bg-input overflow-auto "
+            side={'right'}
+            header="Cart"
+            footer={<CartButton price={4 * 200} onClick={setIsOpen} />}
+            trigger={
+                <Button variant={'ghost'} className=" px-4 py-2">
+                    {/* <Icon src={CartIcon} height="30" width="30" alt="cart-icon" /> */}
+                    <ShoppingCart className="w-8 h-8" />
+                </Button>
+            }
+        >
+            {cartQuery.isFetching && <LoaderIcon className='animate-spin' />}
+            {cartQuery.isSuccess && cartQuery.data.items.map((item: { uuid: string, quantity: number, product: ProductT, }) => <CartMenuCard key={item.uuid} quantity={item.quantity} img={item.product.thumbnail} price={item.product.price} slug={item.product.slug} title={item.product.slug} />)}
+        </SheetMenu>
     );
 };
 const CartButton = ({ price, onClick }: { price: number; onClick: (value: false) => void }) => {

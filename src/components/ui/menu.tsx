@@ -28,7 +28,7 @@ const lineVariants: Variants = {
   }),
 };
 
-const MenuIconA = forwardRef<MenuIconHandle, HTMLAttributes<HTMLDivElement>>(
+const MenuIcon = forwardRef<MenuIconHandle, HTMLAttributes<HTMLDivElement>>(
   ({ onMouseEnter, onMouseLeave, ...props }, ref) => {
     const controls = useAnimation();
     const isControlledRef = useRef(false);
@@ -114,6 +114,6 @@ const MenuIconA = forwardRef<MenuIconHandle, HTMLAttributes<HTMLDivElement>>(
   }
 );
 
-MenuIconA.displayName = 'MenuIcon';
+MenuIcon.displayName = 'MenuIcon';
 
-export { MenuIconA };
+export { MenuIcon };
