@@ -53,11 +53,13 @@ export const SessionProvider: React.FC<SessionProviderProps> = ({ children }) =>
 		enabled: state.userSession?.cartId ? false : true
 	})
 	useEffect(() => {
-		const user = Cookie.get('user');
-		if (user) {
-			state.setUser(JSON.parse(user))
+		const userCookie = Cookie.get('user');
+		if (userCookie) {
+			const user = JSON.parse(userCookie)
+			state.setUser(user)
+			state.createSession({ cartId: user.cartId, uid: user.sessionId })
 		}
-	}, [state])
+	}, [])
 
 	return (
 		<SessionContext.Provider
