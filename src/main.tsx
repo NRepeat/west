@@ -27,7 +27,7 @@ createRoot(document.getElementById('root')!).render(
         <Query>
             <SessionProvider>
                 <BrowserRouter>
-                    <Container className="font-IstokWebRegular min-h-screen">
+                    <Container className="min-h-screen">
                         <Navbar />
                         <Routes>
                             <Route path="/" element={<App />} />

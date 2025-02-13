@@ -1,5 +1,4 @@
 import { useSheetMenu } from '@/hooks/use-sheet-menu';
-import { AudiImg } from '../../assets';
 import CartMenuCard from '../CartMenuCard/CartMenuCard';
 import SheetMenu from '../Menu/Menu';
 import { Button } from './button';
@@ -12,21 +11,18 @@ const CartMenu = () => {
     const state = useSessionStore((state) => state);
     const [isOpen, setIsOpen] = useSheetMenu();
 
-    const qyery = useQuery({
+    const cartQuery = useQuery({
         queryKey: ['getCart'], queryFn: async () => {
             const response = await fetch('http://localhost:3000/cart?cartId=' + state.userSession?.cartId)
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
             const data = await response.json()
-            console.log('data', data)
             state.setCart({ id: data.id, items: data.items })
-
             return data
         },
         enabled: isOpen
     })
-    console.log('qyery', qyery.data)
     return (
         <div className="flex gap-4 justify-end px-2.5">
             <SheetMenu
@@ -40,13 +36,13 @@ const CartMenu = () => {
                     <div className="font-SignPainter flex justify-start items-center px-2.5">
                         <Button variant={'ghost'} className="h-8 w-8 p-0 hover:bg-transparent">
                             {/* <Icon src={CartIcon} height="30" width="30" alt="cart-icon" /> */}
-                            <ShoppingCart className="w-full h-full" />
+                            <ShoppingCart className="w-8 h-8" />
                         </Button>
                     </div>
                 }
             >
-                {qyery.isFetching && <LoaderIcon className='animate-spin' />}
-                {qyery.isSuccess && qyery.data.items.map((item: { uuid: string, quantity: number, product: ProductT, }) => <CartMenuCard key={item.uuid} quantity={item.quantity} img={AudiImg} price={100} slug={item.product.slug} title={item.product.slug} />)}
+                {cartQuery.isFetching && <LoaderIcon className='animate-spin' />}
+                {cartQuery.isSuccess && cartQuery.data.items.map((item: { uuid: string, quantity: number, product: ProductT, }) => <CartMenuCard key={item.uuid} quantity={item.quantity} img={item.product.thumbnail} price={item.product.price} slug={item.product.slug} title={item.product.slug} />)}
             </SheetMenu>
         </div>
     );

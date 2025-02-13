@@ -1,5 +1,3 @@
-import { backgroundBlurriness } from 'three/tsl';
-
 /** @type {import('tailwindcss').Config} */
 export default {
     darkMode: ['class'],
@@ -7,8 +5,12 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                IstokWebRegular: ['Istok Web', 'serif'],
-                Playwrite: ['Playwrite AU SA', 'serif'],
+                roboto: 'var(--font-roboto)',
+                cantarell: 'var(--font-cantarell)',
+                audiowide: 'var(--font-audiowide)',
+                hedvig: 'var(--font-hedvig)',
+                elianto: ['Elianto-Regular', 'sans-serif'],
+                mosk: ['Mosk-Normal', 'sans-serif'],
             },
             borderRadius: {
                 componentContainerRadius: 'var(--component-container-radius)',

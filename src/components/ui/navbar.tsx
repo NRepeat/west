@@ -4,10 +4,10 @@ import CartMenu from './cart-menu';
 import { NavLink } from 'react-router';
 import { SessionContext } from '@/context/StoreSession';
 import { Button } from './button';
-import ImageWrapper from './image-wrapper';
-import Icon from './icon';
-import { WishListIcon } from '@/assets';
-import { User } from 'lucide-react';
+import { Bookmark, User } from 'lucide-react';
+import clsx from 'clsx';
+import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from './navigation-menu';
+import { MenuIconA } from './menu';
 
 interface NavbarProps extends HTMLAttributes<HTMLElement> {
     children?: React.ReactNode;
@@ -18,26 +18,37 @@ const Navbar: FC<NavbarProps> = (props) => {
     return (
         <nav
             {...props}
-            className={`w-full  py-2.5 grid grid-cols-3 h-[100px] items-center ${props.className}`}
+            className={clsx(props.className, 'flex  items-center  ')}
         >
             <Menu />
-            <NavLink to={'/'} className="text-[42px] font-Playwrite text-center ">
+            <NavLink to={'/'} className="text-[42px] text-center  font-elianto">
                 West custom
             </NavLink>
-            <div className='flex justify-end'>
+            {/* <NavigationMenu>
+                <NavigationMenuList>
+                    <NavigationMenuItem>
+                        <NavigationMenuTrigger >
+                        </NavigationMenuTrigger>
+                        <NavigationMenuContent>
+                            <NavigationMenuLink>Link</NavigationMenuLink>
+                        </NavigationMenuContent>
+                    </NavigationMenuItem>
+                </NavigationMenuList>
+            </NavigationMenu> */}
+            <div className=''>
                 {context?.isAuthenticated ? (
-                    <>
+                    <div>
                         <Button variant={'link'}>
-                            <Icon src={WishListIcon} />
+                            <Bookmark className='h-8 w-8' />
                         </Button>
-                        <NavLink to={'/acount'} className="">
+                        <NavLink to={'/account'} >
                             <Button variant={'link'}>
-                                Acount
+                                <User className='h-8 w-8' />
                             </Button>
                         </NavLink>
-                    </>
+                    </div>
                 ) : (
-                    <NavLink to={'/auth'} className="">
+                    <NavLink to={'/auth'} >
                         <Button>
                             <User />
                         </Button>
@@ -45,10 +56,7 @@ const Navbar: FC<NavbarProps> = (props) => {
 
                 )}
                 <CartMenu />
-
             </div>
-
-            {props.children}
         </nav>
     );
 };
