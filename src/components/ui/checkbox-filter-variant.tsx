@@ -21,7 +21,7 @@ const CheckboxFilterVariant: FC<CheckboxFilterVariant & { variant: FilterVariant
             <label
                 htmlFor={variant.slug}
                 className={clsx(
-                    'flex items-center space-x-2 w-full justify-between border-[2px] border-backgroundComponentContainer hover:border-input p-2.5',
+                    'flex items-center space-x-2 w-full justify-between border-[2px] border-backgroundComponentContainer hover:border-input rounded-sm p-2.5',
                     props.className,
                 )}
             >

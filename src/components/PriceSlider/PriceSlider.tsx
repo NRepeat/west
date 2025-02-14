@@ -8,18 +8,18 @@ import { z } from 'zod';
 interface PriceSliderProps {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     form: FormApi<any>;
-    // type: React.HTMLInputTypeAttribute
+    min: number;
+    max: number;
 }
 
-const PriceSlider: FC<PriceSliderProps> = ({ form }) => {
-    const [values, setValues] = useState([form.value().min, form.value().max]);
+const PriceSlider: FC<PriceSliderProps> = ({ form, max, min }) => {
+    const [values, setValues] = useState([min, max]);
     useEffect(() => {
         form.setValue('min', values[0]);
         form.setValue('max', values[1]);
     }, [values, form]);
     const handleChangeMin = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = z.coerce.number().safeParse(e.target.value);
-
         if (!value.success) {
             return 'error';
         } else {
@@ -41,8 +41,8 @@ const PriceSlider: FC<PriceSliderProps> = ({ form }) => {
                         label={(value) => <span>{value}℃</span>}
                         value={values}
                         onValueChange={setValues}
-                        min={0}
-                        max={100}
+                        min={min}
+                        max={max}
                         step={1}
                     />
                 </div>
@@ -51,17 +51,19 @@ const PriceSlider: FC<PriceSliderProps> = ({ form }) => {
                         scope={form.scope('min')}
                         label={'From'}
                         islabelvisible={true}
-                        placeholder="$ 100"
+                        placeholder=""
                         name="min"
+                        min={0}
                         handleChangeValue={handleChangeMin}
                     />
                     <FromInput
                         scope={form.scope('max')}
                         label={'To'}
                         islabelvisible={true}
-                        placeholder="$ 1000"
-                        name="min"
+                        placeholder=""
+                        name="max"
                         value={values[1]}
+                        max={max}
                         handleChangeValue={handleChangeMax}
                     />
                 </div>

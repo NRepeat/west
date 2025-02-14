@@ -34,7 +34,7 @@ const DualRangeSlider = React.forwardRef<
                                     labelPosition === 'bottom' && 'top-4',
                                 )}
                             >
-                                {label(value)}
+                                {value}
                             </span>
                         )}
                     </SliderPrimitive.Thumb>

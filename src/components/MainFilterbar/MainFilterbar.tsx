@@ -8,6 +8,10 @@ import CheckboxPalate from '../ui/checkbox-palate';
 import { Audi } from '@/assets';
 import PriceSlider from '../PriceSlider/PriceSlider';
 import RVForm from '../ui/form';
+import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { f } from 'node_modules/react-router/dist/development/fog-of-war-BhhVTjSZ.d.mts';
+import { Color } from '@/shared/types';
 
 const MainFilterBar = () => {
     const validator = withZod(
@@ -16,78 +20,131 @@ const MainFilterBar = () => {
             max: z.string().optional(),
         }),
     );
+
+
+
+    const [filters, setFilter] = useState<{
+        colors: Color[];
+        widths: number[];
+        diameters: number[];
+        et: number[];
+        pcd: number[];
+        price: { min: number; max: number };
+    }>({ colors: [], widths: [], diameters: [], et: [], pcd: [], price: { min: 0, max: 0 } });
+    console.log('filters', filters)
     const form = useForm({
         validator,
-        defaultValues: { min: 0, max: 100 },
+        defaultValues: { min: 1, max: 0 },
     });
+
+    const { data, isFetching } = useQuery({
+        queryKey: ['getProductsFilters'],
+        queryFn: async () => {
+            const response = await fetch(`http://localhost:3000/product/products/filters`);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const result = await response.json();
+            console.log('result', result)
+            const colors = result.colors.map((color: string) => {
+                return JSON.parse(color);
+            })
+            setFilter({ colors, widths: result.widths, diameters: result.diameters, et: result.et, pcd: result.pcd, price: result.price });
+            form.setValue({ max: result.price.max });
+            return result;
+        },
+    });
+
     return (
         <FilterBar className="rounded-t-sm border-r-[1px] border-dashed">
-            {/* <Search label="search" /> */}
             <RVForm form={form} className='sticky h-fit top-[70px] '>
                 <Accordion type="single" collapsible className='w-[300px]'>
-                    <AccordionItem value="item-1">
-                        <AccordionTrigger className="">Color</AccordionTrigger>
-                        <AccordionContent>
-                            <ColorPalette
-                                colors={[
-                                    { code: '999999', name: 'Gray', slug: 'gray' },
-                                    { code: 'FFD966', name: 'Yellow', slug: 'yellow' },
-                                    { code: '000000', name: 'Black', slug: 'black' },
-                                ]}
-                            />
-                        </AccordionContent>
-                    </AccordionItem>
-                    <AccordionItem value="item-2">
-                        <AccordionTrigger >Material</AccordionTrigger>
-                        <AccordionContent >
-                            <ColorPalette
-                                colors={[
-                                    { code: '43464B', name: 'Gray', slug: 'gray' },
-                                    { code: 'FFD966', name: 'Yellow', slug: 'yellow' },
-                                    { code: '000000', name: 'Black', slug: 'black' },
-                                ]}
-                            />
-                        </AccordionContent>
-                    </AccordionItem>
-                    <AccordionItem value="item-3">
-                        <AccordionTrigger>Manufacturer</AccordionTrigger>
-                        <AccordionContent>
-                            <CheckboxPalate
-                                variants={[
-                                    {
-                                        disabled: false,
-                                        id: '1',
-                                        name: 'BMW',
-                                        slug: 'BMW',
-                                        value: 'bmv',
-                                        icon: Audi,
-                                    },
-                                    {
-                                        disabled: false,
-                                        id: '2',
-                                        name: 'Mercedes',
-                                        slug: 'Mercedes',
-                                        value: 'mercedes',
-                                        icon: Audi,
-                                    },
-                                    {
-                                        disabled: true,
-                                        id: '3',
-                                        name: 'Audi',
-                                        slug: 'audi',
-                                        value: 'audi',
-                                        icon: Audi,
-                                    },
-                                ]}
-                            />
-                        </AccordionContent>
-                    </AccordionItem>
-                    <AccordionItem value="item-4">
+                    <AccordionItem value="price">
                         <AccordionTrigger>Price</AccordionTrigger>
-                        <AccordionContent>
-                            <PriceSlider form={form} />
+                        <AccordionContent className='pt-10'>
+                            <PriceSlider form={form} min={filters.price.min} max={filters.price.max} />
                         </AccordionContent>
                     </AccordionItem>
+                    {filters.colors?.length > 0 && (
+                        <AccordionItem value="colors">
+                            <AccordionTrigger>Color</AccordionTrigger>
+                            <AccordionContent>
+                                <ColorPalette colors={filters.colors}
+                                />
+                            </AccordionContent>
+                        </AccordionItem>
+                    )}
+
+                    {filters.widths.length > 0 && (
+                        <AccordionItem value="widths">
+                            <AccordionTrigger>Width</AccordionTrigger>
+                            <AccordionContent>
+                                <CheckboxPalate
+                                    variants={filters.widths.map((width, index) => ({
+                                        id: index.toString(),
+                                        name: `${width}`,
+                                        value: width.toString(),
+                                        disabled: false,
+                                        slug: width.toString(),
+                                    }))}
+                                />
+                            </AccordionContent>
+                        </AccordionItem>
+                    )}
+
+                    {filters.diameters.length > 0 && (
+                        <AccordionItem value="diameters">
+                            <AccordionTrigger>Diameter</AccordionTrigger>
+                            <AccordionContent>
+                                <CheckboxPalate
+                                    variants={filters.diameters.map((diameter, index) => ({
+                                        id: index.toString(),
+                                        name: `${diameter}`,
+                                        disabled: false,
+                                        value: diameter.toString(),
+                                        slug: diameter.toString(),
+                                    }))}
+                                />
+                            </AccordionContent>
+                        </AccordionItem>
+                    )}
+
+                    {filters.et.length > 0 && (
+                        <AccordionItem value="et">
+                            <AccordionTrigger>ET</AccordionTrigger>
+                            <AccordionContent>
+                                <CheckboxPalate
+                                    variants={filters.et.map((et, index) => ({
+                                        id: index.toString(),
+                                        name: `${et}`,
+                                        disabled: false,
+                                        value: et.toString(),
+                                        slug: et.toString(),
+                                    }))}
+                                />
+                            </AccordionContent>
+                        </AccordionItem>
+                    )}
+
+                    {filters.pcd.length > 0 && (
+                        <AccordionItem value="pcd">
+                            <AccordionTrigger>PCD</AccordionTrigger>
+                            <AccordionContent>
+                                <CheckboxPalate
+                                    variants={filters.pcd.map((pcd, index) => ({
+                                        id: index.toString(),
+                                        disabled: false,
+                                        name: `${pcd}`,
+                                        value: pcd.toString(),
+                                        slug: pcd.toString(),
+                                    }))}
+                                />
+                            </AccordionContent>
+                        </AccordionItem>
+                    )}
+
+
+
                 </Accordion>
             </RVForm>
         </FilterBar>

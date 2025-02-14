@@ -1,7 +1,5 @@
 import { FC } from 'react';
 import { Card, CardContent } from './card';
-import Icon from './icon';
-import { InfoIcon } from '@/assets';
 import clsx from 'clsx';
 import { Color } from '@/shared/types';
 
@@ -19,14 +17,13 @@ export const Pallet = ({ color, className }: { color: Color; className?: string 
             )}
         >
             <div
-                style={{ backgroundColor: '#' + color }}
+                style={{ backgroundColor: color.code }}
                 className="min-w-12 min-h-10 rounded-sm"
             ></div>
             <div className="inline-flex  items-center justify-between w-full">
                 <span className="text-lg">
                     {color.name ? color.name : color.slug.toUpperCase()}
                 </span>
-                <Icon src={InfoIcon} width="25" height="25" />
             </div>
         </div>
     );

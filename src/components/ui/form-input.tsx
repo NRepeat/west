@@ -71,7 +71,7 @@ const InputImpl = forwardRef<HTMLInputElement, MyInputProps<string>>(
 
                 <Input
                     className={clsx(
-                        'bg-backgroundContainer text-2xl w-full px-2.5 placeholder:text-lg  focus:outline-none focus-visible:outline-none  rounded-sm  placeholder:text-[#999999] border-0 relative',
+                        'bg-backgroundContainer text-xl w-full px-2.5 placeholder:text-lg  focus:outline-none focus-visible:outline-none   rounded-sm  placeholder:text-[#999999] border-0 relative',
                         { 'pr-8': search },
                     )}
                     {...field.getInputProps({
