@@ -30,15 +30,15 @@ const ProductCard: FC<ProductCardProps & { product: ProductT }> = ({
             {...props}
             onClick={() => handleNav(product.slug)}
             className={clsx(
-                'cursor-pointer   sm:col-span-12 md:col-span-6 xl:col-span-4 rounded-sm  overflow-hidden  hover:shadow-lg  border-white duration-200 p-0',
+                'cursor-pointer   rounded-sm  overflow-hidden  hover:shadow-lg  border-white duration-200 p-0',
                 {
-                    'flex-row flex justify-start items-center w-full sm:col-span-12 md:col-span-12 xl:col-span-12 gap-8':
+                    'flex-row flex justify-start items-center w-full sm:col-span-2 md:col-span-2 xl:col-span-12 gap-8':
                         isHorizontal,
                 },
             )}
         >
             <CardHeader
-                className={clsx('p-2.5 flex flex-col w-full  justify-self-center', {
+                className={clsx('p-2.5 flex flex-col w-full  justify-self-center z-0', {
                     'max-w-[300px]': isHorizontal,
                 })}
             >
@@ -52,7 +52,7 @@ const ProductCard: FC<ProductCardProps & { product: ProductT }> = ({
                     }}
                     src={selectedVariant.thumbnail}
                     alt=""
-                    className="min-w-full max-w-[300px] justify-center flex items-center w-full p-2.5"
+                    className="min-w-full max-w-[300px] justify-center flex items-center z-0 w-full p-2.5"
                     imgHeight="190"
                     imgWidth="230"
                 />

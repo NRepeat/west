@@ -18,7 +18,6 @@ export const Pallet = ({ color, className, selected }: { color: Color; className
         // Get the set of selected filters for the specific category
         const selectedSet = updatedSelectedFilters[filterCategory];
 
-        console.log('variant.slug', slug);
         if (selectedSet.has(slug)) {
             selectedSet.delete(slug); // Remove if already selected
         } else {

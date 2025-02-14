@@ -14,7 +14,7 @@ function App() {
                     { href: '/disks', slug: 'Disks' },
                 ]}
             />
-            <Wrapper className='bg-white h-screen'>
+            <Wrapper className='bg-white w-full'>
                 <MainFilterBar />
                 <MainStoreGrid />
             </Wrapper>

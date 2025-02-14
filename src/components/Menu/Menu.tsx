@@ -12,7 +12,7 @@ import clsx from 'clsx';
 type SHEET_SIDES = 'top' | 'right' | 'bottom' | 'left';
 
 interface MenuProps {
-    trigger: React.ReactNode;
+    trigger?: React.ReactNode;
     header?: React.ReactNode;
     children: React.ReactNode;
     footer?: React.ReactNode;

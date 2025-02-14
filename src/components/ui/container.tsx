@@ -10,7 +10,7 @@ const Container: FC<ContainerProps> = ({ children, ...props }) => {
     return (
         <div
             className={cn(
-                'bg-backgroundContainer xl:px-[200px] md:px-10 lg:px-10 ',
+                'bg-backgroundContainer  xl:px-[150px] 2xl:px-[200px] md:px-10 lg:px-10 px-4 ',
                 props.className,
             )}
         >

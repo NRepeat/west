@@ -7,7 +7,6 @@ import { Bookmark, LogIn, MenuIcon, Package, Rotate3d, User } from 'lucide-react
 import clsx from 'clsx';
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuList, NavigationMenuTrigger } from './navigation-menu';
 import { ListItem } from './list-item';
-import useStickyScroll from '@/hooks/sticky-scroll';
 
 interface NavbarProps extends HTMLAttributes<HTMLElement> {
     children?: React.ReactNode;
@@ -30,17 +29,17 @@ const Navbar: FC<NavbarProps> = (props) => {
             {...props}
             className={clsx(props.className, 'flex   bg-white  items-center  rounded-sm  rounded-t-none justify-between p-2.5 sticky top-0  z-50', { "transition-all shadow-sm": scrolled })}
         >
-            <NavLink to={'/'} className="text-4xl text-center  font-elianto">
+            <NavLink to={'/'} className="text-4xl text-left  font-elianto sm:block hidden w-full">
                 West custom
             </NavLink>
-            <div className='flex items-center gap-2'>
+            <div className='flex items-center gap-2 w-full justify-end'>
                 <NavigationMenu>
                     <NavigationMenuList>
                         <NavigationMenuItem>
                             <NavigationMenuTrigger >
                                 <MenuIcon className='h-8 w-8' />
                             </NavigationMenuTrigger>
-                            <NavigationMenuContent className='gap-4'>
+                            <NavigationMenuContent className='gap-4 '>
                                 {context?.isAuthenticated ? (<>
                                     <ListItem href="/wish" title="Wish list" className='w-96'>
                                         <div className='flex gap-4 items-center pt-4'>
@@ -93,6 +92,10 @@ const Navbar: FC<NavbarProps> = (props) => {
                 </Button>
 
                 <CartMenu />
+                <NavLink to={'/'} className="text-4xl text-right w-full font-elianto sm:hidden  h-[48px] flex items-center justify-end">
+                    W
+                </NavLink>
+
             </div>
 
         </nav>

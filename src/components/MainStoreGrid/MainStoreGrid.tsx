@@ -16,6 +16,8 @@ import { LayoutPanelTopIcon } from '../ui/layout-panel-top';
 import useStickyScroll from '@/hooks/sticky-scroll';
 import { useQuery } from '@tanstack/react-query';
 import { ProductT } from '@/shared/types';
+import { useFilterStore } from '@/store/filter-store';
+import { Filter } from 'lucide-react';
 const MainStoreGrid = ({ isWishCard = false }: { isWishCard?: boolean }) => {
     const data = useQuery({
         queryKey: ['getProducts'],
@@ -25,7 +27,6 @@ const MainStoreGrid = ({ isWishCard = false }: { isWishCard?: boolean }) => {
                 throw new Error('Network response was not ok');
             }
             const data = await response.json() as ProductT[]
-            console.log('data', data)
             if (!data) {
                 throw new Error('Product not found');
             }
@@ -33,35 +34,38 @@ const MainStoreGrid = ({ isWishCard = false }: { isWishCard?: boolean }) => {
             return data
         }
     })
-    console.log('datasdasa', data)
-
+    const { selectedFilters, price, setMobileFilterOpen, mobileFilterOpen } = useFilterStore();
     const [scrolled, setScrolled] = useState<boolean>(false)
     useStickyScroll({ option: { scrollStart: 50 }, setScrolled });
     const [gridView, setGridView] = useState<boolean>(false);
     const handleGridView = () => {
         setGridView((prev) => !prev);
     };
+    const activeFilters = [...Array.from(selectedFilters.colors), ...Array.from(selectedFilters.diameters), ...Array.from(selectedFilters.et), ...Array.from(selectedFilters.pcd), ...Array.from(selectedFilters.widths)];
+    const handleMobileFilter = () => {
+        setMobileFilterOpen(true)
+    }
     return (
         <UiComponentContainer
-            className={clsx(' flex justify-start items-center  flex-col')}
+            className={clsx(' flex justify-start items-center  flex-col w-full px-2.5 py-2')}
         >
             <div
-                className={clsx('flex items-center w-full sticky top-[70px]  bg-white', {
+                className={clsx('flex items-center w-full justify-between sticky top-[70px] z-10 p-2 bg-white  ', {
                     'shadow-md rounded-sm': scrolled,
                 })}
             >
+                <Button className='lg:hidden block  ' variant={'ghost'} onClick={handleMobileFilter}>
+                    <Filter />
+                </Button>
+
                 <FilterActiveBar
-                    activeFilters={[
-                        { slug: 'Gray' },
-                        { slug: 'Cast' },
-                        { slug: 'Audi' },
-                        { slug: 'Min' },
-                        { slug: 'Max' },
-                    ]}
+                    price={price}
+                    activeFilters={activeFilters}
                 />
-                <div className="flex  justify-end gap-4 pl-2.5">
+
+                <div className="flex  justify-end gap-4 pl-2.5 ">
                     <Select>
-                        <SelectTrigger className="w-[180px]">
+                        <SelectTrigger className="sm:w-[100px] w-full flex gap-4 items-center">
                             <SelectValue placeholder="Sort" />
                         </SelectTrigger>
                         <SelectContent>
@@ -80,8 +84,7 @@ const MainStoreGrid = ({ isWishCard = false }: { isWishCard?: boolean }) => {
                 </div>
             </div>
             {data.isSuccess &&
-
-                <div className="grid  grid-cols-12 justify-start w-full gap-4  pt-2 ">
+                <div className="grid  lg:grid-cols-3 md:grid-cols-2 grid-cols-2 justify-start w-full gap-4  pt-2  ">
                     {data.data.map((product) => (
                         <ProductCard
                             isWishCard={isWishCard}

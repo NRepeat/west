@@ -26,9 +26,13 @@ export type FilterState = {
 		value: FilterState["filters"][T]
 	) => void;
 	resetFilters: () => void;
+	mobileFilterOpen: boolean;
+	setMobileFilterOpen: (open: boolean) => void;
 };
 
 export const useFilterStore = create<FilterState>((set) => ({
+	mobileFilterOpen: false,
+	setMobileFilterOpen: (open) => set({ mobileFilterOpen: open }),
 	price: { min: 0, max: 0 },
 
 	filters: {
