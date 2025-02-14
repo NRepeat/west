@@ -5,13 +5,10 @@ import { useForm } from '@rvf/react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../ui/accordion';
 import ColorPalette from '../ui/color-palette';
 import CheckboxPalate from '../ui/checkbox-palate';
-import { Audi } from '@/assets';
 import PriceSlider from '../PriceSlider/PriceSlider';
 import RVForm from '../ui/form';
-import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { f } from 'node_modules/react-router/dist/development/fog-of-war-BhhVTjSZ.d.mts';
-import { Color } from '@/shared/types';
+import { useFilterStore } from '@/store/filter-store';
 
 const MainFilterBar = () => {
     const validator = withZod(
@@ -23,15 +20,9 @@ const MainFilterBar = () => {
 
 
 
-    const [filters, setFilter] = useState<{
-        colors: Color[];
-        widths: number[];
-        diameters: number[];
-        et: number[];
-        pcd: number[];
-        price: { min: number; max: number };
-    }>({ colors: [], widths: [], diameters: [], et: [], pcd: [], price: { min: 0, max: 0 } });
-    console.log('filters', filters)
+    const { filters, setFilters, selectedFilters, setPrice } = useFilterStore();
+    console.log('selectedFilters', selectedFilters)
+
     const form = useForm({
         validator,
         defaultValues: { min: 1, max: 0 },
@@ -49,8 +40,8 @@ const MainFilterBar = () => {
             const colors = result.colors.map((color: string) => {
                 return JSON.parse(color);
             })
-            setFilter({ colors, widths: result.widths, diameters: result.diameters, et: result.et, pcd: result.pcd, price: result.price });
-            form.setValue({ max: result.price.max });
+            setFilters({ colors, widths: result.widths, diameters: result.diameters, et: result.et, pcd: result.pcd });
+            setPrice({ min: result.price.min, max: result.price.max });
             return result;
         },
     });
@@ -59,12 +50,12 @@ const MainFilterBar = () => {
         <FilterBar className="rounded-t-sm border-r-[1px] border-dashed">
             <RVForm form={form} className='sticky h-fit top-[70px] '>
                 <Accordion type="single" collapsible className='w-[300px]'>
-                    <AccordionItem value="price">
+                    {data && !isFetching && <AccordionItem value="price">
                         <AccordionTrigger>Price</AccordionTrigger>
                         <AccordionContent className='pt-10'>
-                            <PriceSlider form={form} min={filters.price.min} max={filters.price.max} />
+                            <PriceSlider form={form} min={data.price.min} max={data.price.max} />
                         </AccordionContent>
-                    </AccordionItem>
+                    </AccordionItem>}
                     {filters.colors?.length > 0 && (
                         <AccordionItem value="colors">
                             <AccordionTrigger>Color</AccordionTrigger>
@@ -74,12 +65,12 @@ const MainFilterBar = () => {
                             </AccordionContent>
                         </AccordionItem>
                     )}
-
                     {filters.widths.length > 0 && (
                         <AccordionItem value="widths">
                             <AccordionTrigger>Width</AccordionTrigger>
                             <AccordionContent>
                                 <CheckboxPalate
+                                    filterCategory='widths'
                                     variants={filters.widths.map((width, index) => ({
                                         id: index.toString(),
                                         name: `${width}`,
@@ -97,6 +88,7 @@ const MainFilterBar = () => {
                             <AccordionTrigger>Diameter</AccordionTrigger>
                             <AccordionContent>
                                 <CheckboxPalate
+                                    filterCategory='diameters'
                                     variants={filters.diameters.map((diameter, index) => ({
                                         id: index.toString(),
                                         name: `${diameter}`,
@@ -114,6 +106,7 @@ const MainFilterBar = () => {
                             <AccordionTrigger>ET</AccordionTrigger>
                             <AccordionContent>
                                 <CheckboxPalate
+                                    filterCategory='et'
                                     variants={filters.et.map((et, index) => ({
                                         id: index.toString(),
                                         name: `${et}`,
@@ -131,6 +124,7 @@ const MainFilterBar = () => {
                             <AccordionTrigger>PCD</AccordionTrigger>
                             <AccordionContent>
                                 <CheckboxPalate
+                                    filterCategory='pcd'
                                     variants={filters.pcd.map((pcd, index) => ({
                                         id: index.toString(),
                                         disabled: false,

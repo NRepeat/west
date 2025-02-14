@@ -3,42 +3,47 @@ import { Card, CardContent } from '../ui/card';
 import { FromInput } from '../ui/form-input';
 import { FC, useEffect, useState } from 'react';
 import { DualRangeSlider } from '../ui/slider';
+import { useFilterStore } from '@/store/filter-store'; // Import store
 import { z } from 'zod';
 
 interface PriceSliderProps {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     form: FormApi<any>;
     min: number;
     max: number;
 }
 
 const PriceSlider: FC<PriceSliderProps> = ({ form, max, min }) => {
-    const [values, setValues] = useState([min, max]);
+    const { price, setPrice } = useFilterStore(); // Get filters and updateFilter
+    console.log('price', price)
+    const [values, setValues] = useState([price.min, price.max]); // Use the values from the store
+
     useEffect(() => {
         form.setValue('min', values[0]);
         form.setValue('max', values[1]);
-    }, [values, form]);
+
+        setPrice({ min: values[0], max: values[1] });
+    }, [values, form, setPrice]);
+
     const handleChangeMin = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = z.coerce.number().safeParse(e.target.value);
-        if (!value.success) {
-            return 'error';
-        } else {
+        if (value.success) {
             setValues((prev) => [value.data, prev[1]]);
         }
     };
+
     const handleChangeMax = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = z.coerce.number().safeParse(e.target.value);
-        if (!value.success) {
-            return 'error';
+        if (value.success) {
+            setValues((prev) => [prev[0], value.data]);
         }
-        setValues((prev) => [prev[0], value.data]);
     };
+
     return (
         <Card>
             <CardContent className="h-auto flex flex-col gap-2">
                 <div className="h-full flex items-center p-2">
                     <DualRangeSlider
-                        label={(value) => <span>{value}℃</span>}
+                        label={(value) => <span>{value}</span>} // Adjust label if needed
                         value={values}
                         onValueChange={setValues}
                         min={min}
