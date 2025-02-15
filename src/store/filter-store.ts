@@ -10,6 +10,9 @@ export type FilterState = {
 		et: number[];
 		pcd: number[];
 	};
+	sort: {
+		[key: string]: { name: string, value: string };
+	}
 	selectedFilters: {
 		widths: Set<string>;
 		diameters: Set<string>;
@@ -28,9 +31,27 @@ export type FilterState = {
 	resetFilters: () => void;
 	mobileFilterOpen: boolean;
 	setMobileFilterOpen: (open: boolean) => void;
+	setSort: (sort: string) => void;
+	selectedSort: string
+	page: number
+	setPage: (page: number) => void
+	startFetching: boolean,
+	setStartFetching: (start: boolean) => void
 };
 
 export const useFilterStore = create<FilterState>((set) => ({
+	page: 1,
+	setStartFetching: (start) => set({ startFetching: start }),
+	startFetching: false,
+	setPage: (page) => set({ page }),
+	selectedSort: "price-asc",
+	setSort: (sort) => set({ selectedSort: sort }),
+	sort: {
+		"price-asc": { name: "Price: Low to High", value: "price-asc" },
+		"price-desc": { name: "Price: High to Low", value: "price-desc" },
+		"newest": { name: "Newest", value: "newest" },
+		"oldest": { name: "Oldest", value: "oldest" },
+	},
 	mobileFilterOpen: false,
 	setMobileFilterOpen: (open) => set({ mobileFilterOpen: open }),
 	price: { min: 0, max: 0 },
@@ -64,13 +85,6 @@ export const useFilterStore = create<FilterState>((set) => ({
 	setPrice: (price) => set({ price }),
 	resetFilters: () =>
 		set({
-			filters: {
-				colors: [],
-				widths: [],
-				diameters: [],
-				et: [],
-				pcd: [],
-			},
 			price: { min: 0, max: 0 },
 			selectedFilters: {
 				widths: new Set(),
@@ -78,6 +92,6 @@ export const useFilterStore = create<FilterState>((set) => ({
 				colors: new Set(),
 				et: new Set(),
 				pcd: new Set(),
-			}, // Reset selected filters as well
+			},
 		}),
 }));

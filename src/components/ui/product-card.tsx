@@ -20,15 +20,17 @@ const ProductCard: FC<ProductCardProps & { product: ProductT }> = ({
     product,
     ...props
 }) => {
+    console.log('product', product)
+
     const nav = useNavigate();
-    const [selectedVariant] = useState(product.variants[0]);
+    const [selectedVariant] = useState(product);
     const handleNav = (slug: string) => {
         nav(`/product/${slug}/var/${selectedVariant.uuid}`);
     };
     return (
         <Card
             {...props}
-            onClick={() => handleNav(product.slug)}
+            onClick={() => handleNav(product.products[0].product.slug)}
             className={clsx(
                 'cursor-pointer   rounded-sm  overflow-hidden  hover:shadow-lg  border-white duration-200 p-0',
                 {
@@ -58,10 +60,10 @@ const ProductCard: FC<ProductCardProps & { product: ProductT }> = ({
                 />
                 {!isHorizontal && (
                     <CardTitle className="text-lg pt-3.5 w-full text-start ">
-                        {product.slug}
+                        {product.products[0].product.slug}
                     </CardTitle>
                 )}
-                {product.description && <CardDescription>{product.description}</CardDescription>}
+                {product.products[0].product.description && <CardDescription>{product.products[0].product.description}</CardDescription>}
             </CardHeader>
             <CardContent
                 className={clsx('mt-3.5 p-2.5 flex w-full', {

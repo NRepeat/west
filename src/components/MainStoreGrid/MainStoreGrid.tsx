@@ -14,34 +14,26 @@ import { useState } from 'react';
 import { GripIcon } from '../ui/grip';
 import { LayoutPanelTopIcon } from '../ui/layout-panel-top';
 import useStickyScroll from '@/hooks/sticky-scroll';
-import { useQuery } from '@tanstack/react-query';
-import { ProductT } from '@/shared/types';
 import { useFilterStore } from '@/store/filter-store';
 import { Filter } from 'lucide-react';
-const MainStoreGrid = ({ isWishCard = false }: { isWishCard?: boolean }) => {
-    const data = useQuery({
-        queryKey: ['getProducts'],
-        queryFn: async () => {
-            const response = await fetch(`http://localhost:3000/product/products`)
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            const data = await response.json() as ProductT[]
-            if (!data) {
-                throw new Error('Product not found');
-            }
+import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '../ui/pagination';
+import { useProducts } from '@/hooks/useProducts';
 
-            return data
-        }
-    })
-    const { selectedFilters, price, setMobileFilterOpen, mobileFilterOpen } = useFilterStore();
+
+
+const MainStoreGrid = ({ isWishCard = false }: { isWishCard?: boolean }) => {
+    const { selectedFilters, price, setMobileFilterOpen, sort, setSort, setPage } = useFilterStore();
     const [scrolled, setScrolled] = useState<boolean>(false)
     useStickyScroll({ option: { scrollStart: 50 }, setScrolled });
     const [gridView, setGridView] = useState<boolean>(false);
+    const { data, isLoading, isError } = useProducts();
     const handleGridView = () => {
         setGridView((prev) => !prev);
     };
-    const activeFilters = [...Array.from(selectedFilters.colors), ...Array.from(selectedFilters.diameters), ...Array.from(selectedFilters.et), ...Array.from(selectedFilters.pcd), ...Array.from(selectedFilters.widths)];
+
+    const filtersKeys = Object.keys(selectedFilters);
+    const filters = filtersKeys.flatMap((key) => ({ group: key, value: Array.from(selectedFilters[key as keyof typeof selectedFilters]) }));
+
     const handleMobileFilter = () => {
         setMobileFilterOpen(true)
     }
@@ -60,18 +52,23 @@ const MainStoreGrid = ({ isWishCard = false }: { isWishCard?: boolean }) => {
 
                 <FilterActiveBar
                     price={price}
-                    activeFilters={activeFilters}
+                    activeFilters={filters}
                 />
 
                 <div className="flex  justify-end gap-4 pl-2.5 ">
-                    <Select>
-                        <SelectTrigger className="sm:w-[100px] w-full flex gap-4 items-center">
+                    <Select onValueChange={(value) => setSort(value)}>
+                        <SelectTrigger className="lg:w-[200px] sm:w-[200px] flex gap-4 items-center">
                             <SelectValue placeholder="Sort" />
                         </SelectTrigger>
                         <SelectContent>
-                            <SelectItem value="light">Light</SelectItem>
-                            <SelectItem value="dark">Dark</SelectItem>
-                            <SelectItem value="system">System</SelectItem>
+                            {Object.keys(sort).map((key) => (
+                                <SelectItem
+                                    key={key}
+                                    value={sort[key as keyof typeof sort].value}
+                                >
+                                    {sort[key as keyof typeof sort].name}
+                                </SelectItem>
+                            ))}
                         </SelectContent>
                     </Select>
                     <Button
@@ -79,23 +76,50 @@ const MainStoreGrid = ({ isWishCard = false }: { isWishCard?: boolean }) => {
                         variant={'ghost'}
                         className="flex items-center p-1"
                     >
-                        {!gridView ? <GripIcon /> : <LayoutPanelTopIcon />}
+                        {gridView ? <GripIcon /> : <LayoutPanelTopIcon />}
                     </Button>
                 </div>
             </div>
-            {data.isSuccess &&
-                <div className="grid  lg:grid-cols-3 md:grid-cols-2 grid-cols-2 justify-start w-full gap-4  pt-2  ">
-                    {data.data.map((product) => (
-                        <ProductCard
-                            isWishCard={isWishCard}
-                            key={product.slug}
-                            isHorizontal={gridView}
-                            product={product}
-                        />
+            {isLoading ? (
+                <div className="grid h-screen lg:grid-cols-3 md:grid-cols-2 grid-cols-2 justify-start w-full gap-4 pt-2 animate-pulse">
+                    {Array.from({ length: 9 }).map((_, index) => (
+                        <div key={index} className="bg-gray-200 h-64 w-full rounded-lg"></div>
                     ))}
                 </div>
-            }
-
+            ) : (
+                data && (
+                    <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-2 justify-start w-full gap-4 pt-2 transition-opacity duration-300">
+                        {data.products.map((product) => (
+                            <ProductCard
+                                isWishCard={isWishCard}
+                                key={product.slug}
+                                isHorizontal={gridView}
+                                product={product}
+                            />
+                        ))}
+                    </div>
+                )
+            )}
+            <Pagination>
+                <PaginationContent>
+                    {data && data?.totalPages > 1 && <>
+                        <PaginationItem>
+                            <PaginationPrevious href="#" />
+                        </PaginationItem>
+                        {Array.from({ length: data.totalPages }).map((_, index) => (
+                            <PaginationItem key={index}>
+                                <PaginationLink onClick={() => setPage(index + 1)}>{index + 1}</PaginationLink>
+                            </PaginationItem>
+                        ))}
+                        <PaginationItem>
+                            <PaginationEllipsis />
+                        </PaginationItem>
+                        <PaginationItem>
+                            <PaginationNext href="#" />
+                        </PaginationItem>
+                    </>}
+                </PaginationContent>
+            </Pagination>
         </UiComponentContainer>
     );
 };

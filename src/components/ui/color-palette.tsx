@@ -3,6 +3,7 @@ import { Card, CardContent } from './card';
 import clsx from 'clsx';
 import { Color } from '@/shared/types';
 import { FilterState, useFilterStore } from '@/store/filter-store';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface ColorPaletteProps {
     colors: Color[];
@@ -10,7 +11,7 @@ interface ColorPaletteProps {
 
 export const Pallet = ({ color, className, selected }: { color: Color; className?: string, selected: boolean }) => {
     const { setSelectedFilters, selectedFilters } = useFilterStore();
-
+    const queryClient = useQueryClient()
     const handleFilterSelect = (filterCategory: keyof FilterState["selectedFilters"], slug: string) => {
         // Create a copy of the selectedFilters object
         const updatedSelectedFilters = { ...selectedFilters };
@@ -26,6 +27,7 @@ export const Pallet = ({ color, className, selected }: { color: Color; className
 
         // Update the store with the updated selectedFilters object
         setSelectedFilters(updatedSelectedFilters);
+        queryClient.invalidateQueries({ queryKey: ['getProducts'] });
     };
 
 
@@ -51,7 +53,6 @@ export const Pallet = ({ color, className, selected }: { color: Color; className
     );
 };
 
-// Color palette component
 const ColorPalette: FC<ColorPaletteProps> = ({ colors }) => {
     const { selectedFilters } = useFilterStore();
     const Palets = colors.map((color) => <Pallet key={color.code} color={color} selected={selectedFilters.colors.has(color.slug)} />);

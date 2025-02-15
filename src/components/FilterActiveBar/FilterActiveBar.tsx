@@ -3,17 +3,25 @@ import { Carousel, CarouselContent } from '../ui/carousel';
 import clsx from 'clsx';
 import { Button } from '../ui/button';
 import { X } from 'lucide-react';
+import { FilterState, useFilterStore } from '@/store/filter-store';
 const FilterActiveBar = ({ activeFilters }: {
-    activeFilters: string[], price: {
+    activeFilters: { group: string, value: string[] }[], price: {
         min: number;
         max: number;
     }
 }) => {
-    const ActiveButtons = () =>
-        activeFilters.map((filter) => (
-            <ActiveFilterButton key={filter} slug={filter} isCarousel={true} />
-        ));
 
+    const { resetFilters } = useFilterStore();
+    const ActiveButtons = () => {
+        return activeFilters.flatMap((filter) => (
+            filter.value.map((value) => (<ActiveFilterButton key={value} slug={value} name={filter.group as keyof FilterState["selectedFilters"]} />))
+        ));
+    }
+    const handleClearFilters = () => {
+        resetFilters()
+    }
+    const isFilterActive = activeFilters.flatMap((filter) => (
+        filter.value.map((value) => value)))
 
 
     return (
@@ -25,13 +33,11 @@ const FilterActiveBar = ({ activeFilters }: {
                     </CarouselContent>
                 </Carousel>
             </div>
-            {activeFilters.length > 0 &&
-                <Button variant={'ghost'} className="flex items-center p-1">
+            {isFilterActive.length > 0 &&
+                <Button onClick={handleClearFilters} variant={'ghost'} className="flex items-center p-1">
                     <X />
                 </Button>
-
             }
-
         </div>
     );
 };

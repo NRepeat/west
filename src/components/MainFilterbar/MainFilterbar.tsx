@@ -7,11 +7,9 @@ import ColorPalette from '../ui/color-palette';
 import CheckboxPalate from '../ui/checkbox-palate';
 import PriceSlider from '../PriceSlider/PriceSlider';
 import RVForm from '../ui/form';
-import { useQuery } from '@tanstack/react-query';
-import { useFilterStore } from '@/store/filter-store';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { FilterState, useFilterStore } from '@/store/filter-store';
 import SheetMenu from '../Menu/Menu';
-import { useSheetMenu } from '@/hooks/use-sheet-menu';
-import ActiveFilterButton from '../ui/active-filter-button';
 import { Button } from '../ui/button';
 import { X } from 'lucide-react';
 
@@ -25,13 +23,14 @@ const MainFilterBar = () => {
 
 
 
-    const { filters, setFilters, setPrice, mobileFilterOpen, setMobileFilterOpen, selectedFilters } = useFilterStore();
-
+    const { filters, setFilters, setPrice, mobileFilterOpen, setMobileFilterOpen, selectedFilters, setSelectedFilters } = useFilterStore();
+    const queryClient = useQueryClient()
     const form = useForm({
         validator,
         defaultValues: { min: 1, max: 0 },
     });
-    const activeFilters = [...Array.from(selectedFilters.colors), ...Array.from(selectedFilters.diameters), ...Array.from(selectedFilters.et), ...Array.from(selectedFilters.pcd), ...Array.from(selectedFilters.widths)];
+    const filtersKeys = Object.keys(selectedFilters);
+    const activeFilters = filtersKeys.flatMap((key) => ({ group: key, value: Array.from(selectedFilters[key as keyof typeof selectedFilters]) }));
     const { data, isFetching } = useQuery({
         queryKey: ['getProductsFilters'],
         queryFn: async () => {
@@ -48,17 +47,28 @@ const MainFilterBar = () => {
             return result;
         },
     });
-    const ActiveButtons = () =>
-        activeFilters.map((filter) => (
-            <Button
+
+    const handleFilterSelect = (filterCategory: keyof FilterState["selectedFilters"], slug: string) => {
+        const updatedSelectedFilters = { ...selectedFilters };
+        const selectedSet = updatedSelectedFilters[filterCategory];
+        selectedSet.delete(slug);
+        setSelectedFilters(updatedSelectedFilters);
+        queryClient.invalidateQueries({ queryKey: ['getProducts'] })
+    };
+
+
+    const ActiveButtons = () => {
+        return activeFilters.flatMap((filter) => (
+            filter.value.map((value) => (<Button
+                onClick={() => handleFilterSelect(filter.group as keyof FilterState["selectedFilters"], value)}
                 variant={'ghost'}
                 className="capitalize rounded-sm items-center flex gap-4 hover:border-input border-[2px] border-white px-2.5 py-2 "
             >
-                <span className="text-[1rem]">{filter}</span>
+                <span className="text-[1rem]">{value}</span>
                 <X />
-            </Button>
+            </Button>))
         ));
-
+    }
     return (
         <>
             <SheetMenu

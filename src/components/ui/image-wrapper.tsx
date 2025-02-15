@@ -19,10 +19,10 @@ const ImageWrapper: FC<ImageWrapperProps<LazyLoadImageProps>> = ({
     imgWidth,
     options,
 }) => {
-    const handleError = (event: React.SyntheticEvent<HTMLImageElement>) => {
-        event.currentTarget.src = '/placeholder.png';
-        event.currentTarget.alt = 'Image not available';
-    };
+    // const handleError = (event: React.SyntheticEvent<HTMLImageElement>) => {
+    //     event.currentTarget.src = '';
+    //     event.currentTarget.alt = 'Image not available';
+    // };
 
     return (
         <div className={`relative overflow-hidden ${className}`}>
@@ -32,7 +32,6 @@ const ImageWrapper: FC<ImageWrapperProps<LazyLoadImageProps>> = ({
                 alt={alt}
                 style={{ width: `${imgWidth}px`, height: `${imgHeight}px` }}
                 loading="lazy"
-                onError={handleError}
                 className="w-full h-full object-fill"
             />
         </div>

@@ -16,7 +16,6 @@ export type ProductProps = {
 export type Color = { code: string; slug: string; name: string };
 type ProductVariant = {
 	uuid: string;
-	description: string;
 	slug: string;
 	images: string[];
 	thumbnail: string;
@@ -24,12 +23,33 @@ type ProductVariant = {
 } & ProductProps
 
 export interface ProductT extends ProductVariant {
-	slug: string;
-	title: string;
 	uuid: string;
-	description: string;
-	variants: ProductVariant[]
+	slug: string;
+	id: number;
 
+	images: string[];
+	thumbnail: string;
+	"price": number,
+	"width": string,
+	"weight": string,
+	"diameter": string,
+	"et": string,
+	"pcd": string,
+	"created_at": string,
+	"updated_at": string,
+	products: [{
+		"productId": number,
+		"productVariantId": number,
+		"product": {
+			"id": number,
+			"uuid": string,
+			"slug": string,
+			"description": string,
+			"title": string,
+			"created_at": string,
+			"updated_at": string
+		}
+	}]
 }
 
 export interface Image {

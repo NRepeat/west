@@ -3,6 +3,7 @@ import { Checkbox } from './checkbox';
 import clsx from 'clsx';
 import Icon from './icon';
 import { FilterState, useFilterStore } from '@/store/filter-store';
+import { useQueryClient } from '@tanstack/react-query';
 
 export type FilterVariant = {
     id: string;
@@ -19,6 +20,7 @@ const CheckboxFilterVariant: FC<CheckboxFilterVariant & { variant: FilterVariant
     ...props
 }) => {
     const { setSelectedFilters, selectedFilters } = useFilterStore();
+    const queryClient = useQueryClient()
     const handleFilterSelect = (filterCategory: keyof FilterState["selectedFilters"], slug: string) => {
         // Create a copy of the selectedFilters object
         const updatedSelectedFilters = { ...selectedFilters };
@@ -35,6 +37,8 @@ const CheckboxFilterVariant: FC<CheckboxFilterVariant & { variant: FilterVariant
 
         // Update the store with the updated selectedFilters object
         setSelectedFilters(updatedSelectedFilters);
+        queryClient.invalidateQueries({ queryKey: ['getProducts'] });
+
     };
 
     return (

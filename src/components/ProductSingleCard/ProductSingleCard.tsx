@@ -18,6 +18,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 
 const DView = lazy(() => import('../DView/DView'));
 const ProductSingleCard = ({ product }: { product: ProductT }) => {
+    console.log('product', product)
 
     const state = useSessionStore((state) => state);
     const [isPointerDown, setPointerDown] = useState<boolean>(false);
@@ -60,7 +61,7 @@ const ProductSingleCard = ({ product }: { product: ProductT }) => {
         Array(SLIDE_COUNT).fill(
             <div className="flex w-full justify-center items-center">
                 <ImageWrapper
-                    src={product.variants[0].thumbnail}
+                    src={product.thumbnail}
                     alt=""
                     options={{
                         delayTime: 100,
@@ -114,15 +115,15 @@ const ProductSingleCard = ({ product }: { product: ProductT }) => {
                     )}
                 </div>
                 <div className="col-start-5 col-span-4 grid-flow-col min-w-[300px]">
-                    <h2 className="font-bold text-2xl">{product.title}</h2>
+                    <h2 className="font-bold text-2xl">{product.products[0].product.title}</h2>
                     <div className="pt-4 text-lg">
-                        {product.description}
+                        {product.products[0].product.description}
                     </div>
                 </div>
 
                 <div className="flex flex-col gap-10 col-start-9 col-span-4">
                     <h3 className="font-bold text-2xl">Characteristics</h3>
-                    <div className="flex flex-col gap-2">
+                    {/* <div className="flex flex-col gap-2">
                         <Tabs defaultValue="account" className="w-[400px]">
                             <TabsList>
                                 {product.variants.map((variant) => ((<TabsTrigger key={variant.uuid} value={variant.uuid}>{variant.diameter}</TabsTrigger>)))}
@@ -134,7 +135,7 @@ const ProductSingleCard = ({ product }: { product: ProductT }) => {
                             ))}
                         </Tabs>
 
-                    </div>
+                    </div> */}
                     <div className="inline-flex items-center p-2.5  justify-between w-full px-2.5">
                         <p className="font-bold text-2xl flex items-center h-full">{product.price}</p>
                         <div className="flex gap-1">
